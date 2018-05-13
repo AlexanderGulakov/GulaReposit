@@ -3,11 +3,22 @@ let Schema=mongoose.Schema;//схема
 let ObjectId=mongoose.Schema.Types.ObjectId;
 
 let PostsSchema=new Schema({
-    title: String,
-    body: String,
+    title: {
+        type: String,
+        required: [true,"Error! Title required!"]
+    },
+    body: {
+        type: String,
+        required: [true,"Error! Text required!"]
+    },
     description: String,
-    userId:{type:ObjectId, ref:'User',default:null}
-
+    userId:{type:ObjectId, ref:'User',default:null},
+    rating: Number, //добавить функцию поставить оценку
+    comments: Array, //добавить функцию ДОбавить коммент
+    created: {
+        type: Date,
+        default: Date.now
+    }
 
 },{collection:'posts'});
 
