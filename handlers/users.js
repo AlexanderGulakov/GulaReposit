@@ -1,88 +1,134 @@
-let UsersModel=require('../models/user');
-let crypto =  require('crypto-js/sha256');
+let UsersModel = require('../models/user');
+let sha256 = require('crypto-js/sha256');
+
 let UsersHandler = function () {
-    this.getAllUsers=function (req,res,next) {
-       UsersModel.find({},function (err,result) {
-           if(err) return next(err);
-           res.status(200).send({data:result});
-       })
+    // найти всех юзеров
+    this.getAllUsers = function (req, res, next) {
+        UsersModel.find({}, function (err, result) {//находит все объекты, т.к. фигурные {} пустые и вызывает функцию
+            if (err) return next(err);   //если ошибка - то передает управление обработчику ошибок
+            res.status(200).send({data: result}); // иначе - статус 200(от 200 до 400 - все ок) и отправляет(выдает нам)
+            // объект, в котором содержится массив,который называется data (можно назвать как угодно) и в этом массиве все найденные объекты (юзеры).
+        })
     };
-    this.createUser=function (req,res,next) {
+
+    // найти юзера по Id
+    this.getUserById = function (req, res, next) {
         let body = req.body;
-        let userModel=new UsersModel(body);
-        userModel.save(function (err,result) {
-            if(err){
+        let id = req.params.id;
+        UsersModel.findById(id, body, function (err, result) {
+            if (err) return next(err);
+            res.status(200).send(result);
+        })
+    };
+
+    // створити нового юзера
+    this.createUser = function (req, res, next) {
+        let body = req.body;
+        let userModel = new UsersModel(body);
+        userModel.save(function (err, result) { // сохраняет юзера в базе данных
+            if (err) {
+                return next(err); //если в нексте есть аргумент, то експресс знает что это ошибка и передает ее обработчику ошибок.
+            }
+            res.status(201).send(result);
+        })
+    };
+
+    // змінити юзера по ID
+    this.updateUser = function (req, res, next) {
+        let body = req.body;
+        let id = req.params.id;
+        UsersModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).send({updated: result});
+        })
+    };
+
+    // видалити юзера по ID
+    this.deleteUser = function (req, res, next) {
+        let id = req.params.id;
+        UsersModel.findByIdAndRemove(id,function (err, result) {
+            if (err) {
                 return next(err);
             }
             res.status(201).send(result);
         })
     };
-    this.updateUser = function (req,res,next) {
-       let body = req.body;
-       let id = req.params.id;
-       UsersModel.findByIdAndUpdate(id,body,{new: true}, function (err,result){
-           if(err){
-               return next(err);
-           }
-           res.status(201).send({updated: result});
-       })
-    };
-    this.signUp=function (req,res,next) {
-        let body=req.body;
-        let mail=body.mail;
-        let pass=body.pass;
+
+    // реєстрація
+    this.signUp = function (req, res, next) {
+        let body = req.body; //отримує з Постмана весь обєкт(боді)
+        let mail = body.mail; // в змінну mail записується mail який введений користувачем для реєстрації (з Постмана)
+        let password = body.password; // те саме для пароля
         let err = new Error();
 
         err.status = 500;
-        err.message="Password is required";
+        err.message = 'Password is required';
 
-        if(!pass){ // ПЕРЕВІРКА НА НАЯВНІСТЬ ПАРОЛЮ
-            return next(err)
-        }
-        UsersModel.find({
-            mail:mail
-        }).count(function (err,result) {
-            if (err){
-                return next (err);
-            }
-            if (count){//всі значення крім нуля
+        if (!password) return next(err); // якщо пароль не введений, то помилка 500 Password is required
+
+        UsersModel.find({mail: mail}).count(function (error, count) { //шукає в базі емейли всіх зареєстрованих юзерів і перевіряє чи є вже з таким мейлом.
+            // .count повертає кількість таких мейлів.
+            if (error) return next(error);
+            if (count) {// в данному випадку це означає якщо не 0(тобто якщо вже є такий мейл)
                 err.message = 'This email is already used';
-                return next (err);
+                return next(err);
             }
-            body.pass=sha256(body.pass);
-            let user = new UsersModel(body);//
+            body.password = sha256(body.password); // кодуванння паролю
+
+            //перевірили унікальність мейлу, наявність паролю, закодували пароль, тепер створюємо нового юзера
+
+            // ЧИ МОЖНА ТУТ ВИКОРИСТАТИ ФУНКЦІЮ createUser ЩОБ НЕ ДУБЛЮВАТИ КОД?
+            let user = new UsersModel(body);
+
             user.save(function (err, result) {
-                if (err){
+                if (err) {
                     return next(err);
                 }
-                res.status(201).send(result);
-            })
 
+                res.status(201).send(result)
+            })
         })
 
     };
-    this.signIn = function (req,res,next) {
-        let body = req.body;
-        let mail = body.mail;
-        let pass = body.pass;
-        cryptedPass.toString();
-        let cryptedPass = sha256(pass);
 
-        UsersModel.find(
-            {
-                mail:mail,
-                pass:cryptedPass
-            },function (err,users) {
-                if(err){
-                    return next (err);
-                }
-                if (users&&users._id){
-                    //req.session.userId = users._id;
-                    //req.session.loggedIn  true;
-                }
-                res.status(201).send(result)
+    // ЛОГІНІЗАЦІЯ/ВХІД
+
+    this.logIn = function (req, res, next) {
+        let body = req.body; //отримує з Постмана весь обєкт(боді)
+        let mail = body.mail; // в змінну mail записується mail який введений користувачем для реєстрації (з Постмана)
+        let password = body.password;
+        let cryptedPass = sha256(password);
+        cryptedPass = cryptedPass.toString();
+
+        UsersModel.findOne({mail: mail, password: cryptedPass}, function (err, users) {
+            if (err) return next(err);
+
+            // SESSIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (users && users._id) {
+                req.session.userId = users._id;
+                req.session.loggedIn = true;
+                req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+
             }
-        )
+            res.status(201).send({data: users, numbersOfVisits: req.session.numberOfVisits})
+        })
+    };
+
+    // РОЗЛОГІНЕННЯ/ВИХІД
+    this.logOut = function (req, res, next) {
+        // if (err) return next(err);
+        if (req.session.loggedIn) {
+            req.session.destroy();
+            res.status(201).send({message: "Session end, bye"})
+            //res.status(201).send({message: "Session end"}).redirect('/')
+            //res.redirect('/');
+        }
+        else {
+            res.status(201).send({message: "You are not authorized"})
+        }
     }
+
 };
-module.exports=UsersHandler;
+module.exports = UsersHandler;
