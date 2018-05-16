@@ -14,6 +14,7 @@ router.get('/authors/:userId', postsHandler.getPostsByUserId);
 
 router.post('/', checkAuthentication, postsHandler.createPost);
 router.patch('/:id', checkAuthentication, postsHandler.updatePost);
+//router.patch('/:id/addComment', checkAuthentication, postsHandler.addComment);
 router.delete('/:id', checkAuthentication, postsHandler.deletePost);
 
 router.post('/upload', upload.single("file"), postsHandler.upload);
