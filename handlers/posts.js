@@ -1,7 +1,7 @@
 let PostsModel = require('../models/post');
 let mongoose = require('mongoose');
 let ObjectId=mongoose.Types.ObjectId;
-
+//var ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 let PostsHandler = function () {
     //знайти всі пости
@@ -20,7 +20,7 @@ let PostsHandler = function () {
         })
     };
 
-    // знайти пост за Id
+    // знайти пост за його Id
     this.getPostById = function (req, res, next) {
         let body = req.body;
         let id = req.params.id;
@@ -32,6 +32,8 @@ let PostsHandler = function () {
     // створити новий пост
     this.createPost = function (req, res, next) {
         let body = req.body;
+        let userId = req.session.userId;
+        body.userId=userId;
         let postModel = new PostsModel(body);
         postModel.save(function (err, result) {
             if (err) {
@@ -63,31 +65,65 @@ let PostsHandler = function () {
 
     //разобраться
     this.getPostsWithUser = function (req, res, next) {
+
+        let body = req.body;
+        let count = body.count || 20;
+        let page = body.page || 1;
+
+        let skip = count * (page - 1);
+        let limit = count;
+
         PostsModel.aggregate([{
-            $match: {title: "TestPost"}},
-            //     {
-              //
-        //     $project: {
-        //         title: 1,
-        //         userId: 1
-        //     }
-        // },
-            {$lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'authorInfo'// як буде називатися поле в результаті
+            $match: {
+                title: 'Tets',
+                _id: ObjectId("sdhajhak"),
+                date: new Date()
             }
         }, {
             $project: {
-                _id:0,
                 title: 1,
-                description:1,
-                rating:1,
-                authorInfo: { $arrayElemAt: ['$authorInfo', 0] }
+                userId: 1
             }
+        }, {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userId'
+            }
+        }, {
+            $project: {
+                year: {$year: '$date'},
+                title: 1,
+                userId: { $arrayElemAt: ['$userId', 0] }
+            }
+        }, {
+            $sort: {
+                title: -1
+            }
+        }, {
+            $match: {
+                'userId.name': 'Ivan'
+            }
+        }, /*{
+      $group: {
+        _id: '$title',
+        count: {$sum: 1}
+      }
+    },*/ {
+            $group: {
+                _id: null,
+                count: { $sum: 1 }
+            }
+        }, {
+            $skip: skip
+        }, {
+            $limit: limit
         }], function (err, result) {
-            if (err)return next(err);
+            if (err) {
+                return next(err);
+            }
+
             res.status(200).send({ data: result });
         })
     };
@@ -117,6 +153,9 @@ let PostsHandler = function () {
             if(err) return next(err);
             res.status(200).send({ data: result });
         })
+    };
+    this.upload = function (req, res, next) {
+        res.status(200).send({ data: 'uploaded' });
     }
 };
 module.exports = PostsHandler;
