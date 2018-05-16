@@ -12,6 +12,15 @@ let Session = function () {
         error.status = 401;
 
         next(error)
+    };
+    this.destroySession = function (req, res, next) {
+        if (req.session.loggedIn) {
+            req.session.destroy();
+            next();
+        }
+        else {
+            res.status(201).send({message: "You are not authorized"})
+        }
     }
 };
 
