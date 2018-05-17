@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 let Schema=mongoose.Schema;//схема
 let ObjectId=mongoose.Schema.Types.ObjectId;
 
+
 let PostsSchema=new Schema({
     title: {
         type: String,

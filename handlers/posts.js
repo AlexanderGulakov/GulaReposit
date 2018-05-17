@@ -1,4 +1,8 @@
 let PostsModel = require('../models/post');
+let mongoose = require('mongoose');
+let ObjectId=mongoose.Types.ObjectId;
+
+
 let PostsHandler = function () {
     //знайти всі пости
     this.getAllPosts = function (req, res, next) {
@@ -59,42 +63,58 @@ let PostsHandler = function () {
 
     //разобраться
     this.getPostsWithUser = function (req, res, next) {
-        /*PostsModel
-          .find({})
-          .populate('userId', { name: 1, _id: 0 })
-          .exec(function (err, result) {
-            if (err) {
-              return next(err);
-            }
-            res.status(200).send({ data: result });
-          })*/
-
         PostsModel.aggregate([{
-            $match: {
-                title: 'TestPost'
-            }
-        }, {
-            $project: {
-                title: 1,
-                userId: 1
-            }
-        }, {
-            $lookup: {
+            $match: {title: "TestPost"}},
+            //     {
+              //
+        //     $project: {
+        //         title: 1,
+        //         userId: 1
+        //     }
+        // },
+            {$lookup: {
                 from: 'users',
                 localField: 'userId',
                 foreignField: '_id',
-                as: 'userId'
+                as: 'authorInfo'// як буде називатися поле в результаті
             }
         }, {
             $project: {
+                _id:0,
                 title: 1,
-                userId: { $arrayElemAt: ['$userId', 0] }
+                description:1,
+                rating:1,
+                authorInfo: { $arrayElemAt: ['$authorInfo', 0] }
             }
         }], function (err, result) {
-            if (err) {
-                return next(err);
-            }
+            if (err)return next(err);
+            res.status(200).send({ data: result });
+        })
+    };
 
+    //Зробити агрегатну функцію, яка поверне пости, створені певним користувачем в певний діапазон дат, і зробити lookup юзера до посту
+    this.getPostsByUserByDate=function (req,res,next) {
+        let firstDate=new Date("2018-05-13T09:01:12.411Z");
+        let secondDate=new Date("2018-05-14T09:01:12.411Z");
+        PostsModel.aggregate([
+            {$match: {
+                $and:[
+                {created: {$gte:firstDate,$lte:secondDate}},
+                {userId: ObjectId("5aec364c34c03408fcd56507")}]}}, //для запиту за Id (тип ObjectId) треба підтягнути ObjectId!!!! let mongoose = require('mongoose');let ObjectId=mongoose.Types.ObjectId;
+            {$lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'authorInfo'// як буде називатися поле в результаті
+            }},
+            {$project:{
+                _id:0,
+                title:1,
+                created:1,
+                authorInfo:1
+            }}
+        ],function (err,result) {
+            if(err) return next(err);
             res.status(200).send({ data: result });
         })
     }
