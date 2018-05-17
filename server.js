@@ -18,7 +18,7 @@ connection.once('connected', function () {
     app.use(bodyParser.json()); //разбирает тело запроса, полностью считывает пост, парсит и данные стают доступны в req.body... после того как прочитал - передает управление дальше через некст
 
 //============================SESSIONS!!!================================
-    app.use(expressSession({ // почитайте і запишіть собі на що ці параетри впливають
+    app.use(expressSession({ // почитайте і запишіть собі на що ці параметри впливають
         name: 'test',
         key: 'testKey',
         secret: 'topSecret',//This is the secret used to sign the session ID cookie

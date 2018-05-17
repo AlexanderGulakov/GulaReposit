@@ -102,7 +102,7 @@ let PostsHandler = function () {
                 {created: {$gte:firstDate,$lte:secondDate}},
                 {userId: ObjectId("5aec364c34c03408fcd56507")}]}}, //для запиту за Id (тип ObjectId) треба підтягнути ObjectId!!!! let mongoose = require('mongoose');let ObjectId=mongoose.Types.ObjectId;
             {$lookup: {
-                from: 'users',
+                from: 'users', // колекція з якої лукап
                 localField: 'userId',
                 foreignField: '_id',
                 as: 'authorInfo'// як буде називатися поле в результаті
