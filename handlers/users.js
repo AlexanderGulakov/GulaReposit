@@ -2,59 +2,6 @@ let UsersModel = require('../models/user');
 let sha256 = require('crypto-js/sha256');
 
 let UsersHandler = function () {
-    // найти всех юзеров
-    this.getAllUsers = function (req, res, next) {
-        UsersModel.find({}, function (err, result) {//находит все объекты, т.к. фигурные {} пустые и вызывает функцию
-            if (err) return next(err);   //если ошибка - то передает управление обработчику ошибок
-            res.status(200).send({data: result}); // иначе - статус 200(от 200 до 400 - все ок) и отправляет(выдает нам)
-            // объект, в котором содержится массив,который называется data (можно назвать как угодно) и в этом массиве все найденные объекты (юзеры).
-        })
-    };
-
-    // найти юзера по Id
-    this.getUserById = function (req, res, next) {
-        let body = req.body;
-        let id = req.params.id;
-        UsersModel.findById(id, body, function (err, result) {
-            if (err) return next(err);
-            res.status(200).send(result);
-        })
-    };
-
-    // створити нового юзера
-    this.createUser = function (req, res, next) {
-        let body = req.body;
-        let userModel = new UsersModel(body);
-        userModel.save(function (err, result) { // сохраняет юзера в базе данных
-            if (err) {
-                return next(err); //если в нексте есть аргумент, то експресс знает что это ошибка и передает ее обработчику ошибок.
-            }
-            res.status(201).send(result);
-        })
-    };
-
-    // змінити юзера по ID
-    this.updateUser = function (req, res, next) {
-        let body = req.body;
-        let id = req.params.id;
-        UsersModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
-            if (err) {
-                return next(err);
-            }
-            res.status(201).send({updated: result});
-        })
-    };
-
-    // видалити юзера по ID
-    this.deleteUser = function (req, res, next) {
-        let id = req.params.id;
-        UsersModel.findByIdAndRemove(id,function (err, result) {
-            if (err) {
-                return next(err);
-            }
-            res.status(201).send(result);
-        })
-    };
 
     // реєстрація
     this.signUp = function (req, res, next) {
@@ -100,7 +47,7 @@ let UsersHandler = function () {
         let mail = body.mail; // в змінну mail записується mail який введений користувачем для реєстрації (з Постмана)
         let password = body.password;
         let cryptedPass = sha256(password);
-        cryptedPass = cryptedPass.toString();
+        cryptedPass = cryptedPass.toString();//інакше не знайде, бо різні типи даних
 
         UsersModel.findOne({mail: mail, password: cryptedPass}, function (err, users) {
             if (err) return next(err);
@@ -116,19 +63,67 @@ let UsersHandler = function () {
         })
     };
 
+    // найти всех юзеров
+    this.getAllUsers = function (req, res, next) {
+        UsersModel.find({}, function (err, result) {//находит все объекты, т.к. фигурные {} пустые и вызывает функцию
+            if (err) return next(err);   //если ошибка - то передает управление обработчику ошибок
+            res.status(200).send({data: result}); // иначе - статус 200(от 200 до 400 - все ок) и отправляет(выдает нам)
+            // объект, в котором содержится массив,который называется data (можно назвать как угодно) и в этом массиве все найденные объекты (юзеры).
+        })
+    };
+
+    // найти юзера по Id
+    this.getUserById = function (req, res, next) {
+        let body = req.body;
+        let id = req.params.id;
+        UsersModel.findById(id, body, function (err, result) {
+            if (err) return next(err);
+            res.status(200).send(result);
+        })
+    };
+
+    // створити нового юзера - максимально спрощений метод, див. "зареєструвати юзера"
+    // this.createUser = function (req, res, next) {
+    //     let body = req.body;
+    //     let userModel = new UsersModel(body);
+    //     userModel.save(function (err, result) { // сохраняет юзера в базе данных
+    //         if (err) {
+    //             return next(err); //если в нексте есть аргумент, то експресс знает что это ошибка и передает ее обработчику ошибок.
+    //         }
+    //         res.status(201).send(result);
+    //     })
+    // };
+
+    // змінити юзера по ID
+    this.updateUser = function (req, res, next) {
+        let body = req.body;
+        let id = req.params.id;
+        UsersModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).send({updated: result});
+        })
+    };
+
+
+// видалити юзера по ID
+    this.deleteUser = function (req, res, next) {
+        let id = req.params.id;
+        UsersModel.findByIdAndRemove(id, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).send(result);
+        })
+    };
+
     // РОЗЛОГІНЕННЯ/ВИХІД
     this.logOut = function (req, res, next) {
-        // if (err) return next(err);
-        if (req.session.loggedIn) {
-            req.session.destroy();
-            res.status(201).send({message: "Session end, bye"})
-            //res.status(201).send({message: "Session end"}).redirect('/')
-            //res.redirect('/');
-        }
-        else {
-            res.status(201).send({message: "You are not authorized"})
-        }
-    }
+        res.status(200).send({logout: 'success'});
+        //res.status(201).send({message: "Session end"}).redirect('/')
+        //res.redirect('/');
+    };
 
 };
 module.exports = UsersHandler;

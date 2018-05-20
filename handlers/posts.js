@@ -1,7 +1,7 @@
 let PostsModel = require('../models/post');
 let mongoose = require('mongoose');
-let ObjectId=mongoose.Types.ObjectId;
-
+let ObjectId = mongoose.Types.ObjectId;
+//var ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 let PostsHandler = function () {
     //знайти всі пости
@@ -20,7 +20,7 @@ let PostsHandler = function () {
         })
     };
 
-    // знайти пост за Id
+    // знайти пост за його Id
     this.getPostById = function (req, res, next) {
         let body = req.body;
         let id = req.params.id;
@@ -32,6 +32,8 @@ let PostsHandler = function () {
     // створити новий пост
     this.createPost = function (req, res, next) {
         let body = req.body;
+        let userId = req.session.userId;
+        body.userId = userId;
         let postModel = new PostsModel(body);
         postModel.save(function (err, result) {
             if (err) {
@@ -51,6 +53,26 @@ let PostsHandler = function () {
             res.status(201).send({updated: result});
         })
     };
+    //додати коментар до посту за Id
+    // this.addComment = function (req, res, next) {
+    //     let text = req.body.text;
+    //     let userId = req.session.userId;
+    //
+    //     let id = req.params.id;//Id поста - треба для пошуку за ID
+    //     PostsModel.update(
+    //         {_id: id},// 1-ий параметр - за чим шукаєм (в даному випадку за ID)
+    //         {
+    //             $push: {
+    //                 comments: {
+    //                     text: text,
+    //                     authorId: userId
+    //                 }
+    //             }
+    //         }, function (err, result) {
+    //             if (err) return next(err);
+    //             res.status(201).send({updated: result});
+    //         })
+    // };
 
     //видалити пост за Id
     this.deletePost = function (req, res, next) {
@@ -63,60 +85,104 @@ let PostsHandler = function () {
 
     //разобраться
     this.getPostsWithUser = function (req, res, next) {
+
+        let body = req.body;
+        let count = body.count || 20;
+        let page = body.page || 1;
+
+        let skip = count * (page - 1);
+        let limit = count;
+
         PostsModel.aggregate([{
-            $match: {title: "TestPost"}},
-            //     {
-              //
-        //     $project: {
-        //         title: 1,
-        //         userId: 1
-        //     }
-        // },
-            {$lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'authorInfo'// як буде називатися поле в результаті
+            $match: {
+                title: 'Tets',
+                _id: ObjectId("sdhajhak"),
+                date: new Date()
             }
         }, {
             $project: {
-                _id:0,
                 title: 1,
-                description:1,
-                rating:1,
-                authorInfo: { $arrayElemAt: ['$authorInfo', 0] }
+                userId: 1
             }
+        }, {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userId'
+            }
+        }, {
+            $project: {
+                year: {$year: '$date'},
+                title: 1,
+                userId: {$arrayElemAt: ['$userId', 0]}
+            }
+        }, {
+            $sort: {
+                title: -1
+            }
+        }, {
+            $match: {
+                'userId.name': 'Ivan'
+            }
+        }, /*{
+      $group: {
+        _id: '$title',
+        count: {$sum: 1}
+      }
+    },*/ {
+            $group: {
+                _id: null,
+                count: {$sum: 1}
+            }
+        }, {
+            $skip: skip
+        }, {
+            $limit: limit
         }], function (err, result) {
-            if (err)return next(err);
-            res.status(200).send({ data: result });
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send({data: result});
         })
     };
 
     //Зробити агрегатну функцію, яка поверне пости, створені певним користувачем в певний діапазон дат, і зробити lookup юзера до посту
-    this.getPostsByUserByDate=function (req,res,next) {
-        let firstDate=new Date("2018-05-13T09:01:12.411Z");
-        let secondDate=new Date("2018-05-14T09:01:12.411Z");
+    this.getPostsByUserByDate = function (req, res, next) {
+        let firstDate = new Date("2018-05-13T09:01:12.411Z");
+        let secondDate = new Date("2018-05-14T09:01:12.411Z");
         PostsModel.aggregate([
-            {$match: {
-                $and:[
-                {created: {$gte:firstDate,$lte:secondDate}},
-                {userId: ObjectId("5aec364c34c03408fcd56507")}]}}, //для запиту за Id (тип ObjectId) треба підтягнути ObjectId!!!! let mongoose = require('mongoose');let ObjectId=mongoose.Types.ObjectId;
-            {$lookup: {
-                from: 'users', // колекція з якої лукап
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'authorInfo'// як буде називатися поле в результаті
-            }},
-            {$project:{
-                _id:0,
-                title:1,
-                created:1,
-                authorInfo:1
-            }}
-        ],function (err,result) {
-            if(err) return next(err);
-            res.status(200).send({ data: result });
+            {
+                $match: {
+                    $and: [
+                        {created: {$gte: firstDate, $lte: secondDate}},
+                        {userId: ObjectId("5aec364c34c03408fcd56507")}]
+                }
+            }, //для запиту за Id (тип ObjectId) треба підтягнути ObjectId!!!! let mongoose = require('mongoose');let ObjectId=mongoose.Types.ObjectId;
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'authorInfo'// як буде називатися поле в результаті
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    title: 1,
+                    created: 1,
+                    authorInfo: 1
+                }
+            }
+        ], function (err, result) {
+            if (err) return next(err);
+            res.status(200).send({data: result});
         })
+    };
+    this.upload = function (req, res, next) {
+        res.status(200).send({data: 'uploaded'});
     }
 };
 module.exports = PostsHandler;

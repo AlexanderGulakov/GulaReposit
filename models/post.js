@@ -15,7 +15,10 @@ let PostsSchema=new Schema({
     description: String,
     userId:{type:ObjectId, ref:'User',default:null},
     rating: Number, //добавить функцию поставить оценку
-    comments: Array, //добавить функцию ДОбавить коммент
+    comments: [{
+        authorId: {type:ObjectId, ref:'User',default:null},
+        text:String
+    }],
     created: {
         type: Date,
         default: Date.now

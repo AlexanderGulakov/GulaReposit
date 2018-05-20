@@ -3,14 +3,18 @@ let express = require('express');
 let router = express.Router();
 let usersHandler = new UsersHandler();
 
-let checkAuthentication = require('../helpers/session').checkAuthentication;
+let sessionHelper = require('../helpers/session');
+let checkAuthentication = sessionHelper.checkAuthentication;
+let destroySession = sessionHelper.destroySession;
 
-router.get('/', usersHandler.getAllUsers); // где '/' - куда отправляется запрос. При запросе на '/', мы хотим вызвать функцию getAllUsers)
-router.get('/:id',usersHandler.getUserById);
-router.post('/',usersHandler.createUser);
 router.post('/signUp',usersHandler.signUp);
 router.post('/logIn',usersHandler.logIn);
-router.post('/logOut',usersHandler.logOut);
-router.patch('/:id',checkAuthentication, usersHandler.updateUser);
-router.delete('/:id',usersHandler.deleteUser);
+router.get('/', checkAuthentication,usersHandler.getAllUsers); // где '/' - куда отправляется запрос. При запросе на '/', мы хотим проверить аутентификацию, затем вызвать функцию getAllUsers)
+router.get('/:id',checkAuthentication,usersHandler.getUserById);
+router.patch('/:id', checkAuthentication,usersHandler.updateUser);
+router.delete('/:id',checkAuthentication,usersHandler.deleteUser);
+//router.post('/',usersHandler.createUser);
+router.post('/logOut',destroySession,usersHandler.logOut);
+
+
 module.exports = router;

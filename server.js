@@ -7,8 +7,8 @@ let port = 3030;
 let expressSession = require('express-session');
 let MongoStore = require('connect-mongo')(expressSession);//connect-mongo - модуль для хранения сессий в базе данных MongoDb
 
-//mongoose.connect('mongodb+srv://m-001-student:m-001-password@cluster0-8aoco.mongodb.net/users');//підключаємо монгуз до кластера монгоДБ
-mongoose.connect('mongodb://localhost:27017/testDb');//підключаємо монгуз до локальної БД
+mongoose.connect('mongodb+srv://m-001-student:m-001-password@cluster0-8aoco.mongodb.net/users');//підключаємо монгуз до кластера монгоДБ
+//mongoose.connect('mongodb://localhost:27017/testDb');//підключаємо монгуз до локальної БД
 let connection = mongoose.connection;
 
 connection.once('connected', function () {
@@ -22,8 +22,8 @@ connection.once('connected', function () {
         name: 'test',
         key: 'testKey',
         secret: 'topSecret',//This is the secret used to sign the session ID cookie
-        resave: false,
-        rolling: true,
+        resave: false, // resave session even it was not changed, mostly not needed
+        rolling: true, // cookie will not be set on a response with an uninitialized session.
         saveUninitialized: false,
         store: new MongoStore({ //создается объект класса MongoStore необхидимый для хранения сессий в МонгоДБ
             //url: 'mongodb+srv://m-001-student:m-001-password@cluster0-8aoco.mongodb.net/users',
