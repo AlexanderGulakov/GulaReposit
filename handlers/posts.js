@@ -145,28 +145,42 @@ let PostsHandler = function () {
                     as:'comments'//після лукапу в це поле запишеться результат
                 }
             },
+            // {
+            //     $unwind: "$comments.authorId"
+            // },
+            {
+                $lookup:
+                    {
+                        from: "users",
+                        localField: "comments.authorId",
+                        foreignField: "_id",
+                        as: "authorInfo"
+                    }
+            },
 
-            {
-                $unwind: "$comments"
-            },
-            {
-                $lookup:{
-                    from:'users',
-                    localField:'comments.authorId',
-                    foreignField:'_id',
-                    as:'comments.authorInfo'
-                }
-            },
-            {
-                $project:{
-                    _id:0,
-                    title:1,
-                    body:1,
-                    rating:1,
-                    "comments.body":1,
-                    "comments.authorInfo.name":1
-                }
-            }
+            // {
+            //     $addFields: {"comments.authorInfo":''}
+            // },
+
+            // {
+            //     $project:{
+            //         _id:0,
+            //         title:1,
+            //         body:1,
+            //         rating:1,
+            //         "comments.body":1,
+            //         "comments.authorId":1,
+            //         "comments.authorInfo":1
+            //     }
+            // },
+            // {
+            //     $lookup:{
+            //         from:'users',
+            //         localField:'comments',
+            //         foreignField:'_id',
+            //         as:'comments.authorInfo'
+            //     }
+            // }
 
 
         ], function (err, result) {
