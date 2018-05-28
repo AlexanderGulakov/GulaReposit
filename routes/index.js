@@ -11,7 +11,7 @@ module.exports = function (app) {
     app.use('/posts', postsRouter);
     app.use('/comments', commentsRouter);
 
-    app.get('/',function (req,res,next) {
+    app.get('/', function (req, res, next) { //для відправки index.html
         res.sendfile('index.html');
     });
 

@@ -1,7 +1,6 @@
 // створення серверу за допомогою експресс
 let express = require('express');
 let bodyParser = require('body-parser');
-
 let mongoose = require('mongoose'); //
 let app = express();//експресс будет обрабатывать все приходящие запросы
 let port = 3030;
@@ -17,9 +16,10 @@ connection.once('connected', function () {
 
 
     app.use(bodyParser.json()); //разбирает тело запроса, полностью считывает пост, парсит и данные стают доступны в req.body... после того как прочитал - передает управление дальше через некст
-    app.use(express.static('src'));//почитати (експрес-статика)
+
+    app.use(express.static('src'));//експресс статика (для Реакт)
 //============================SESSIONS!!!================================
-    app.use(expressSession({ // почитайте і запишіть собі на що ці параметри впливають
+    app.use(expressSession({ // почитайте і запишіть собі на що ці параетри впливають
         name: 'test',
         key: 'testKey',
         secret: 'topSecret',//This is the secret used to sign the session ID cookie
