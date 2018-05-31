@@ -1,7 +1,7 @@
 import { CHANGE_LOGIN } from '../constants/actionTypes'
 
 const defaultStore = {
-    isLoggedIn: true
+    isLoggedIn: false
 };
 
 export default (state = defaultStore, action) => {

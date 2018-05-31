@@ -3,20 +3,21 @@ import Button from './Button';
 import Input from './Input';
 import { NavLink } from 'react-router-dom'
 
-class SignIn extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { logIn } from '../actions/app'
+
+class LogIn extends Component {
     state = {
         email: '',
         pass: ''
     };
-    signIn = () => {
+    logIn = () => {
         const { email, pass } = this.state;
-        const { setLogin } = this.props;
+        const { logIn } = this.props;
 
-        // тут має бути запит на бекенд і в разі успіху - викл метод
-
-        setLogin();
-
-        console.log(email, pass);
+        logIn({ email, pass });
     };
 
     onInputChange = (value, key) => {
@@ -29,7 +30,7 @@ class SignIn extends Component {
         const { email, pass } = this.state;
 
         return (<div>
-                <h1>Sign In</h1>
+                <h1>Log In</h1>
                 <Input
                     title="Email"
                     onInputChange={(value) => {
@@ -47,11 +48,16 @@ class SignIn extends Component {
                 />
                 <Button
                     title="Submit"
-                    onClick={this.signIn}
+                    onClick={this.logIn}
                 />
                 <NavLink to="/signUp">Don't have account?</NavLink>
             </div>
         );
     }
 }
-export default SignIn;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        logIn
+    }, dispatch)
+}
+export default connect(null, mapDispatchToProps)(LogIn);

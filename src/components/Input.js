@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { string, func } from 'prop-types'
 
 export default function Input({ value, title, onInputChange, type }) {

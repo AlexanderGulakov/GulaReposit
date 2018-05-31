@@ -1,4 +1,4 @@
-import { SET_USERS } from '../constants/actionTypes'
+import { SET_USERS, DELETE_USERS } from '../constants/actionTypes'
 
 const defaultStore = {
     items: []
@@ -15,6 +15,13 @@ export default (state = defaultStore, action) => {
             return {
                 ...state,
                 items: [...payload]
+            };
+        case DELETE_USERS:
+            return {
+                ...state,
+                items: state.items.filter((el) => {
+                    return el._id !== payload
+                })
             };
 
         default:

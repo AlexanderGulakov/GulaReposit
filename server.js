@@ -3,7 +3,7 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose'); //
 let app = express();//експресс будет обрабатывать все приходящие запросы
-let port = 3032;
+let port = 3033;
 let expressSession = require('express-session');
 let MongoStore = require('connect-mongo')(expressSession);//connect-mongo - модуль для хранения сессий в базе данных MongoDb
 

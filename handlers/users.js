@@ -26,7 +26,7 @@ let UsersHandler = function () {
 
             //перевірили унікальність мейлу, наявність паролю, закодували пароль, тепер створюємо нового юзера
 
-            // ЧИ МОЖНА ТУТ ВИКОРИСТАТИ ФУНКЦІЮ createUser ЩОБ НЕ ДУБЛЮВАТИ КОД?
+
             let user = new UsersModel(body);
 
             user.save(function (err, result) {
@@ -34,7 +34,7 @@ let UsersHandler = function () {
                     return next(err);
                 }
 
-                res.status(201).send(result)
+                res.status(200).send({updated:result})
             })
         })
 
@@ -114,7 +114,7 @@ let UsersHandler = function () {
             if (err) {
                 return next(err);
             }
-            res.status(201).send(result);
+            res.status(200).send({ updated: result });
         })
     };
 

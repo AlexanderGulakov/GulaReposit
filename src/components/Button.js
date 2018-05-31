@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React from 'react';
+
 /*class Button extends Component {
   render() {
     const { title, className, onClick } = this.props;
@@ -12,14 +13,16 @@ import React, {Component} from 'react';
     );
   }
 }*/
+
 // export default Button;
 
-export default function ({title, className,onClick}) {
+export default function ({ title, className, onClick }) {
     // const { title, className, onClick } = props;
-    return(
+    return (
         <button
             className={className}
-            onClick={onClick}>
+            onClick={onClick}
+        >
             {title}
         </button>
     );

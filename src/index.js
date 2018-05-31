@@ -14,7 +14,7 @@ import { Router } from 'react-router';
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Root/>
+            <Root />
         </Router>
     </Provider>, document.getElementById('root'));
 registerServiceWorker();
