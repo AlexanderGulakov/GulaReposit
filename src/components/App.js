@@ -1,5 +1,8 @@
 import React, {Component, Fragment} from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Button from './Button';
+import { getUsers } from '../actions/app'
 
 class App extends Component {
     constructor(props) {
@@ -120,8 +123,10 @@ class App extends Component {
     };
 
     render() {
-        const {buttonText, wasClicked, items} = this.state;
+        const {buttonText, wasClicked} = this.state;
+        const { users } = this.props;
         console.log(this.props);
+
         return (
             <Fragment>
                 <h1>Hello world</h1>
@@ -136,11 +141,23 @@ class App extends Component {
                     className={!wasClicked ? 'red-text' : 'blue-text'}
                 />
                 <ul className="list">
-                    {items.map(this.renderLi)}
+                    {users.map(this.renderLi)}
                 </ul>
             </Fragment>
         );
     }
 }
 
-export default App;
+function mapStoreToProps(store) {
+    return {
+        users: store.users.items
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getUsers,
+    }, dispatch)
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(App);

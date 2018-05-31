@@ -1,18 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import './index.css';
 import Root from './components/Root';
 import SignUp from './components/SignUp';
 import registerServiceWorker from './registerServiceWorker'; // It's all about adding offline capabilities to your site.
-import {BrowserRouter} from 'react-router-dom'
+import history from './history';
+import store from './redux/store';
+import { Router } from 'react-router';
 
-const clickButton = function (e) {
-    console.log(e.target);
-};
 
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Root/>
-    </BrowserRouter>, document.getElementById('root'));
+    <Provider store={store}>
+        <Router history={history}>
+            <Root/>
+        </Router>
+    </Provider>, document.getElementById('root'));
 registerServiceWorker();
