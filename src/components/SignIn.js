@@ -3,12 +3,12 @@ import Button from './Button';
 import Input from './Input';
 import { NavLink } from 'react-router-dom'
 
-class SignUp extends Component {
+class SignIn extends Component {
     state = {
         email: '',
         pass: ''
     };
-    signUp = () => {
+    signIn = () => {
         const { email, pass } = this.state;
         const { setLogin } = this.props;
 
@@ -29,7 +29,7 @@ class SignUp extends Component {
         const { email, pass } = this.state;
 
         return (<div>
-                <h1>Sign Up</h1>
+                <h1>Sign In</h1>
                 <Input
                     title="Email"
                     onInputChange={(value) => {
@@ -47,12 +47,11 @@ class SignUp extends Component {
                 />
                 <Button
                     title="Submit"
-                    onClick={this.signUp}
+                    onClick={this.signIn}
                 />
-                <NavLink to="/signIn">Already have account?</NavLink>
+                <NavLink to="/signUp">Don't have account?</NavLink>
             </div>
         );
     }
 }
-
-export default SignUp;
+export default SignIn;

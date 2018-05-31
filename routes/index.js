@@ -11,11 +11,11 @@ module.exports = function (app) {
     app.use('/posts', postsRouter);
     app.use('/comments', commentsRouter);
 
-    app.get('/', function (req, res, next) { //для відправки index.html
-        res.sendfile('index.html');
-    });
+    // app.get('/', function (req, res, next) { //для відправки index.html
+    //     res.sendfile('index.html');
+    // });
 
-    app.use(function (err, req, res, next) { // ОБРАБОТЧИК ОШИБОК!Експресс если видит функцию с 4 элементами, то понимает, что это обработчик ошибок. Сюда передается управление, если сработал throw,либо в некте передан аргументю
+    app.use(function (err, req, res, next) { // ОБРАБОТЧИК ОШИБОК!Експресс если видит функцию с 4 элементами, то понимает, что это обработчик ошибок. Сюда передается управление, если сработал throw,либо в некcте передан аргумент.
         let status = err.status || 500;
         res.status(status).send(err);
     })
