@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from './Button';
 import Input from './Input';
-import { NavLink } from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-import { signUp } from '../actions/app'
+import {signUp} from '../actions/app'
 
 class SignUp extends Component {
     state = {
+        name: '',
         email: '',
-        pass: ''
+        password: '',
+        gender: '',
+        age: '',
+        country: ''
     };
     signUp = () => {
-        const { email, pass } = this.state;
-        const { signUp, history } = this.props;
+        const {name, email, password, gender, age, country} = this.state;
+        const {signUp, history} = this.props;
 
-        signUp({ email, pass }, history);
+        signUp({name, email, password, gender, age, country}, history);
     };
 
     onInputChange = (value, key) => {
@@ -27,11 +31,22 @@ class SignUp extends Component {
     };
 
     render() {
-        const { email, pass } = this.state;
+        const {name, email, password, gender, age, country} = this.state;
 
-        return (<div>
-                <h1>Sign Up</h1>
+        return (
+            <div>
+                <h1>Sign up with your email address</h1>
                 <Input
+                    className="inputsForSignInUp"
+                    title="Name"
+                    onInputChange={(value) => {
+                        this.onInputChange(value, 'name')
+                    }}
+                    value={name}
+                />
+
+                <Input
+                    className="inputsForSignInUp"
                     title="Email"
                     onInputChange={(value) => {
                         this.onInputChange(value, 'email')
@@ -39,18 +54,44 @@ class SignUp extends Component {
                     value={email}
                 />
                 <Input
+                    className="inputsForSignInUp"
                     title="Password"
                     onInputChange={(value) => {
                         this.onInputChange(value, 'pass')
                     }}
-                    value={pass}
+                    value={password}
                     type="password"
                 />
+                <Input
+                    className="inputsForSignInUp"
+                    title="Gender"
+                    onInputChange={(value) => {
+                        this.onInputChange(value, 'gender')
+                    }}
+                    value={gender}
+                />
+                <Input
+                    className="inputsForSignInUp"
+                    title="Age"
+                    onInputChange={(value) => {
+                        this.onInputChange(value, 'age')
+                    }}
+                    value={age}
+                />
+                <Input
+                    className="inputsForSignInUp"
+                    title="Country"
+                    onInputChange={(value) => {
+                        this.onInputChange(value, 'country')
+                    }}
+                    value={country}
+                />
                 <Button
+                    className="buttonsForSignInUp"
                     title="Submit"
                     onClick={this.signUp}
                 />
-                <NavLink to="/logIn">Already have account?</NavLink>
+                <NavLink className="navlink" to="/logIn">Already have account?</NavLink>
             </div>
         );
     }

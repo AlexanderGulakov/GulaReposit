@@ -1,58 +1,48 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { getUsers, deleteUser } from '../actions/app'
+import React, { Component } from 'react';
+import NavBar from './NavBar';
+import { connect } from 'react-redux'
+
+
 
 class App extends Component {
-    componentDidMount() {
-        const { getUsers } = this.props;
 
-        getUsers();
-    }
 
-    deleteUser = (id) => {
-        const { deleteUser } = this.props;
-
-        deleteUser(id);
-    };
-
-    renderLi = (el, ind) => {
-        return (
-            <li key={ind}>{el.name}
-                <button onClick={() => {
-                    this.deleteUser(el._id);
-                }}>X
-                </button>
-            </li>
-        );
-    };
 
     render() {
-        const { users } = this.props;
-
         return (
-            <ul className="list">
-                {users.map(this.renderLi)}
-            </ul>
+           <NavBar title={["Users&Posts","Users","Posts","Comments"]}
+                   className={["navClass","navContainer","third","fourth"] }
+                   href={["/","/users","/posts","/comments"]}
+           />
         );
     }
 }
 
-function mapStoreToProps(store) {
-    return {
-        users: store.users.items
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        getUsers,
-        deleteUser,
-    }, dispatch)
-}
 
-export default connect(mapStoreToProps, mapDispatchToProps)(App);
+export default connect(null, null)(App);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -11,13 +11,13 @@ import { logIn } from '../actions/app'
 class LogIn extends Component {
     state = {
         email: '',
-        pass: ''
+        password: ''
     };
     logIn = () => {
-        const { email, pass } = this.state;
+        const { email, password } = this.state;
         const { logIn } = this.props;
 
-        logIn({ email, pass });
+        logIn({ email, password });
     };
 
     onInputChange = (value, key) => {
@@ -27,11 +27,12 @@ class LogIn extends Component {
     };
 
     render() {
-        const { email, pass } = this.state;
+        const { email, password } = this.state;
 
         return (<div>
                 <h1>Log In</h1>
                 <Input
+                    className="inputsForSignInUp"
                     title="Email"
                     onInputChange={(value) => {
                         this.onInputChange(value, 'email')
@@ -39,18 +40,20 @@ class LogIn extends Component {
                     value={email}
                 />
                 <Input
+                    className="inputsForSignInUp"
                     title="Password"
                     onInputChange={(value) => {
-                        this.onInputChange(value, 'pass')
+                        this.onInputChange(value, 'password')
                     }}
-                    value={pass}
+                    value={password}
                     type="password"
                 />
                 <Button
+                    className="buttonsForSignInUp"
                     title="Submit"
                     onClick={this.logIn}
                 />
-                <NavLink to="/signUp">Don't have account?</NavLink>
+                <NavLink className="navlink" to="/signUp">Don't have account?</NavLink>
             </div>
         );
     }

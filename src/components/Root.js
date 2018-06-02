@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 import App from './App';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
+import Users from './Users';
+import Posts from './Posts';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router'
 
@@ -13,9 +15,9 @@ class Root extends Component {
     componentDidMount() {
         const { isLoggedIn, history } = this.props;
 
-        if (!isLoggedIn) {
-            history.push('/logIn')
-        }
+        // if (!isLoggedIn) {
+        //     history.push('/logIn')
+        // }
     }
 
     render() {
@@ -26,6 +28,8 @@ class Root extends Component {
                 {isLoggedIn && <Route path="/" component={App} />}
                 <Route exact path="/signUp" component={SignUp} />
                 <Route exact path="/logIn" component={LogIn} />
+                <Route exact path="/users" component={Users} />
+                <Route exact path="/posts" component={Posts} />
             </Switch>
         );
     }

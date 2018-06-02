@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, {Fragment} from 'react';
 
 /*class Button extends Component {
   render() {
@@ -16,14 +17,14 @@ import React from 'react';
 
 // export default Button;
 
-export default function ({ title, className, onClick }) {
+export default function ({title, className, onClick}) {
     // const { title, className, onClick } = props;
     return (
-        <button
-            className={className}
-            onClick={onClick}
-        >
-            {title}
-        </button>
+        <Fragment>
+            <button className={className} onClick={onClick}>
+                {title}
+            </button>
+            <br/>
+        </Fragment>
     );
 }
