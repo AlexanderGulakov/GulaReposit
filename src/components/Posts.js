@@ -1,40 +1,83 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, {Fragment, Component} from 'react';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import Button from './Button';
 
-import { getPosts, deletePost } from '../actions/app'
+import {getPosts, deletePost} from '../actions/app'
 
 class Posts extends Component {
     componentDidMount() {
-        const { getPosts } = this.props;
+        const {getPosts} = this.props;
 
         getPosts();
     }
 
     deletePost = (id) => {
-        const { deletePost } = this.props;
+        const {deletePost} = this.props;
 
         deletePost(id);
     };
 
-    renderLi = (el, ind) => {
+
+    renderTH = () => {
         return (
-            <li key={ind}>{el.title}
-                <button onClick={() => {
-                    this.deletePost(el._id);
-                }}>X
-                </button>
-            </li>
+            <tr>
+                <th>{'title'}</th>
+                <th>{'body'}</th>
+                <th>{'description'}</th>
+                <th>{'userId'}</th>
+                <th>{'rating'}</th>
+                <th>{'created'}</th>
+                <th></th>
+                <th></th>
+            </tr>
+        );
+    };
+    renderRow = (el, ind) => {
+        return (
+            <tr key={ind}>
+                <td>{el.title}</td>
+                <td>{el.body}</td>
+                <td>{el.description}</td>
+                <td>{el.userId}</td>
+                <td>{el.rating}</td>
+                <td>{el.created}</td>
+                <td>
+                    <Button
+                        title="UPDATE"
+                        onClick={() => {
+                            this.updatePost(el._id);
+                        }}>
+                    </Button>
+                </td>
+                <td>
+                    <Button
+                        title="DELETE"
+                        onClick={() => {
+                            this.deletePost(el._id);
+                        }}>
+                    </Button>
+                </td>
+            </tr>
         );
     };
 
     render() {
-        const { posts } = this.props;
+        const {posts} = this.props;
 
         return (
-            <ul className="list">
-                {posts.map(this.renderLi)}
-            </ul>
+            <Fragment>
+                <table className="tables">
+                    <tbody>
+                    {this.renderTH()}
+                    {posts.map(this.renderRow)}
+                    </tbody>
+                </table>
+                <form action="/createPost/">
+                    <Button title={'CREATE POST'} type={"submit"}>
+                    </Button>
+                </form>
+            </Fragment>
         );
     }
 }
