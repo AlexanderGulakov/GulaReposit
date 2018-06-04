@@ -25,6 +25,7 @@ class Root extends Component {
         const { isLoggedIn } = this.props;
 
         return (
+
             <Switch>
                 {isLoggedIn && <Route path="/" component={App} />}
                 <Route exact path="/signUp" component={SignUp} />

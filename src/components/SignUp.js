@@ -34,7 +34,7 @@ class SignUp extends Component {
         const {name, mail, password, gender, age, country} = this.state;
 
         return (
-            <div>
+            <form>
                 <h1>Sign up with your email address</h1>
                 <Input
                     className="inputsForSignInUp"
@@ -92,7 +92,7 @@ class SignUp extends Component {
                     onClick={this.signUp}
                 />
                 <NavLink className="navlink" to="/logIn">Already have account?</NavLink>
-            </div>
+            </form>
         );
     }
 }

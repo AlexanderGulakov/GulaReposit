@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux' //фигурные скобки - теперь можем сразу использовать эти функции
 import { routerMiddleware } from 'react-router-redux'
 import history from '../history'
 import logger from 'redux-logger'
@@ -12,7 +12,7 @@ const enhancer = applyMiddleware(
     logger
 );
 
-const store = createStore(reducer, enhancer);
+const store = createStore(reducer, enhancer); // хранилище всей инфы
 
 window.store = store;
 

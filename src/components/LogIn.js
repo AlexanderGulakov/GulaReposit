@@ -29,7 +29,8 @@ class LogIn extends Component {
     render() {
         const { email, password } = this.state;
 
-        return (<div>
+        return (
+            <form>
                 <h1>Log In</h1>
                 <Input
                     className="inputsForSignInUp"
@@ -54,7 +55,7 @@ class LogIn extends Component {
                     onClick={this.logIn}
                 />
                 <NavLink className="navlink" to="/signUp">Don't have account?</NavLink>
-            </div>
+            </form>
         );
     }
 }
@@ -63,4 +64,4 @@ function mapDispatchToProps(dispatch) {
         logIn
     }, dispatch)
 }
-export default connect(null, mapDispatchToProps)(LogIn);
+export default connect(null, mapDispatchToProps)(LogIn); //connect with redux
