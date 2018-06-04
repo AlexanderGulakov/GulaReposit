@@ -3,6 +3,7 @@ import {
     SET_USERS,
     DELETE_USERS,
     GET_POSTS,
+    CREATE_POST,
     DELETE_POST
 } from '../constants/actionTypes'
 
@@ -13,7 +14,7 @@ export const changeLogin = (isLoggedIn) => {
     }
 };
 
-export const signUp = ({ email, pass }, history) => {
+export const signUp = ({ name, mail, password, gender,age,country }, history) => {
     return (dispatch) => {
         fetch('http://localhost:3033/users/signUp', {
             method: 'POST',
@@ -23,8 +24,10 @@ export const signUp = ({ email, pass }, history) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email,
-                pass
+                name,
+                mail,
+                password,
+                gender,age,country
             })
         })
             .then((resp) => {
@@ -48,7 +51,7 @@ export const signUp = ({ email, pass }, history) => {
     }
 };
 
-export const logIn = ({ email, pass }) => {
+export const logIn = ({ mail, pass }) => {
     return (dispatch) => {
         fetch('http://localhost:3033/users/logIn', {
             method: 'POST',
@@ -58,7 +61,7 @@ export const logIn = ({ email, pass }) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email,
+                mail,
                 pass
             })
         })
@@ -121,7 +124,39 @@ export const getPosts = () => {
             })
     }
 };
+export const createPost = ({ title, body, description,userId,rating,created }, history) => {
+    return (dispatch) => {
+        fetch('http://localhost:3033/posts', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title, body, description,userId,rating,created
+            })
+        })
+            .then((resp) => {
+                if (resp.ok) {
+                    return resp;
+                }
 
+                return resp.json().then((error) => {
+                    throw error;
+                });
+            })
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((resp) => {
+                return history.push('/posts')//после создания поста автоматически переходит на страницу со всеми постами
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+};
 
 
 export const deletePost = (id) => {

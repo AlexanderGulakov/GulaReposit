@@ -11,17 +11,17 @@ import {signUp} from '../actions/app'
 class SignUp extends Component {
     state = {
         name: '',
-        email: '',
+        mail: '',
         password: '',
         gender: '',
         age: '',
         country: ''
     };
     signUp = () => {
-        const {name, email, password, gender, age, country} = this.state;
+        const {name, mail, password, gender, age, country} = this.state;
         const {signUp, history} = this.props;
 
-        signUp({name, email, password, gender, age, country}, history);
+        signUp({name, mail, password, gender, age, country}, history);
     };
 
     onInputChange = (value, key) => {
@@ -31,7 +31,7 @@ class SignUp extends Component {
     };
 
     render() {
-        const {name, email, password, gender, age, country} = this.state;
+        const {name, mail, password, gender, age, country} = this.state;
 
         return (
             <div>
@@ -49,15 +49,15 @@ class SignUp extends Component {
                     className="inputsForSignInUp"
                     title="Email"
                     onInputChange={(value) => {
-                        this.onInputChange(value, 'email')
+                        this.onInputChange(value, 'mail')
                     }}
-                    value={email}
+                    value={mail}
                 />
                 <Input
                     className="inputsForSignInUp"
                     title="Password"
                     onInputChange={(value) => {
-                        this.onInputChange(value, 'pass')
+                        this.onInputChange(value, 'password')
                     }}
                     value={password}
                     type="password"

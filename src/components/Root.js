@@ -6,6 +6,7 @@ import SignUp from './SignUp';
 import LogIn from './LogIn';
 import Users from './Users';
 import Posts from './Posts';
+import CreatePost from './CreatePost';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router'
 
@@ -15,9 +16,9 @@ class Root extends Component {
     componentDidMount() {
         const { isLoggedIn, history } = this.props;
 
-        // if (!isLoggedIn) {
-        //     history.push('/logIn')
-        // }
+        if (!isLoggedIn) {
+            history.push('/logIn')
+        }
     }
 
     render() {
@@ -28,8 +29,9 @@ class Root extends Component {
                 {isLoggedIn && <Route path="/" component={App} />}
                 <Route exact path="/signUp" component={SignUp} />
                 <Route exact path="/logIn" component={LogIn} />
-                <Route exact path="/users" component={Users} />
-                <Route exact path="/posts" component={Posts} />
+                <Route  path="/users" component={Users} />
+                <Route  path="/posts" component={Posts} />
+                <Route  path="/createPost" component={CreatePost} /> {/*посилання за яким генерується сторінка createPost */}
             </Switch>
         );
     }
