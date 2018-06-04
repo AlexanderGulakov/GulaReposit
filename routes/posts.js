@@ -15,10 +15,10 @@ router.get('/getByData', postsHandler.getPostsByUserByDate);
 router.get('/:id', postsHandler.getPostById);
 router.get('/authors/:userId', postsHandler.getPostsByUserId);
 
-router.post('/', checkAuthentication, postsHandler.createPost);
-router.patch('/:id', checkAuthentication, postsHandler.updatePost);
+router.post('/', postsHandler.createPost);
+router.patch('/:id', postsHandler.updatePost);
 
-router.delete('/:id', checkAuthentication, postsHandler.deletePost);
+router.delete('/:id', postsHandler.deletePost);
 
 router.post('/upload', upload.single("file"), postsHandler.upload);
 module.exports = router;

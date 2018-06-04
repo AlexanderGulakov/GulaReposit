@@ -1,4 +1,4 @@
-import { SET_USERS, DELETE_USERS } from '../constants/actionTypes'
+import { GET_POSTS, DELETE_POST } from '../constants/actionTypes'
 
 const defaultStore = {
     items: []
@@ -11,12 +11,12 @@ export default (state = defaultStore, action) => {
     } = action;
 
     switch (type) {
-        case SET_USERS:
+        case GET_POSTS:
             return {
                 ...state,
                 items: [...payload]
             };
-        case DELETE_USERS:
+        case DELETE_POST:
             return {
                 ...state,
                 items: state.items.filter((el) => {

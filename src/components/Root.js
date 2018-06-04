@@ -3,20 +3,23 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import App from './App';
 import SignUp from './SignUp';
-import SignIn from './SignIn';
+import LogIn from './LogIn';
+import Users from './Users';
+import Posts from './Posts';
+import CreatePost from './CreatePost';
 import { Route, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router'
 
 import { changeLogin } from '../actions/app'
 
 class Root extends Component {
+    componentDidMount() {
+        const { isLoggedIn, history } = this.props;
 
-    setLogin = (history) => {
-        const { changeLogin } = this.props;
-
-        changeLogin(true);
-
-        history.replace('/')
-    };
+        if (!isLoggedIn) {
+            history.push('/logIn')
+        }
+    }
 
     render() {
         const { isLoggedIn } = this.props;
@@ -24,16 +27,11 @@ class Root extends Component {
         return (
             <Switch>
                 {isLoggedIn && <Route path="/" component={App} />}
-                <Route exact path="/signUp" render={({ location, history }) => {
-                    console.log(location);
-                    return (<SignUp setLogin={() => {
-                        this.setLogin(history)
-                    }} />);
-                }} />
-                <Route exact path="/signIn" render={({ location }) => {
-                    console.log(location);
-                    return (<SignIn setLogin={this.setLogin} />);
-                }} />
+                <Route exact path="/signUp" component={SignUp} />
+                <Route exact path="/logIn" component={LogIn} />
+                <Route  path="/users" component={Users} />
+                <Route  path="/posts" component={Posts} />
+                <Route  path="/createPost" component={CreatePost} /> {/*посилання за яким генерується сторінка createPost */}
             </Switch>
         );
     }
@@ -51,4 +49,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
 }
 
-export default connect(mapStoreToProps, mapDispatchToProps)(Root);
+export default withRouter(connect(mapStoreToProps, mapDispatchToProps)(Root));
