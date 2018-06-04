@@ -30,9 +30,9 @@ class Root extends Component {
                 {isLoggedIn && <Route path="/" component={App} />}
                 <Route exact path="/signUp" component={SignUp} />
                 <Route exact path="/logIn" component={LogIn} />
-                <Route  path="/users" component={Users} />
-                <Route  path="/posts" component={Posts} />
-                <Route  path="/createPost" component={CreatePost} /> {/*посилання за яким генерується сторінка createPost */}
+                <Route exact  path="/users" component={Users} />
+                <Route exact path="/posts" component={Posts} />
+                <Route exact path="/createPost" component={CreatePost} /> {/*посилання за яким генерується сторінка createPost */}
             </Switch>
         );
     }

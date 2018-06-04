@@ -28,14 +28,14 @@ class Posts extends Component {
                 <th>{'userId'}</th>
                 <th>{'rating'}</th>
                 <th>{'created'}</th>
-                <th></th>
+                <th/>
                 <th></th>
             </tr>
         );
     };
-    renderRow = (el, ind) => {
+    renderRow = (el) => {
         return (
-            <tr key={ind}>
+            <tr key={el._id}>
                 <td>{el.title}</td>
                 <td>{el.body}</td>
                 <td>{el.description}</td>

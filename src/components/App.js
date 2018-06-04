@@ -1,55 +1,36 @@
-
-import React, { Component } from 'react';
+import React, {Fragment, Component} from 'react';
 import NavBar from './NavBar';
-import { connect } from 'react-redux'
-
+import {connect} from 'react-redux'
+import Users from './Users';
+import Posts from './Posts';
+import CreatePost from './CreatePost';
+import { Route, Switch } from 'react-router-dom';
 
 
 class App extends Component {
 
 
-
     render() {
         return (
-           <NavBar title={["Users&Posts","Users","Posts","Comments"]}
-                   className={["navClass","navContainer","third","fourth"] }
-                   href={["/","/users","/posts","/comments"]}
-           />
+            <Fragment>
+                <NavBar title={["Users&Posts", "Users", "Posts", "Comments"]}
+                        className={["navClass", "navContainer", "third", "fourth"]}
+                        href={["/", "/users", "/posts", "/comments"]}
+                />
+                <Switch>
+
+                    <Route exact path="/users" component={Users}/>
+                    <Route exact path="/posts" component={Posts}/>
+                    <Route exact path="/createPost"
+                           component={CreatePost}/> {/*посилання за яким генерується сторінка createPost */}
+                </Switch>
+            </Fragment>
         );
     }
 }
 
 
-
 export default connect(null, null)(App);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //     // Методи життєвого циклу. Які є, що означають, скільки разів використовуються, послідовність
