@@ -231,6 +231,13 @@ export const getUsers = () => {
     }
 };
 
+export const getUserInfo = (user) => { //action Creater.
+    return {
+        type : "USER_INFO",
+        payload: user //обєкт який ми будем передавати
+    }
+};
+
 export const deleteUser = (id) => {
     return (dispatch) => {
         fetch(`http://localhost:3033/users/${id}`, {
