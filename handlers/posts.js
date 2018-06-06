@@ -8,7 +8,7 @@ let PostsHandler = function () {
     this.getAllPosts = function (req, res, next) {
         PostsModel.find({}, function (err, result) {
             if (err) return next(err);
-            res.status(200).send({data: result});
+            res.status(201).send({data: result});
         })
     };
     //знайти всі пости за ID юзера
@@ -16,7 +16,7 @@ let PostsHandler = function () {
         let userId = req.params.userId;
         PostsModel.find({userId: userId}, function (err, result) {
             if (err) return next(err);
-            res.status(200).send({data: result});
+            res.status(201).send({data: result});
         })
     };
 
@@ -25,7 +25,7 @@ let PostsHandler = function () {
         let id = req.params.id;
         PostsModel.findById(id, function (err, result) {
             if (err) return next(err);
-            res.status(200).send(result);
+            res.status(201).send({data:result});
         })
     };
     // створити новий пост
@@ -38,7 +38,7 @@ let PostsHandler = function () {
             if (err) {
                 return next(err);
             }
-            res.status(201).send(result);
+            res.status(201).send({data:result});
         })
     };
 
@@ -123,7 +123,7 @@ let PostsHandler = function () {
                 return next(err);
             }
 
-            res.status(200).send({data: result});
+            res.status(201).send({data: result});
         })
     };
 
@@ -185,7 +185,7 @@ let PostsHandler = function () {
 
         ], function (err, result) {
             if (err) return next(err);
-            res.status(200).send({data: result});
+            res.status(201).send({data: result});
         })
     };
 
@@ -228,7 +228,7 @@ let PostsHandler = function () {
 
 
     this.upload = function (req, res, next) {
-        res.status(200).send({data: 'uploaded'});
+        res.status(201).send({data: 'uploaded'});
     }
 };
 module.exports = PostsHandler;

@@ -1,4 +1,4 @@
-import { GET_POSTS, DELETE_POST } from '../constants/actionTypes'
+import { GET_POSTS, CREATE_POST, DELETE_POST } from '../constants/actionTypes'
 
 const defaultStore = {
     items: []
@@ -15,6 +15,11 @@ export default (state = defaultStore, action) => {
             return {
                 ...state,
                 items: [...payload]
+            };
+        case CREATE_POST:
+            return {
+                ...state,
+                items: [...state.items, ...[payload]] // add new post to others
             };
         case DELETE_POST:
             return {

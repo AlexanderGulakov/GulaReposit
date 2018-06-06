@@ -19,7 +19,9 @@ let UsersHandler = function () {
             // .count повертає кількість таких мейлів.
             if (error) return next(error);
             if (count) {// в данному випадку це означає якщо не 0(тобто якщо вже є такий мейл)
-                err.message = 'This email is already used';
+                err.message = {
+                    email: 'This email is already used'
+                };
                 return next(err);
             }
             body.password = sha256(body.password); // кодуванння паролю
@@ -34,7 +36,7 @@ let UsersHandler = function () {
                     return next(err);
                 }
 
-                res.status(200).send({updated:result})
+                res.status(201).send({updated: result})
             })
         })
 
@@ -67,7 +69,7 @@ let UsersHandler = function () {
     this.getAllUsers = function (req, res, next) {
         UsersModel.find({}, function (err, result) {//находит все объекты, т.к. фигурные {} пустые и вызывает функцию
             if (err) return next(err);   //если ошибка - то передает управление обработчику ошибок
-            res.status(200).send({data: result}); // иначе - статус 200(от 200 до 400 - все ок) и отправляет(выдает нам)
+            res.status(201).send({data: result}); // иначе - статус 200(от 200 до 400 - все ок) и отправляет(выдает нам)
             // объект, в котором содержится массив,который называется data (можно назвать как угодно) и в этом массиве все найденные объекты (юзеры).
         })
     };
@@ -78,21 +80,24 @@ let UsersHandler = function () {
         let id = req.params.id;
         UsersModel.findById(id, body, function (err, result) {
             if (err) return next(err);
-            res.status(200).send(result);
+            res.status(200).send({data: result});
         })
     };
 
-    // створити нового юзера - максимально спрощений метод, див. "зареєструвати юзера"
-    // this.createUser = function (req, res, next) {
-    //     let body = req.body;
-    //     let userModel = new UsersModel(body);
-    //     userModel.save(function (err, result) { // сохраняет юзера в базе данных
-    //         if (err) {
-    //             return next(err); //если в нексте есть аргумент, то експресс знает что это ошибка и передает ее обработчику ошибок.
-    //         }
-    //         res.status(201).send(result);
-    //     })
-    // };
+    this.getCurrentUser = function (req, res, next) {
+        let userId = req.session.userId;
+        let type = req.query.type;
+
+        console.log(type);
+
+        UsersModel.findById(userId, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).send({user: result});
+        })
+    };
 
     // змінити юзера по ID
     this.updateUser = function (req, res, next) {
@@ -114,7 +119,7 @@ let UsersHandler = function () {
             if (err) {
                 return next(err);
             }
-            res.status(200).send({ updated: result });
+            res.status(200).send({updated: result});
         })
     };
 

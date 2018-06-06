@@ -2,21 +2,22 @@ import {
     CHANGE_LOGIN,
     SET_USERS,
     DELETE_USERS,
-    GET_POSTS,
-    CREATE_POST,
-    DELETE_POST
+    USER_INFO,
+    SIGNUP_ERROR
 } from '../constants/actionTypes'
 
 export const changeLogin = (isLoggedIn) => {
     return {
         type: CHANGE_LOGIN,
-        payload: isLoggedIn
+        payload: {
+            isLoggedIn: isLoggedIn
+        }
     }
 };
 
-export const signUp = ({ name, mail, password, gender,age,country }, history) => {
+export const signUp = ({name, mail, password, gender, age, country}, history) => {
     return (dispatch) => {
-        fetch('http://localhost:3033/users/signUp', {
+        fetch('/users/signUp', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -27,7 +28,7 @@ export const signUp = ({ name, mail, password, gender,age,country }, history) =>
                 name,
                 mail,
                 password,
-                gender,age,country
+                gender, age, country
             })
         })
             .then((resp) => {
@@ -46,14 +47,18 @@ export const signUp = ({ name, mail, password, gender,age,country }, history) =>
                 return history.push('/logIn')
             })
             .catch((err) => {
-                console.log(err);
+                const errorOb = err.message;
+                dispatch({
+                    type: SIGNUP_ERROR,
+                    payload: errorOb
+                })
             })
     }
 };
 
-export const logIn = ({ mail, pass }) => {
+export const logIn = ({mail, pass}) => {
     return (dispatch) => {
-        fetch('http://localhost:3033/users/logIn', {
+        fetch('/users/logIn', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -80,7 +85,9 @@ export const logIn = ({ mail, pass }) => {
             .then((resp) => {
                 return dispatch({
                     type: CHANGE_LOGIN,
-                    payload: true
+                    payload: {
+                        isLoggedIn: true
+                    }
                 })
             })
             .catch((err) => {
@@ -89,17 +96,15 @@ export const logIn = ({ mail, pass }) => {
     }
 };
 
-export const getPosts = () => {
+export const checkSession = (history) => {
     return (dispatch) => {
-        fetch('http://localhost:3033/posts', {
+        fetch('/users/checkAuthentication?type=text', {
             method: 'GET',
-            // mode: 'no-cors',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Token': 'sas'
-            },
+            }
         })
             .then((resp) => {
                 if (resp.ok) {
@@ -115,89 +120,23 @@ export const getPosts = () => {
             })
             .then((resp) => {
                 return dispatch({
-                    type: GET_POSTS,
-                    payload: resp.data
+                    type: CHANGE_LOGIN,
+                    payload: {
+                        user: resp.user,
+                        isLoggedIn: true
+                    }
                 })
             })
             .catch((err) => {
-                console.log(err);
+                return history.push('/logIn')
             })
     }
 };
-export const createPost = ({ title, body, description,userId,rating,created }, history) => {
-    return (dispatch) => {
-        fetch('http://localhost:3033/posts', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title, body, description,userId,rating,created
-            })
-        })
-            .then((resp) => {
-                if (resp.ok) {
-                    return resp;
-                }
-
-                return resp.json().then((error) => {
-                    throw error;
-                });
-            })
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((resp) => {
-                return history.push('/posts')//после создания поста автоматически переходит на страницу со всеми постами
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-};
-
-
-export const deletePost = (id) => {
-    return (dispatch) => {
-        fetch(`http://localhost:3033/posts/${id}`, {
-            method: 'DELETE',
-            credentials: 'same-origin',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((resp) => {
-                if (resp.ok) {
-                    return resp;
-                }
-
-                return resp.json().then((error) => {
-                    throw error;
-                });
-            })
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((resp) => {
-                return dispatch({
-                    type: DELETE_POST,
-                    payload: id
-                })
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-};
-
 
 
 export const getUsers = () => {
     return (dispatch) => {
-        fetch('http://localhost:3033/users', {
+        fetch('/users', {
             method: 'GET',
             // mode: 'no-cors',
             credentials: 'same-origin',
@@ -232,15 +171,16 @@ export const getUsers = () => {
 };
 
 export const getUserInfo = (user) => { //action Creater.
+    alert("Now user is:"+user.name);
     return {
-        type : "USER_INFO",
-        payload: user //обєкт який ми будем передавати
+        type: "USER_INFO",
+        payload: user //В редакс принято, что если мы хотим передать какой-то объект, то мы называем ключ payload + обєкт який ми будем передавати
     }
 };
 
 export const deleteUser = (id) => {
     return (dispatch) => {
-        fetch(`http://localhost:3033/users/${id}`, {
+        fetch(`/users/${id}`, {
             method: 'DELETE',
             credentials: 'same-origin',
             headers: {
@@ -271,5 +211,4 @@ export const deleteUser = (id) => {
             })
     }
 };
-
 

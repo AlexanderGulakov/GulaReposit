@@ -7,6 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
+  "proxy": "http://localhost:3033",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlexanderGulakov/GulaReposit.git"

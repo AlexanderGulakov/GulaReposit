@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { string, func } from 'prop-types'
 
-export default function Input({ className,value, title, onInputChange, type }) {
+export default function Input({ className,value, title, onInputChange, type,error }) {
     return (
         <Fragment>
 
@@ -15,6 +15,7 @@ export default function Input({ className,value, title, onInputChange, type }) {
                 type={type}
                 placeholder={title}
             />
+            {error && <span style={{ color: 'red',font: '12px Arial,sans-serif' }}>{error}</span>}
             <br />
         </Fragment>);
 };
@@ -22,10 +23,12 @@ export default function Input({ className,value, title, onInputChange, type }) {
 Input.propTypes = {
     value: string.isRequired,
     title: string.isRequired,
+    error: string,
     type: string,
     onInputChange: func.isRequired
 };
 
 Input.defaultProps = {
-    type: 'text'
+    type: 'text',
+    error: ''
 };

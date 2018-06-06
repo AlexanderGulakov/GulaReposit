@@ -1,18 +1,19 @@
 
+
+
 import React from 'react';
-export default function ({title,className, href}) {
+export default function ({titlesAndLinks}) {
     return (
-        <nav className={className[0]}>
-            <div className={className[1]}>
-                <a href={href[0]} className={className[2]}>{title[0]}</a>
-                <ul className={className[3]}>
-                    <li><a href={href[1]}>{title[1]}</a></li>
-                    <li><a href={href[2]}>{title[2]}</a></li>
-                    <li><a href={href[3]}>{title[3]}</a></li>
+        <nav className={"nav"}>
+            <div className={"container"}>
+                {/*<a href={titlesAndLinks[0].href}>{titlesAndLinks[0].title}</a>*/}
+                <ul>
+                    <li><a href={titlesAndLinks[1].href}>{titlesAndLinks[1].title}</a></li>
+                    <li><a href={titlesAndLinks[2].href}>{titlesAndLinks[2].title}</a></li>
+                    <li><a href={titlesAndLinks[3].href}>{titlesAndLinks[3].title}</a></li>
+
                 </ul>
             </div>
         </nav>
     );
 }
-
-

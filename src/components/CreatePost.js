@@ -6,23 +6,22 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {createPost} from '../actions/app'
+import {createPost} from '../actions/posts'
 
 class CreatePost extends Component {
     state = {
         title: '',
         body: '',
         description:'',
-        userId: '',
         rating: ''
 
 
     };
     createPost = () => {
-        const {title, body, description,userId,rating} = this.state;
-        const {createPost, history} = this.props;
+        const {title, body, description,rating} = this.state;
+        const {createPost} = this.props;
 
-        createPost({title, body, description,userId,rating}, history);
+        createPost({title, body, description,rating});
     };
 
     onInputChange = (value, key) => {
@@ -32,7 +31,7 @@ class CreatePost extends Component {
     };
 
     render() {
-        const {title, body, description, userId,rating} = this.state;
+        const {title, body, description,rating} = this.state;
 
         return (
             <div>
@@ -63,14 +62,7 @@ class CreatePost extends Component {
                     value={description}
 
                 />
-                <Input
-                    className="inputsForPosts"
-                    title="UserId"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'userId')
-                    }}
-                    value={userId}
-                />
+
                 <Input
                     className="inputsForPosts"
                     title="rating"

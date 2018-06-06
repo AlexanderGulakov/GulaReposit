@@ -32,6 +32,7 @@ class SignUp extends Component {
 
     render() {
         const {name, mail, password, gender, age, country} = this.state;
+        const { errors } = this.props;
 
         return (
             <form>
@@ -51,6 +52,7 @@ class SignUp extends Component {
                     onInputChange={(value) => {
                         this.onInputChange(value, 'mail')
                     }}
+                    error={errors.mail}
                     value={mail}
                 />
                 <Input
@@ -96,11 +98,15 @@ class SignUp extends Component {
         );
     }
 }
-
+function mapStoreToProps(store) {
+    return {
+        errors: store.app.errors
+    }
+}
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         signUp
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStoreToProps, mapDispatchToProps)(SignUp);

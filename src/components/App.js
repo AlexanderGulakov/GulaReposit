@@ -4,31 +4,28 @@ import {connect} from 'react-redux'
 import Users from './Users';
 import Posts from './Posts';
 import CreatePost from './CreatePost';
-import { Route, Switch } from 'react-router-dom';
-
+import {Route, Switch} from 'react-router-dom';
 
 class App extends Component {
-
 
     render() {
         return (
             <Fragment>
-                <NavBar title={["Users&Posts", "Users", "Posts", "Comments"]}
-                        className={["navClass", "navContainer", "third", "fourth"]}
-                        href={["/", "/users", "/posts", "/comments"]}
+                <NavBar titlesAndLinks={[
+                    {title: "Users&Posts", href: "/"},
+                    {title: "Users", href: "/users"},
+                    {title: "Posts", href: "/posts"},
+                    {title: "Comments", href: "/comments"}]}
                 />
                 <Switch>
-
                     <Route exact path="/users" component={Users}/>
                     <Route exact path="/posts" component={Posts}/>
-                    <Route exact path="/createPost"
-                           component={CreatePost}/> {/*посилання за яким генерується сторінка createPost */}
+                    <Route exact path="/createPost" component={CreatePost}/>
                 </Switch>
             </Fragment>
         );
     }
 }
-
 
 export default connect(null, null)(App);
 
