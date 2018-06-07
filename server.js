@@ -7,8 +7,8 @@ let port = 3033;
 let expressSession = require('express-session');
 let MongoStore = require('connect-mongo')(expressSession);//connect-mongo - модуль для хранения сессий в базе данных MongoDb
 
-mongoose.connect('mongodb+srv://m-001-student:m-001-password@cluster0-8aoco.mongodb.net/users');//підключаємо монгуз до кластера монгоДБ
-//mongoose.connect('mongodb://localhost:27017/testDb');//підключаємо монгуз до локальної БД
+//mongoose.connect('mongodb+srv://m-001-student:m-001-password@cluster0-8aoco.mongodb.net/users');//підключаємо монгуз до кластера монгоДБ
+mongoose.connect('mongodb://localhost:27017/testDb');//підключаємо монгуз до локальної БД
 let connection = mongoose.connection;
 
 connection.once('connected', function () {

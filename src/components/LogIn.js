@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from './Button';
 import Input from './Input';
-import { NavLink } from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-import { logIn } from '../actions/app'
+import {logIn} from '../actions/app'
 
 class LogIn extends Component {
     state = {
@@ -14,10 +14,10 @@ class LogIn extends Component {
         password: ''
     };
     logIn = () => {
-        const { email, password } = this.state;
-        const { logIn } = this.props;
+        const {email, password} = this.state;
+        const {logIn} = this.props;
 
-        logIn({ email, password });
+        logIn({mail: email, pass: password});
     };
 
     onInputChange = (value, key) => {
@@ -27,7 +27,7 @@ class LogIn extends Component {
     };
 
     render() {
-        const { email, password } = this.state;
+        const {email, password} = this.state;
 
         return (
             <form>
@@ -59,9 +59,11 @@ class LogIn extends Component {
         );
     }
 }
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         logIn
     }, dispatch)
 }
+
 export default connect(null, mapDispatchToProps)(LogIn); //connect with redux

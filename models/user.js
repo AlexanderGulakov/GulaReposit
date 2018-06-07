@@ -4,7 +4,6 @@ let Schema=mongoose.Schema;//схема
 let UsersSchema=new Schema({    //типа класс
     name: {
         type: String,
-        unique: true,
         required: true
     },
     mail: {

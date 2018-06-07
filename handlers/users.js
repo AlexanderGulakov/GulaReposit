@@ -47,7 +47,7 @@ let UsersHandler = function () {
     this.logIn = function (req, res, next) {
         let body = req.body; //отримує з Постмана весь обєкт(боді)
         let mail = body.mail; // в змінну mail записується mail який введений користувачем для реєстрації (з Постмана)
-        let password = body.password;
+        let password = body.pass;
         let cryptedPass = sha256(password);
         cryptedPass = cryptedPass.toString();//інакше не знайде, бо різні типи даних
 

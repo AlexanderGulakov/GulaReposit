@@ -11,18 +11,18 @@ import { withRouter } from 'react-router'
 import { checkSession  } from '../actions/app'
 
 class Root extends Component {
-    // componentDidMount() {
-    //     const { checkSession, history } = this.props;
-    //
-    //     checkSession(history);
-    // }
-    //
-    //  componentWillReceiveProps(nextProps) {
-    //    const { isLoggedIn, history } = nextProps;
-    //    if (!isLoggedIn) {
-    //      history.push('/logIn')
-    //    }
-    //  }
+    componentDidMount() {
+        const { checkSession, history } = this.props;
+
+        checkSession(history);
+    }
+
+     // componentWillReceiveProps(nextProps) {
+     //   const { isLoggedIn, history } = nextProps;
+     //   if (!isLoggedIn) {
+     //     history.push('/logIn')
+     //   }
+     // }
 
     render() {
         const { isLoggedIn } = this.props;

@@ -2,7 +2,7 @@
 import { CHANGE_LOGIN, SIGNUP_ERROR } from '../constants/actionTypes'
 
 const defaultStore = {
-    isLoggedIn: true,
+    isLoggedIn: false,
     errors: {}
 };
 
