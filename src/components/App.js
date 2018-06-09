@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import {connect} from 'react-redux'
 import Users from './Users';
 import Posts from './Posts';
-import CreatePost from './CreatePost';
+import CreateOrEditPost from './CreateOrEditPost';
 import {Route, Switch} from 'react-router-dom';
 
 class App extends Component {
@@ -11,16 +11,13 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <NavBar titlesAndLinks={[
-                    {title: "Users&Posts", href: "/"},
-                    {title: "Users", href: "/users"},
-                    {title: "Posts", href: "/posts"},
-                    {title: "Comments", href: "/comments"}]}
-                />
+
+                <NavBar/>
                 <Switch>
                     <Route exact path="/users" component={Users}/>
                     <Route exact path="/posts" component={Posts}/>
-                    <Route exact path="/createPost" component={CreatePost}/>
+                    <Route exact path="/createPost" component={CreateOrEditPost}/>
+                    <Route path="/posts/:id" component={CreateOrEditPost} />
                 </Switch>
             </Fragment>
         );

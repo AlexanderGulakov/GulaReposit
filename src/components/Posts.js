@@ -18,6 +18,11 @@ class Posts extends Component {
 
         deletePost(id);
     };
+    redirectToPost = (id) => {
+        const { history } = this.props;
+
+        history.push(`/posts/${id}`);
+    };
 
 
     renderTH = () => {
@@ -25,32 +30,25 @@ class Posts extends Component {
             <tr>
                 <th>{'title'}</th>
                 <th>{'body'}</th>
-                <th>{'description'}</th>
+
                 <th>{'userId'}</th>
                 <th>{'rating'}</th>
                 <th>{'created'}</th>
                 <th/>
-                <th></th>
+
             </tr>
         );
     };
     renderRow = (el) => {
         return (
-            <tr key={el._id}>
+            <tr key={el._id} onClick={()=>{return this.redirectToPost(el._id)}}>
                 <td>{el.title}</td>
                 <td>{el.body}</td>
-                <td>{el.description}</td>
+
                 <td>{el.userId}</td>
                 <td>{el.rating}</td>
                 <td>{el.created}</td>
-                <td>
-                    <Button
-                        title="UPDATE"
-                        onClick={() => {
-                            this.updatePost(el._id);
-                        }}>
-                    </Button>
-                </td>
+
                 <td>
                     <Button
                         title="DELETE"

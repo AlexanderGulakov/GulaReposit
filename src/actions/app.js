@@ -19,7 +19,7 @@ export const signUp = ({name, mail, password, gender, age, country}, history) =>
     return (dispatch) => {
         fetch('/users/signUp', {
             method: 'POST',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export const logIn = ({mail, pass}) => {
     return (dispatch) => {
         fetch('/users/logIn', {
             method: 'POST',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export const checkSession = (history) => {
     return (dispatch) => {
         fetch('/users/checkAuthentication?type=text', {
             method: 'GET',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export const getUsers = () => {
         fetch('/users', {
             method: 'GET',
             // mode: 'no-cors',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ export const deleteUser = (id) => {
     return (dispatch) => {
         fetch(`/users/${id}`, {
             method: 'DELETE',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',

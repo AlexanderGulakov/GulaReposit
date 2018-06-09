@@ -8,7 +8,7 @@ export const getPosts = () => {
     return (dispatch) => {
         fetch('/posts', {
             method: 'GET',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -39,10 +39,13 @@ export const getPosts = () => {
 };
 
 export const createPost = (data) => {
+    const { _id } = data;
+    const url = _id ? `/posts/${_id}` : '/posts';
+    const method = _id ? 'PATCH' : 'POST';
     return (dispatch) => {
-        fetch('/posts', {
-            method: 'POST',
-            credentials: 'same-origin',
+        fetch(url, {
+            method,
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -68,9 +71,7 @@ export const createPost = (data) => {
                     payload: resp.data
                 })
             })
-            // .then(() => {
-            //     return history.push('/posts')//после создания поста автоматически переходит на страницу со всеми постами
-            // })
+
             .catch((err) => {
                 console.log(err);
             })
@@ -83,7 +84,7 @@ export const deletePost = (id) => {
     return (dispatch) => {
         fetch(`/posts/${id}`, {
             method: 'DELETE',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
