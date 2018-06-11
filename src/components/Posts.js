@@ -34,21 +34,26 @@ class Posts extends Component {
                 <th>{'userId'}</th>
                 <th>{'rating'}</th>
                 <th>{'created'}</th>
-                <th/>
+                <th/><th/>
 
             </tr>
         );
     };
     renderRow = (el) => {
         return (
-            <tr key={el._id} onClick={()=>{return this.redirectToPost(el._id)}}>
+            <tr key={el._id} >
                 <td>{el.title}</td>
                 <td>{el.body}</td>
 
                 <td>{el.userId}</td>
                 <td>{el.rating}</td>
                 <td>{el.created}</td>
-
+                <td>
+                    <Button
+                        title="EDIT"
+                        onClick={()=>{return this.redirectToPost(el._id)}}>
+                    </Button>
+                </td>
                 <td>
                     <Button
                         title="DELETE"

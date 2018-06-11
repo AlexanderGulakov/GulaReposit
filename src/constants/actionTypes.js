@@ -1,5 +1,6 @@
 //app
 export const CHANGE_LOGIN = 'CHANGE_LOGIN';
+export const LOG_OUT = 'LOG_OUT';
 
 //users
 export const SET_USERS = 'SET_USERS';

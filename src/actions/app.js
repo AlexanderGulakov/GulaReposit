@@ -1,5 +1,6 @@
 import {
     CHANGE_LOGIN,
+    LOG_OUT,
     SET_USERS,
     DELETE_USERS,
     USER_INFO,
@@ -87,6 +88,42 @@ export const logIn = ({mail, pass}) => {
                     type: CHANGE_LOGIN,
                     payload: {
                         isLoggedIn: true
+                    }
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+};
+export const logOut = () => {
+    return (dispatch) => {
+        fetch('/users/logOut', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+
+        })
+            .then((resp) => {
+                if (resp.ok) {
+                    return resp;
+                }
+
+                return resp.json().then((error) => {
+                    throw error;
+                });
+            })
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((resp) => {
+                return dispatch({
+                    type: LOG_OUT,
+                    payload: {
+                        isLoggedIn: false
                     }
                 })
             })
