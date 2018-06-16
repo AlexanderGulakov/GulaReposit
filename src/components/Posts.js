@@ -2,7 +2,8 @@ import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Button from './Button';
-import { array } from 'prop-types'
+import {array} from 'prop-types'
+ import store from '../redux/store'
 
 import {getPosts, deletePost} from '../actions/posts'
 
@@ -19,8 +20,10 @@ class Posts extends Component {
         deletePost(id);
     };
     redirectToPost = (id) => {
-        const { history } = this.props;
-
+        const {history} = this.props;
+        alert(id);
+         const currentUser = store.getState().users.currentUser;
+         alert (currentUser);
         history.push(`/posts/${id}`);
     };
 
@@ -34,14 +37,15 @@ class Posts extends Component {
                 <th>{'userId'}</th>
                 <th>{'rating'}</th>
                 <th>{'created'}</th>
-                <th/><th/>
+                <th/>
+                <th/>
 
             </tr>
         );
     };
     renderRow = (el) => {
         return (
-            <tr key={el._id} >
+            <tr key={el._id}>
                 <td>{el.title}</td>
                 <td>{el.body}</td>
 
@@ -51,7 +55,9 @@ class Posts extends Component {
                 <td>
                     <Button
                         title="EDIT"
-                        onClick={()=>{return this.redirectToPost(el._id)}}>
+                        onClick={() => {
+                            return this.redirectToPost(el._id)
+                        }}>
                     </Button>
                 </td>
                 <td>
@@ -74,10 +80,10 @@ class Posts extends Component {
                 <h1>My Posts</h1>
                 <table className="tables">
                     <thead>
-                        {this.renderTH()}
+                    {this.renderTH()}
                     </thead>
                     <tbody>
-                        {posts.map(this.renderRow)}
+                    {posts.map(this.renderRow)}
                     </tbody>
                 </table>
                 <form action="/createPost/">
@@ -88,9 +94,11 @@ class Posts extends Component {
         );
     }
 }
+
 Posts.propTypes = {
     posts: array.isRequired
 };
+
 function mapStoreToProps(store) {
     return {
         posts: store.posts.items

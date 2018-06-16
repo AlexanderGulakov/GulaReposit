@@ -12,7 +12,7 @@ export default function () {
                 <NavLink className="NavBarLink" to="/posts">Posts</NavLink>
                 <NavLink className="NavBarLink" to="/createPost">Add Post</NavLink>
                 <NavLink className="NavBarLink" to="/myProfile">My Profile</NavLink>
-                <NavLink className="NavBarLink" to="/logIn" onClick={logOut()} >Sign Out</NavLink>
+                <NavLink className="NavBarLink" to="/logIn" >Sign Out</NavLink>
 
             </div>
         </nav>

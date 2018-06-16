@@ -17,3 +17,5 @@ const store = createStore(reducer, enhancer); // хранилище всей и�
 window.store = store;
 
 export default store;
+
+

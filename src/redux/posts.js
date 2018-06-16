@@ -9,7 +9,7 @@ export default (state = defaultStore, action) => {
         type,
         payload
     } = action;
-
+//
     switch (type) {
         case GET_POSTS:
             return {

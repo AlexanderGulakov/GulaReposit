@@ -25,7 +25,7 @@ let PostsHandler = function () {
         let id = req.params.id;
         PostsModel.findById(id, function (err, result) {
             if (err) return next(err);
-            res.status(201).send({data:result});
+            res.status(201).send({data: result});
         })
     };
     // створити новий пост
@@ -38,18 +38,22 @@ let PostsHandler = function () {
             if (err) {
                 return next(err);
             }
-            res.status(201).send({data:result});
+            res.status(201).send({data: result});
         })
     };
 
     //змінити пост за Id
     this.updatePost = function (req, res, next) {
+        let currentUserId = req.session.userId;
+
         let body = req.body;
         let id = req.params.id;
-        PostsModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {//2-ий параметр - що змінюється, можна вказати конкретне поле - (id, { name: 'jason bourne' }, options, callback),
-            // {new:true} - опція, завдяки якій функція після виконання поверне вже змінену версію поста.
+
+        PostsModel.update({_id: id, userId: currentUserId}, {body:body.body}, function (err, result) {
+
             if (err) return next(err);
             res.status(201).send({updated: result});
+
         })
     };
 
@@ -128,21 +132,21 @@ let PostsHandler = function () {
     };
 
 
-    this.getPostWithComments=function (req,res,next) {
-        let id=req.params.id;
+    this.getPostWithComments = function (req, res, next) {
+        let id = req.params.id;
         PostsModel.aggregate([
             {
-                $match:{
-                    _id:ObjectId(id)
+                $match: {
+                    _id: ObjectId(id)
                 }
             },
 
             {
-                $lookup:{
-                    from:'comments', //з колекції коментів
-                    localField:'_id', // у даній колекції поле _id
-                    foreignField:'postId',// у колекції коментів - поле postId = ці поля повязані
-                    as:'comments'//після лукапу в це поле запишеться результат
+                $lookup: {
+                    from: 'comments', //з колекції коментів
+                    localField: '_id', // у даній колекції поле _id
+                    foreignField: 'postId',// у колекції коментів - поле postId = ці поля повязані
+                    as: 'comments'//після лукапу в це поле запишеться результат
                 }
             },
             // {
@@ -190,7 +194,6 @@ let PostsHandler = function () {
     };
 
 
-
     //Зробити агрегатну функцію, яка поверне пости, створені певним користувачем в певний діапазон дат, і зробити lookup юзера до посту
     this.getPostsByUserByDate = function (req, res, next) {
         let firstDate = new Date("2018-05-13T09:01:12.411Z");
@@ -224,7 +227,6 @@ let PostsHandler = function () {
             res.status(200).send({data: result});
         })
     };
-
 
 
     this.upload = function (req, res, next) {
