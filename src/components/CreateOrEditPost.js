@@ -21,7 +21,7 @@ class CreateOrEditPost extends Component {
             return el._id === id;
         });
         return currentPost || {
-            _id: null,
+
             title: '',
             description: ''
         };

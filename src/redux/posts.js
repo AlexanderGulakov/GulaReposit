@@ -1,4 +1,4 @@
-import { GET_POSTS, CREATE_POST, DELETE_POST } from '../constants/actionTypes'
+import { GET_POSTS, CREATE_POST,EDIT_POST, DELETE_POST } from '../constants/actionTypes'
 
 const defaultStore = {
     items: []
@@ -20,6 +20,17 @@ export default (state = defaultStore, action) => {
             return {
                 ...state,
                 items: [...state.items, ...[payload]] // add new post to others
+            };
+        case EDIT_POST:
+            const oldPost=state.items.find(function (el) {
+                return el._id===payload._id;
+            });
+            const index = state.items.indexOf(oldPost);
+            state.items.splice(index,1,payload)
+            return {
+
+                ...state,
+                items: [...state.items]
             };
         case DELETE_POST:
             return {

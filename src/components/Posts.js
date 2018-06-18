@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Button from './Button';
 import {array} from 'prop-types'
- import store from '../redux/store'
+import store from '../redux/store'
 
 import {getPosts, deletePost} from '../actions/posts'
 
@@ -19,12 +19,14 @@ class Posts extends Component {
 
         deletePost(id);
     };
-    redirectToPost = (id) => {
-        const {history} = this.props;
-        alert(id);
-         const currentUser = store.getState().users.currentUser;
-         alert (currentUser);
-        history.push(`/posts/${id}`);
+    redirectToPost = (currentPost) => {
+        const {history, currentUser} = this.props;
+
+        // console.log(currentPost);
+        // console.log(currentPost.userId);
+        // console.log(currentUser._id);
+        return history.push(`/posts/${currentPost._id}`);
+
     };
 
 
@@ -44,6 +46,7 @@ class Posts extends Component {
         );
     };
     renderRow = (el) => {
+        const {currentUser} = this.props;
         return (
             <tr key={el._id}>
                 <td>{el.title}</td>
@@ -53,12 +56,13 @@ class Posts extends Component {
                 <td>{el.rating}</td>
                 <td>{el.created}</td>
                 <td>
+                    {el.userId == currentUser._id &&
                     <Button
                         title="EDIT"
                         onClick={() => {
-                            return this.redirectToPost(el._id)
+                            return this.redirectToPost(el)
                         }}>
-                    </Button>
+                    </Button>}
                 </td>
                 <td>
                     <Button
@@ -101,7 +105,8 @@ Posts.propTypes = {
 
 function mapStoreToProps(store) {
     return {
-        posts: store.posts.items
+        posts: store.posts.items,
+        currentUser: store.users.currentUser //now currentUser is available in this component
     }
 }
 

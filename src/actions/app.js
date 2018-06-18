@@ -57,7 +57,7 @@ export const signUp = ({name, mail, password, gender, age, country}, history) =>
     }
 };
 
-export const logIn = ({mail, pass}) => {
+export const logIn = ({mail, pass}, history) => {
     return (dispatch) => {
         fetch('/users/logIn', {
             method: 'POST',
@@ -84,10 +84,12 @@ export const logIn = ({mail, pass}) => {
                 return resp.json();
             })
             .then((resp) => {
+                history.push('/posts');
                 return dispatch({
                     type: CHANGE_LOGIN,
                     payload: {
-                        isLoggedIn: true
+                        isLoggedIn: true,
+                        user: resp.data
                     }
                 })
             })
@@ -121,9 +123,10 @@ export const logOut = () => {
             })
             .then((resp) => {
                 return dispatch({
-                    type: LOG_OUT,
+                    type: CHANGE_LOGIN,
                     payload: {
-                        isLoggedIn: false
+                        isLoggedIn: false,
+                        currentUser: {}
                     }
                 })
             })
@@ -156,6 +159,7 @@ export const checkSession = (history) => {
                 return resp.json();
             })
             .then((resp) => {
+                history.push('/posts');
                 return dispatch({
                     type: CHANGE_LOGIN,
                     payload: {
@@ -208,7 +212,7 @@ export const getUsers = () => {
 };
 
 export const getUserInfo = (user) => { //action Creater.
-    alert("Now user is:"+user.name);
+    alert("Now user is:" + user.name);
     return {
         type: "USER_INFO",
         payload: user //В редакс принято, что если мы хотим передать какой-то объект, то мы называем ключ payload + обєкт який ми будем передавати

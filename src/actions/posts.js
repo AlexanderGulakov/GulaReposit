@@ -1,6 +1,7 @@
 import {
     GET_POSTS,
     CREATE_POST,
+    EDIT_POST,
     DELETE_POST
 } from '../constants/actionTypes'
 
@@ -39,7 +40,7 @@ export const getPosts = () => {
 };
 
 export const createPost = (data) => {
-    const { _id } = data;
+    const {_id} = data;
     const url = _id ? `/posts/${_id}` : '/posts';
     const method = _id ? 'PATCH' : 'POST';
     return (dispatch) => {
@@ -67,7 +68,7 @@ export const createPost = (data) => {
 
             .then((resp) => {
                 return dispatch({
-                    type: CREATE_POST,
+                    type: _id ? EDIT_POST : CREATE_POST,
                     payload: resp.data
                 })
             })
@@ -77,7 +78,6 @@ export const createPost = (data) => {
             })
     }
 };
-
 
 
 export const deletePost = (id) => {

@@ -49,10 +49,15 @@ let PostsHandler = function () {
         let body = req.body;
         let id = req.params.id;
 
-        PostsModel.update({_id: id, userId: currentUserId}, {body:body.body}, function (err, result) {
+        PostsModel.update({_id: id, userId: currentUserId}, {title:body.title,body:body.body}, function (err, result) {
 
             if (err) return next(err);
-            res.status(201).send({updated: result});
+            PostsModel.findById(id,function (err,result) {
+                if (err)return next (err);
+                res.status(201).send({data: result});
+            });
+
+
 
         })
     };

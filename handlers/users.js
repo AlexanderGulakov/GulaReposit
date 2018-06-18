@@ -61,7 +61,7 @@ let UsersHandler = function () {
                 req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
 
             }
-            res.status(201).send({data: users, numbersOfVisits: req.session.numberOfVisits})
+            res.status(200).send({data: users, numbersOfVisits: req.session.numberOfVisits})
         })
     };
 

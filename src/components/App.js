@@ -1,30 +1,39 @@
 import React, {Fragment, Component} from 'react';
 import NavBar from './NavBar';
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux';
 import Users from './Users';
 import Posts from './Posts';
 import CreateOrEditPost from './CreateOrEditPost';
 import {Route, Switch} from 'react-router-dom';
+import {logOut} from '../actions/app'
 
 class App extends Component {
 
     render() {
+        const {logOut} = this.props;
         return (
             <Fragment>
 
-                <NavBar/>
+                <NavBar logOut={logOut}/>
                 <Switch>
                     <Route exact path="/users" component={Users}/>
                     <Route exact path="/posts" component={Posts}/>
                     <Route exact path="/createPost" component={CreateOrEditPost}/>
-                    <Route path="/posts/:id" component={CreateOrEditPost} />
+                    <Route path="/posts/:id" component={CreateOrEditPost}/>
                 </Switch>
             </Fragment>
         );
     }
 }
 
-export default connect(null, null)(App);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        logOut
+    }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(App)
 
 
 //     // Методи життєвого циклу. Які є, що означають, скільки разів використовуються, послідовність

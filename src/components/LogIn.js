@@ -15,9 +15,9 @@ class LogIn extends Component {
     };
     logIn = () => {
         const {email, password} = this.state;
-        const {logIn} = this.props;
+        const {logIn,history} = this.props;
 
-        logIn({mail: email, pass: password});
+        logIn({mail: email, pass: password},history);
     };
 
     onInputChange = (value, key) => {

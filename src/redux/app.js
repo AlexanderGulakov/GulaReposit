@@ -3,7 +3,8 @@ import { CHANGE_LOGIN, SIGNUP_ERROR } from '../constants/actionTypes'
 
 const defaultStore = {
     isLoggedIn: false,
-    errors: {}
+    errors: {},
+    currentUser:{}
 };
 
 export default (state = defaultStore, action) => {
@@ -16,7 +17,8 @@ export default (state = defaultStore, action) => {
         case CHANGE_LOGIN:
             return {
                 ...state,
-                isLoggedIn: payload.isLoggedIn
+                isLoggedIn: payload.isLoggedIn,
+                currentUser:payload.user
             };
 
         case SIGNUP_ERROR:

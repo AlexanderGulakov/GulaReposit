@@ -20,13 +20,10 @@ export default (state = defaultStore, action) => {
         case CHANGE_LOGIN:
             return {
                 ...state,
+                isLoggedIn: payload.isLoggedIn,
                 currentUser: { ...payload.user }
             };
-        case LOG_OUT:
-            return {
-                ...state,
-                currentUser: {}
-            };
+
         case DELETE_USERS:
             return {
                 ...state,
