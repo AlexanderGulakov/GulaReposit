@@ -61,12 +61,13 @@ class Posts extends Component {
                     </Button>}
                 </td>
                 <td>
+                    {el.userId === currentUser._id &&
                     <Button
                         title="DELETE"
                         onClick={() => {
                             this.deletePost(el._id);
                         }}>
-                    </Button>
+                    </Button>}
                 </td>
             </tr>
         );
