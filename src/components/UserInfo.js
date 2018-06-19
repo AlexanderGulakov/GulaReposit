@@ -9,7 +9,7 @@ class UserInfo extends Component{
 
         return(
             <div>
-                <h2>name:{activeUser.name}</h2>
+                <h2>{activeUser.name}</h2>
                 <p>mail:{activeUser.mail}</p>
                 <p>age:{activeUser.age}</p>
                 <p>country:{activeUser.country}</p>

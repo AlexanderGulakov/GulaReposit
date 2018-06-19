@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import Users from './Users';
 import Posts from './Posts';
+import PostsList from './PostsList';
+import PostInfo from './PostInfo';
 import CreateOrEditPost from './CreateOrEditPost';
 import {Route, Switch} from 'react-router-dom';
 import {logOut} from '../actions/app'
@@ -19,8 +21,11 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/users" component={Users}/>
                     <Route exact path="/posts" component={Posts}/>
+                    <Route exact path="/postsList" component={PostsList}/>
                     <Route exact path="/createPost" component={CreateOrEditPost}/>
                     <Route path="/posts/:id" component={CreateOrEditPost}/>
+                    <Route exact path="/postsList/:id" component={PostInfo}/>
+
                 </Switch>
             </Fragment>
         );

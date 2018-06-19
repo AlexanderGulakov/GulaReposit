@@ -2,6 +2,7 @@ import {
     GET_POSTS,
     CREATE_POST,
     EDIT_POST,
+    POST_INFO,
     DELETE_POST
 } from '../constants/actionTypes'
 
@@ -80,6 +81,43 @@ export const createPost = (data) => {
 };
 
 
+
+
+export const getPostInfo = (data) => { //action Creator.
+    const {_id} = data;
+    return (dispatch) => {
+        fetch(`/posts/${_id}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((resp) => {
+                if (resp.ok) {
+                    return resp;
+                }
+
+                return resp.json().then((error) => {
+                    throw error;
+                });
+            })
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((resp) => {
+                return dispatch({
+                    type: POST_INFO,
+                    payload: resp.data
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+};
+
 export const deletePost = (id) => {
     return (dispatch) => {
         fetch(`/posts/${id}`, {
@@ -113,4 +151,3 @@ export const deletePost = (id) => {
             })
     }
 };
-

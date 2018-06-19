@@ -210,10 +210,10 @@ export const getUsers = () => {
     }
 };
 
-export const getUserInfo = (user) => { //action Creater.
-    alert("Now user is:" + user.name);
+export const getUserInfo = (user) => { //action Creator.
+
     return {
-        type: "USER_INFO",
+        type: USER_INFO,
         payload: user //В редакс принято, что если мы хотим передать какой-то объект, то мы называем ключ payload + обєкт який ми будем передавати
     }
 };

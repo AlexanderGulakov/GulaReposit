@@ -16,7 +16,7 @@ class CreateOrEditPost extends Component {
     }
     mapPropsToState=(props)=>{
         const{posts,match:{params}}=props;
-        const{id}=params;
+        const{id}= params;
         const currentPost = posts.find((el) => {
             return el._id === id;
         });

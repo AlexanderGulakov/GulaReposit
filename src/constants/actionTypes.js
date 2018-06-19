@@ -10,6 +10,7 @@ export const USER_INFO = 'USER_INFO';
 export const GET_POSTS = 'GET_POSTS';
 export const CREATE_POST = 'CREATE_POST';
 export const EDIT_POST = 'EDIT_POST';
+export const POST_INFO = 'POST_INFO';
 export const DELETE_POST = 'DELETE_POST';
 
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
