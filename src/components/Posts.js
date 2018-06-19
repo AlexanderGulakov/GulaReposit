@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Button from './Button';
 import {array} from 'prop-types'
-import store from '../redux/store'
+
 
 import {getPosts, deletePost} from '../actions/posts'
 
@@ -20,11 +20,7 @@ class Posts extends Component {
         deletePost(id);
     };
     redirectToPost = (currentPost) => {
-        const {history, currentUser} = this.props;
-
-        // console.log(currentPost);
-        // console.log(currentPost.userId);
-        // console.log(currentUser._id);
+        const {history} = this.props;
         return history.push(`/posts/${currentPost._id}`);
 
     };
@@ -56,7 +52,7 @@ class Posts extends Component {
                 <td>{el.rating}</td>
                 <td>{el.created}</td>
                 <td>
-                    {el.userId == currentUser._id &&
+                    {el.userId === currentUser._id &&
                     <Button
                         title="EDIT"
                         onClick={() => {

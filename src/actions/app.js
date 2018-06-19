@@ -1,6 +1,5 @@
 import {
     CHANGE_LOGIN,
-    LOG_OUT,
     SET_USERS,
     DELETE_USERS,
     USER_INFO,

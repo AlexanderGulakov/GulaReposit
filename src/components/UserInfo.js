@@ -2,23 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 class UserInfo extends Component{
     render(){
-        if(!this.props.user){
+        const {activeUser} = this.props;
+        if(!activeUser){
             return(<p>Choose user</p>)
         }
+
         return(
             <div>
-                <h2>{this.props.user.name}</h2>
-                <p>{this.props.user.mail}</p>
-                <p>age:{this.props.user.age}</p>
+                <h2>name:{activeUser.name}</h2>
+                <p>mail:{activeUser.mail}</p>
+                <p>age:{activeUser.age}</p>
+                <p>country:{activeUser.country}</p>
             </div>
         )
     }
 }
 
-function mapStateToProps(state) {
+function mapStoreToProps(store) {
     return {
-        user: state.activeUser
+        activeUser: store.users.activeUser
     }
 }
 
-export default connect (mapStateToProps)(UserInfo);
+export default connect (mapStoreToProps,null)(UserInfo);

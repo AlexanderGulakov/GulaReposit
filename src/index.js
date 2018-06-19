@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.css';
 import Root from './components/Root';
-import SignUp from './components/SignUp';
+
 import registerServiceWorker from './registerServiceWorker'; // It's all about adding offline capabilities to your site.
 import history from './history';
 import store from './redux/store';
