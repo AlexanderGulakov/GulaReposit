@@ -36,7 +36,7 @@ export default (state = defaultStore, action) => {
 
             return {
                 ...state,
-                currentPost: { ...payload.post }
+                currentPost: { ...payload }
                // currentPost: { ...payload }
             };
         case DELETE_POST:

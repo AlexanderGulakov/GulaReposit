@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import Button from './Button';
 
 import {array, func} from 'prop-types'
-import {NavLink} from 'react-router-dom'
+
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getPostInfo} from '../actions/posts'
+import {getPostInfo, deletePost} from '../actions/posts'
 
 class PostInfo extends Component {
 
@@ -15,7 +15,13 @@ class PostInfo extends Component {
         super(props);
         this.state = this.mapPropsToState(props);
     }
+    componentDidMount() {
+        const {_id} = this.state;
+        alert(_id);
+        const {getPostInfo} = this.props;
 
+        getPostInfo(_id);
+    }
     mapPropsToState = (props) => {
         const {posts, match: {params}} = props;
         const {id} = params;
@@ -28,38 +34,61 @@ class PostInfo extends Component {
             body: ''
         };
     };
+    deletePost = (id) => {
+        const {deletePost,history} = this.props;
 
+        deletePost(id);
+        history.push('/postsList');
+    };
 
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
     }
 
-    // save = () => {
-    //     const { title, body, _id } = this.state;
-    //     const { createPost } = this.props;
-    //
-    //     createPost({ title, body, _id });
-    // };
 
-
-    onInputChange = (value, key) => {
-        this.setState({
-            [key]: value
-        });
-    };
 
     render() {
-        const {title, body, _id} = this.state;
+
+         const {title, body, _id, userId,comments} = this.state;
+         const {currentUser, history,currentPost} = this.props;
         if (!_id) {
             return (<p>Choose post</p>)
         }
 
         return (
-            <div>
-                <h2>{title}</h2>
-                <p>body:{body}</p>
+            <Fragment>
 
-            </div>
+
+                <h2>{currentPost.title}</h2>
+                <pre>{body}</pre>
+                {userId === currentUser._id &&
+                <Fragment>
+                    <Button
+                        title="EDIT"
+                        onClick={() => {
+                            return history.push(`/posts/${_id}`);
+                        }}>
+                    </Button>
+                    <Button
+                        title="DELETE"
+                        onClick={() => {
+                            this.deletePost(_id);
+                        }}>
+                    </Button>
+                </Fragment>
+                }
+                <h3>Comments</h3>
+                <hr/>
+                {comments &&
+                <ul className="commentsList">
+                    {comments.map((comment) => {
+                        return (
+                            <li key={comment._id}>{comment}</li>
+                        );
+                    })}
+                </ul>
+                }
+            </Fragment>
         )
     }
 }
@@ -67,13 +96,16 @@ class PostInfo extends Component {
 
 function mapStoreToProps(store) {
     return {
-        posts: store.posts.items
+        posts: store.posts.items,
+        currentUser: store.users.currentUser,
+        currentPost:store.posts.currentPost
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        getPostInfo
+        getPostInfo,
+        deletePost
 
     }, dispatch)
 }

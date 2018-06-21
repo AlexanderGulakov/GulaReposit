@@ -28,31 +28,20 @@ class CreateOrEditPost extends Component {
     };
 
 
-    // state = {
-    //     title: '',
-    //     body: '',
-    //     description:'',
-    //     rating: ''
-    //
-    //
-    // };
+
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
     }
 
     save = () => {
         const { title, body, _id } = this.state;
-        const { createPost } = this.props;
+        const { createPost,history } = this.props;
 
         createPost({ title, body, _id });
+        history.push('/postsList');
     };
 
-    // createPost = () => {
-    //     const {title, body, description,rating} = this.state;
-    //     const {createPost} = this.props;
-    //
-    //     createPost({title, body, description,rating});
-    // };
+
 
     onInputChange = (value, key) => {
         this.setState({

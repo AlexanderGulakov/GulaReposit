@@ -83,10 +83,10 @@ export const createPost = (data) => {
 
 
 
-export const getPostInfo = (data) => { //action Creator.
-    const {_id} = data;
+export const getPostInfo = (id) => { //action Creator.
+
     return (dispatch) => {
-        fetch(`/posts/${_id}`, {
+        fetch(`/posts/getWithComments/${id}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
