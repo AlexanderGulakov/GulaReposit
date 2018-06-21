@@ -195,7 +195,8 @@ let PostsHandler = function () {
 
         ], function (err, result) {
             if (err) return next(err);
-            res.status(201).send({data: result});
+            let isResult=result.length?result[0]:{};
+            res.status(201).send({data: isResult});
         })
     };
 

@@ -1,7 +1,8 @@
 import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST } from '../constants/actionTypes'
 
 const defaultStore = {
-    items: []
+    items: [],
+    currentPost:{}
 };
 
 export default (state = defaultStore, action) => {

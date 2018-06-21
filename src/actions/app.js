@@ -158,7 +158,7 @@ export const checkSession = (history) => {
                 return resp.json();
             })
             .then((resp) => {
-                history.push('/posts');
+                //history.push('/posts');
                 return dispatch({
                     type: CHANGE_LOGIN,
                     payload: {

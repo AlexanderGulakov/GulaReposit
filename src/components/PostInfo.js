@@ -16,8 +16,8 @@ class PostInfo extends Component {
         this.state = this.mapPropsToState(props);
     }
     componentDidMount() {
-        const {_id} = this.state;
-        alert(_id);
+
+        const{_id}=this.state;
         const {getPostInfo} = this.props;
 
         getPostInfo(_id);
@@ -25,14 +25,10 @@ class PostInfo extends Component {
     mapPropsToState = (props) => {
         const {posts, match: {params}} = props;
         const {id} = params;
-        const currentPost = posts.find((el) => {
-            return el._id === id;
-        });
-        return currentPost || {
-
-            title: '',
-            body: ''
-        };
+        // const currentPost = posts.find((el) => {
+        //     return el._id === id;
+        // });
+        return  {_id:id};
     };
     deletePost = (id) => {
         const {deletePost,history} = this.props;
@@ -49,8 +45,8 @@ class PostInfo extends Component {
 
     render() {
 
-         const {title, body, _id, userId,comments} = this.state;
-         const {currentUser, history,currentPost} = this.props;
+         // const {title, body, _id, userId,comments} = this.state;
+         const {currentUser, history,currentPost:{title,body,_id,userId,comments}} = this.props;
         if (!_id) {
             return (<p>Choose post</p>)
         }
@@ -59,7 +55,7 @@ class PostInfo extends Component {
             <Fragment>
 
 
-                <h2>{currentPost.title}</h2>
+                <h2>{title}</h2>
                 <pre>{body}</pre>
                 {userId === currentUser._id &&
                 <Fragment>
@@ -83,7 +79,7 @@ class PostInfo extends Component {
                 <ul className="commentsList">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment._id}>{comment}</li>
+                            <li key={comment._id}>{comment.body}</li>
                         );
                     })}
                 </ul>
