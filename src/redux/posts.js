@@ -27,7 +27,7 @@ export default (state = defaultStore, action) => {
                 return el._id===payload._id;
             });
             const index = state.items.indexOf(oldPost);
-            state.items.splice(index,1,payload)
+            state.items.splice(index,1,payload);
             return {
 
                 ...state,

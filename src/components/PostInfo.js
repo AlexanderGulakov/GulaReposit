@@ -46,7 +46,7 @@ class PostInfo extends Component {
     render() {
 
          // const {title, body, _id, userId,comments} = this.state;
-         const {currentUser, history,currentPost:{title,body,_id,userId,comments}} = this.props;
+         const {currentUser, history,currentPost:{title,body,_id,userId,comments,date}} = this.props;
         if (!_id) {
             return (<p>Choose post</p>)
         }
@@ -56,6 +56,7 @@ class PostInfo extends Component {
 
 
                 <h2>{title}</h2>
+                <p>created:{date}</p>
                 <pre>{body}</pre>
                 {userId === currentUser._id &&
                 <Fragment>
@@ -79,7 +80,7 @@ class PostInfo extends Component {
                 <ul className="commentsList">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment._id}>{comment.body}</li>
+                            <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}</li>
                         );
                     })}
                 </ul>

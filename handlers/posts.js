@@ -49,14 +49,16 @@ let PostsHandler = function () {
         let body = req.body;
         let id = req.params.id;
 
-        PostsModel.update({_id: id, userId: currentUserId}, {title:body.title,body:body.body}, function (err, result) {
+        PostsModel.update({_id: id, userId: currentUserId}, {
+            title: body.title,
+            body: body.body
+        }, function (err, result) {
 
             if (err) return next(err);
-            PostsModel.findById(id,function (err,result) {
-                if (err)return next (err);
+            PostsModel.findById(id, function (err, result) {
+                if (err) return next(err);
                 res.status(201).send({data: result});
             });
-
 
 
         })
@@ -140,13 +142,13 @@ let PostsHandler = function () {
 
     this.getPostWithComments = function (req, res, next) {
         let id = req.params.id;
+
         PostsModel.aggregate([
             {
                 $match: {
                     _id: ObjectId(id)
                 }
             },
-
             {
                 $lookup: {
                     from: 'comments', //з колекції коментів
@@ -155,47 +157,51 @@ let PostsHandler = function () {
                     as: 'comments'//після лукапу в це поле запишеться результат
                 }
             },
-            // {
-            //     $unwind: "$comments.authorId"
-            // },
+            {
+                $unwind: "$comments"
+            },
             {
                 $lookup:
                     {
                         from: "users",
                         localField: "comments.authorId",
                         foreignField: "_id",
-                        as: "authorInfo"
+                        as: "comments.authorInfo"
                     }
             },
+            {
+                $unwind: "$comments.authorInfo"
+            },
+            {
+                $addFields: {
 
-            // {
-            //     $addFields: {"comments.authorInfo":''}
-            // },
+                    "comments.date":{$dateToString:{ format: "%d.%m.%Y %H:%M:%S", date: "$comments.created" }}}
 
-            // {
-            //     $project:{
-            //         _id:0,
-            //         title:1,
-            //         body:1,
-            //         rating:1,
-            //         "comments.body":1,
-            //         "comments.authorId":1,
-            //         "comments.authorInfo":1
-            //     }
-            // },
-            // {
-            //     $lookup:{
-            //         from:'users',
-            //         localField:'comments',
-            //         foreignField:'_id',
-            //         as:'comments.authorInfo'
-            //     }
-            // }
-
-
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    title: {$first: "$title"},
+                    body: {$first: "$body"},
+                    created: {$first: "$created"},
+                    comments: {"$push": "$comments"}
+                }
+            },
+            {
+                $project: {
+                    title: 1,
+                    body: 1,
+                    // created: 1,
+                    date:{$dateToString:{ format: "%d.%m.%Y %H:%M:%S", date: "$created" }},
+                    "comments.body": 1,
+                    "comments.authorId": 1,
+                    "comments.authorInfo.name": 1,
+                    "comments.date":1
+                }
+            },
         ], function (err, result) {
             if (err) return next(err);
-            let isResult=result.length?result[0]:{};
+            let isResult = result.length ? result[0] : {};
             res.status(201).send({data: isResult});
         })
     };
