@@ -1,4 +1,5 @@
 let PostsModel = require('../models/post');
+let CommentsModel = require('../models/comment');
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Types.ObjectId;
 //var ObjectId = require('mongoose').Schema.Types.ObjectId;
@@ -142,69 +143,101 @@ let PostsHandler = function () {
 
     this.getPostWithComments = function (req, res, next) {
         let id = req.params.id;
-
-        PostsModel.aggregate([
-            {
-                $match: {
-                    _id: ObjectId(id)
-                }
-            },
-            {
-                $lookup: {
-                    from: 'comments', //з колекції коментів
-                    localField: '_id', // у даній колекції поле _id
-                    foreignField: 'postId',// у колекції коментів - поле postId = ці поля повязані
-                    as: 'comments'//після лукапу в це поле запишеться результат
-                }
-            },
-            {
-                $unwind: "$comments"
-            },
-            {
-                $lookup:
-                    {
-                        from: "users",
-                        localField: "comments.authorId",
-                        foreignField: "_id",
-                        as: "comments.authorInfo"
-                    }
-            },
-            {
-                $unwind: "$comments.authorInfo"
-            },
-            {
-                $addFields: {
-
-                    "comments.date":{$dateToString:{ format: "%d.%m.%Y %H:%M:%S", date: "$comments.created" }}}
-
-            },
-            {
-                $group: {
-                    _id: "$_id",
-                    title: {$first: "$title"},
-                    body: {$first: "$body"},
-                    created: {$first: "$created"},
-                    comments: {"$push": "$comments"}
-                }
-            },
-            {
-                $project: {
-                    title: 1,
-                    body: 1,
-                    // created: 1,
-                    date:{$dateToString:{ format: "%d.%m.%Y %H:%M:%S", date: "$created" }},
-                    "comments.body": 1,
-                    "comments.authorId": 1,
-                    "comments.authorInfo.name": 1,
-                    "comments.date":1
-                }
-            },
-        ], function (err, result) {
+        CommentsModel.findOne({postId: id}, function (err, result) {
             if (err) return next(err);
-            let isResult = result.length ? result[0] : {};
-            res.status(201).send({data: isResult});
-        })
-    };
+            if (result) {
+                PostsModel.aggregate([
+                    {
+                        $match: {
+                            _id: ObjectId(id)
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'comments', //з колекції коментів
+                            localField: '_id', // у даній колекції поле _id
+                            foreignField: 'postId',// у колекції коментів - поле postId = ці поля повязані
+                            as: 'comments'//після лукапу в це поле запишеться результат
+                        }
+                    },
+                    {
+                        $unwind: "$comments"
+                    },
+                    {
+                        $lookup:
+                            {
+                                from: "users",
+                                localField: "comments.authorId",
+                                foreignField: "_id",
+                                as: "comments.authorInfo"
+                            }
+                    },
+                    {
+                        $unwind: "$comments.authorInfo"
+                    },
+                    {
+                        $addFields: {
+
+                            "comments.date": {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$comments.created"}}
+                        }
+
+                    },
+                    {
+                        $group: {
+                            _id: "$_id",
+                            title: {$first: "$title"},
+                            body: {$first: "$body"},
+                            created: {$first: "$created"},
+                            comments: {"$push": "$comments"}
+                        }
+                    },
+                    {
+                        $project: {
+                            title: 1,
+                            body: 1,
+                            date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
+                            "comments.body": 1,
+                            "comments.authorId": 1,
+                            "comments.authorInfo.name": 1,
+                            "comments.date": 1
+                        }
+                    },
+                ], function (err, result) {
+                    if (err) return next(err);
+                    let isResult = result.length ? result[0] : {};
+                    res.status(201).send({data: isResult});
+                })
+            }
+
+            else {
+                // PostsModel.findById(id, function (err, result) {
+                //     if (err) return next(err);
+                //     res.status(201).send({data: result});
+                // })
+                PostsModel.aggregate([
+                    {
+                        $match: {
+                            _id: ObjectId(id)
+                        }
+                    },
+
+
+                    {
+                        $project: {
+                            title: 1,
+                            body: 1,
+                            date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
+
+                        }
+                    },
+                ], function (err, result) {
+                    if (err) return next(err);
+                    let isResult = result.length ? result[0] : {};
+                    res.status(201).send({data: isResult});
+                })
+            }
+
+    })};
 
 
     //Зробити агрегатну функцію, яка поверне пости, створені певним користувачем в певний діапазон дат, і зробити lookup юзера до посту
