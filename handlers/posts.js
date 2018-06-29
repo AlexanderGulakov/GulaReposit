@@ -210,24 +210,17 @@ let PostsHandler = function () {
             }
 
             else {
-                // PostsModel.findById(id, function (err, result) {
-                //     if (err) return next(err);
-                //     res.status(201).send({data: result});
-                // })
                 PostsModel.aggregate([
                     {
                         $match: {
                             _id: ObjectId(id)
                         }
                     },
-
-
                     {
                         $project: {
                             title: 1,
                             body: 1,
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
-
                         }
                     },
                 ], function (err, result) {
@@ -236,7 +229,6 @@ let PostsHandler = function () {
                     res.status(201).send({data: isResult});
                 })
             }
-
     })};
 
 
