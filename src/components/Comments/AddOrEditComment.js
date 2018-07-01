@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Button from '../Button';
 
 import {array, func} from 'prop-types'
-import {NavLink} from 'react-router-dom'
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,13 +13,13 @@ class AddOrEditComment extends Component {
     constructor(props) {
         super(props);
         this.state = this.mapPropsToState(props);
+
     }
 
     mapPropsToState = (props) => {
 
         return {
-            postId: '_id',
-            body: ''
+                body: ''
         };
     };
 
@@ -30,10 +29,10 @@ class AddOrEditComment extends Component {
 
     save = () => {
         const {body, _id} = this.state;
-        const {addComment, history} = this.props;
+        const {addComment, postId,history} = this.props;
 
-        addComment({body, _id});
-
+        addComment({body, _id,postId});
+      //  history.push(`/postsList/${postId}`);
     };
 
 
@@ -83,6 +82,7 @@ function mapStoreToProps(store) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         addComment
+
     }, dispatch)
 }
 
