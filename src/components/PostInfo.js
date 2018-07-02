@@ -8,6 +8,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getPostInfo, deletePost} from '../actions/posts'
+import {deleteComment} from "../actions/comments"
+import AddOrEditComment from './Comments/AddOrEditComment'
 
 class PostInfo extends Component {
 
@@ -36,7 +38,12 @@ class PostInfo extends Component {
         deletePost(id);
         history.push('/postsList');
     };
+    deleteComment = (id) => {
+        const {deleteComment,history} = this.props;
 
+        deleteComment(id);
+        //history.push('/postsList/${_id}');
+    };
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
     }
@@ -57,6 +64,7 @@ class PostInfo extends Component {
 
                 <h2>{title}</h2>
                 <p>created:{date}</p>
+
                 <pre>{body}</pre>
                 {userId === currentUser._id &&
                 <Fragment>
@@ -80,11 +88,14 @@ class PostInfo extends Component {
                 <ul className="commentsList">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}</li>
+                            <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}
+                                <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}></Button>
+                            </li>
                         );
                     })}
                 </ul>
                 }
+                <AddOrEditComment postId={`${_id}`}/>
             </Fragment>
         )
     }
@@ -95,14 +106,16 @@ function mapStoreToProps(store) {
     return {
         posts: store.posts.items,
         currentUser: store.users.currentUser,
-        currentPost:store.posts.currentPost
+        currentPost:store.posts.currentPost,
+        currentComment:store.comments.currentComment
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getPostInfo,
-        deletePost
+        deletePost,
+        deleteComment
 
     }, dispatch)
 }
