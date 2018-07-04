@@ -9,7 +9,8 @@ import {bindActionCreators} from 'redux';
 
 import {getPostInfo, deletePost} from '../actions/posts'
 import {deleteComment} from "../actions/comments"
-import AddOrEditComment from './Comments/AddOrEditComment'
+import AddComment from './Comments/AddComment'
+import EditComment from './Comments/EditComment'
 
 class PostInfo extends Component {
 
@@ -34,16 +35,14 @@ class PostInfo extends Component {
     };
     deletePost = (id) => {
         const {deletePost,history} = this.props;
-
         deletePost(id);
         history.push('/postsList');
     };
     deleteComment = (id) => {
-        const {deleteComment,history} = this.props;
-
+        const {deleteComment} = this.props;
         deleteComment(id);
-        //history.push('/postsList/${_id}');
     };
+
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
     }
@@ -89,13 +88,22 @@ class PostInfo extends Component {
                     {comments.map((comment) => {
                         return (
                             <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}
-                                <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}></Button>
+                                {comment.authorId === currentUser._id &&
+                                <Fragment>
+                                    {/*<Button title="EDIT" onClick={() => {*/}
+                                        {/*this.editComment(comment._id);*/}
+                                    {/*}}></Button>*/}
+                                    <EditComment id={`$comment._id`}/>
+
+                                    <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
+                                </Fragment>
+                                }
                             </li>
                         );
                     })}
                 </ul>
                 }
-                <AddOrEditComment postId={`${_id}`}/>
+                <AddComment postId={`${_id}`}/>
             </Fragment>
         )
     }

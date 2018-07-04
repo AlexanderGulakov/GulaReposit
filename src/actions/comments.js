@@ -1,5 +1,5 @@
 import {
-    ADD_COMMENT, DELETE_COMMENT
+    ADD_COMMENT, DELETE_COMMENT, EDIT_COMMENT
 
 } from '../constants/actionTypes'
 
@@ -68,6 +68,45 @@ export const deleteComment = (id) => {
                     payload: id
                 })
             })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+};
+export const editComment = (data) => {
+    const {_id} = data;
+    const url = `/comments/${_id}`;
+    const method = 'PATCH';
+    return (dispatch) => {
+        fetch(url, {
+            method,
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then((resp) => {
+                if (resp.ok) {
+                    return resp;
+                }
+
+                return resp.json().then((error) => {
+                    throw error;
+                });
+            })
+            .then((resp) => {
+                return resp.json();
+            })
+
+            .then((resp) => {
+                return dispatch({
+                    type: EDIT_COMMENT,
+                    payload: resp.data
+                })
+            })
+
             .catch((err) => {
                 console.log(err);
             })

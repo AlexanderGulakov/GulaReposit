@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import {addComment} from "../../actions/comments"
 
 
-class AddOrEditComment extends Component {
+class AddComment extends Component {
     constructor(props) {
         super(props);
         this.state = this.mapPropsToState(props);
@@ -86,4 +86,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
 }
 
-export default connect(mapStoreToProps, mapDispatchToProps)(AddOrEditComment);
+export default connect(mapStoreToProps, mapDispatchToProps)(AddComment);
