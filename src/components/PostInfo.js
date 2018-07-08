@@ -42,6 +42,9 @@ class PostInfo extends Component {
         const {deleteComment} = this.props;
         deleteComment(id);
     };
+    editComment = (commentId)=>{
+        return <EditComment id={`$commentId`}/>
+    };
 
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
@@ -90,10 +93,10 @@ class PostInfo extends Component {
                             <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}
                                 {comment.authorId === currentUser._id &&
                                 <Fragment>
-                                    {/*<Button title="EDIT" onClick={() => {*/}
-                                        {/*this.editComment(comment._id);*/}
-                                    {/*}}></Button>*/}
-                                    <EditComment id={`$comment._id`}/>
+                                    <Button title="EDIT" onClick={() => {
+                                        this.editComment(comment._id);
+                                    }}/>
+                                    {/*<EditComment id={`$comment._id`}/>*/}
 
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
                                 </Fragment>
