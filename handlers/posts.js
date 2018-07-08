@@ -185,6 +185,7 @@ let PostsHandler = function () {
                     {
                         $group: {
                             _id: "$_id",
+                            userId: {$first: "$userId"},
                             title: {$first: "$title"},
                             body: {$first: "$body"},
                             created: {$first: "$created"},
@@ -195,6 +196,7 @@ let PostsHandler = function () {
                         $project: {
                             title: 1,
                             body: 1,
+                            userId:1,
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
                             "comments._id":1,
                             "comments.body": 1,
@@ -220,6 +222,7 @@ let PostsHandler = function () {
                     {
                         $project: {
                             title: 1,
+                            userId:1,
                             body: 1,
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
                         }

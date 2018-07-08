@@ -10,7 +10,7 @@ import {bindActionCreators} from 'redux';
 import {getPostInfo, deletePost} from '../actions/posts'
 import {deleteComment} from "../actions/comments"
 import AddComment from './Comments/AddComment'
-import EditComment from './Comments/EditComment'
+
 
 class PostInfo extends Component {
 
@@ -42,9 +42,7 @@ class PostInfo extends Component {
         const {deleteComment} = this.props;
         deleteComment(id);
     };
-    editComment = (commentId)=>{
-        return <EditComment id={`$commentId`}/>
-    };
+
 
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
@@ -93,10 +91,6 @@ class PostInfo extends Component {
                             <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}
                                 {comment.authorId === currentUser._id &&
                                 <Fragment>
-                                    <Button title="EDIT" onClick={() => {
-                                        this.editComment(comment._id);
-                                    }}/>
-                                    {/*<EditComment id={`$comment._id`}/>*/}
 
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
                                 </Fragment>
@@ -117,8 +111,7 @@ function mapStoreToProps(store) {
     return {
         posts: store.posts.items,
         currentUser: store.users.currentUser,
-        currentPost:store.posts.currentPost,
-        currentComment:store.comments.currentComment
+        currentPost:store.posts.currentPost
     }
 }
 
