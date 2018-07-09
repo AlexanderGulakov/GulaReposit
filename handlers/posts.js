@@ -200,6 +200,7 @@ let PostsHandler = function () {
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
                             "comments._id":1,
                             "comments.body": 1,
+                            "comments.postId": 1,
                             "comments.authorId": 1,
                             "comments.authorInfo.name": 1,
                             "comments.date": 1

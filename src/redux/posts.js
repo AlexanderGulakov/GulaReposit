@@ -1,4 +1,4 @@
-import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST } from '../constants/actionTypes'
+import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST,DELETE_COMMENT } from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
@@ -47,7 +47,19 @@ export default (state = defaultStore, action) => {
                     return el._id !== payload
                 })
             };
+        case DELETE_COMMENT:
+            const currentPost = {...state.currentPost};
 
+            const comments=currentPost.comments;
+            const updateComments = comments.filter(el => {
+                return el._id !== payload
+            });
+            console.log(updateComments);
+            currentPost.comments = updateComments;
+            return {
+                ...state,
+                currentPost: currentPost
+            };
         default:
             return state;
     }
