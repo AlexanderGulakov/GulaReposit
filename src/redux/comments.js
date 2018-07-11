@@ -19,13 +19,6 @@ export default (state = defaultStore, action) => {
                 currentPost: { ...payload },
                 items: [...state.items, ...[payload]]
             };
-        // case DELETE_COMMENT:
-        //     return {
-        //         ...state,
-        //         items: state.items.filter((el) => {
-        //             return el._id !== payload.comments._id
-        //         })
-        //     };
 
         default:
             return state;

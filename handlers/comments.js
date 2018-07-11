@@ -26,7 +26,7 @@ let CommentsHandler = function () {
         let commentModel = new CommentsModel(body);
         commentModel.save(function (err, result) {
             if (err) return next(err);
-            res.status(201).send(result);
+            res.status(201).send({data:result});
         })
 
     };
