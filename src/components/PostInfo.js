@@ -88,8 +88,9 @@ class PostInfo extends Component {
                 <ul className="commentsList">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment._id}>{comment.date},{comment.body},{comment.authorInfo.name}
-                                {comment.authorId === currentUser._id &&
+                            <li key={comment._id}>{comment.date},{comment.body}
+                           {/*,{comment.authorInfo.name}*/}
+                                ,{comment.authorId === currentUser._id &&
                                 <Fragment>
 
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>

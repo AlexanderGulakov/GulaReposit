@@ -28,10 +28,10 @@ class AddComment extends Component {
     }
 
     save = () => {
-        const {body, _id} = this.state;
+        const {body} = this.state;
         const {addComment, postId,history} = this.props;
 
-        addComment({body, _id,postId});
+        addComment({body, postId});
       //  history.push(`/postsList/${postId}`);
     };
 

@@ -17,6 +17,19 @@ let CommentsHandler = function () {
             res.status(200).send({data: result});
         })
     };
+    // this.addComment = function (req, res, next) {
+    //     let body = req.body;
+    //     let userId = req.session.userId;
+    //
+    //     body.authorId = userId;
+    //
+    //     let commentModel = new CommentsModel(body);
+    //     commentModel.save(function (err, result) {
+    //         if (err) return next(err);
+    //         res.status(201).send({data:result});
+    //     })
+    //
+    // };
     this.addComment = function (req, res, next) {
         let body = req.body;
         let userId = req.session.userId;
@@ -26,10 +39,36 @@ let CommentsHandler = function () {
         let commentModel = new CommentsModel(body);
         commentModel.save(function (err, result) {
             if (err) return next(err);
-            res.status(201).send({data:result});
-        })
 
-    };
+
+        let id=result._id;
+        CommentsModel.aggregate([{
+            $match: {
+                _id: ObjectId(id)
+            }
+        } , {
+            $project: {
+                body: 1,
+                authorId: 1,
+                date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}}
+            }
+        },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'userId'
+                }
+            }
+        ], function (err, result) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).send({data: result});
+        })
+        });};
     // this.updateComment = function (req, res, next) {
     //
     //     let body=req.body;

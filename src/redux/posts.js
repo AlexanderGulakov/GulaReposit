@@ -48,21 +48,18 @@ export default (state = defaultStore, action) => {
                 })
             };
         case ADD_COMMENT:
-            const activePost={...state.currentPost};
-
-            const oldComments=activePost.comments;
-
-            const comment=payload;
-
-            const newComments=oldComments.concat(comment);
-
-            activePost.comments=newComments;
-
-            console.log(activePost.comments);
-            console.log(activePost.comments);
+            // const activePost={...state.currentPost};            //
+            // const oldComments=activePost.comments;            //
+            // const comment=payload;            //
+            // const newComments=oldComments.concat(comment);
+            // activePost.comments=newComments;
+            // return {
+            //     ...state,
+            //     currentPost: activePost
+            // };
             return {
                 ...state,
-                currentPost: activePost
+                currentPost: {...state.currentPost, comments: [...state.currentPost.comments, payload]}
             };
 
         case DELETE_COMMENT:

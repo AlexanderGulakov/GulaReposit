@@ -2,7 +2,8 @@ import { ADD_COMMENT } from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
-    currentPost:{}
+    currentPost:{},
+    currentComment:{}
 };
 
 export default (state = defaultStore, action) => {
@@ -16,7 +17,7 @@ export default (state = defaultStore, action) => {
         case ADD_COMMENT:
             return {
                 ...state,
-                currentPost: { ...payload },
+                currentComment: { ...payload },
                 items: [...state.items, ...[payload]]
             };
 
