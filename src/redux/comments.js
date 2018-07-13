@@ -2,7 +2,6 @@ import { ADD_COMMENT } from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
-    currentPost:{},
     currentComment:{}
 };
 

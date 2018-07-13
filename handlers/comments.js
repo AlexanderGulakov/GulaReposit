@@ -46,29 +46,44 @@ let CommentsHandler = function () {
             $match: {
                 _id: ObjectId(id)
             }
-        } , {
-            $project: {
-                body: 1,
-                authorId: 1,
-                date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}}
-            }
         },
             {
                 $lookup: {
                     from: 'users',
-                    localField: 'userId',
+                    localField: 'authorId',
                     foreignField: '_id',
-                    as: 'userId'
+                    as: 'authorInfo'
                 }
-            }
+            },
+            {
+                $unwind:  {
+                    path: "$authorInfo",
+                    preserveNullAndEmptyArrays: true //each post return not only with comments
+                }
+            },
+            {
+                $project: {
+                    _id:1,
+                    body: 1,
+                    authorId: 1,
+                    date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
+                    "authorInfo.name": 1
+
+                }
+            },
+
         ], function (err, result) {
             if (err) {
                 return next(err);
             }
-
-            res.status(201).send({data: result});
+            let isResult = result.length ? result[0] : {};
+            res.status(201).send({data: isResult});
         })
         });};
+
+
+
+
     // this.updateComment = function (req, res, next) {
     //
     //     let body=req.body;
@@ -116,7 +131,7 @@ let CommentsHandler = function () {
 
         CommentsModel.remove({
                 _id: id,
-                authorId:userId
+             //   authorId:userId
             }
             , function (err, result) {
                 if (err) return next(err);

@@ -89,7 +89,7 @@ class PostInfo extends Component {
                     {comments.map((comment) => {
                         return (
                             <li key={comment._id}>{comment.date},{comment.body}
-                           {/*,{comment.authorInfo.name}*/}
+                           ,{comment.authorInfo.name}
                                 ,{comment.authorId === currentUser._id &&
                                 <Fragment>
 

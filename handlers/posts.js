@@ -161,7 +161,10 @@ let PostsHandler = function () {
                         }
                     },
                     {
-                        $unwind: "$comments"
+                        $unwind:  {
+                            path: "$comments",
+                            preserveNullAndEmptyArrays: true //each post returns not only with comments
+                        }
                     },
                     {
                         $lookup:
@@ -173,7 +176,10 @@ let PostsHandler = function () {
                             }
                     },
                     {
-                        $unwind: "$comments.authorInfo"
+                        $unwind:  {
+                            path: "$comments.authorInfo",
+                            preserveNullAndEmptyArrays: true //each post returns not only with comments
+                        }
                     },
                     {
                         $addFields: {
