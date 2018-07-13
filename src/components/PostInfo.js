@@ -92,7 +92,7 @@ class PostInfo extends Component {
                            ,{comment.authorInfo.name}
                                 ,{comment.authorId === currentUser._id &&
                                 <Fragment>
-
+                                    {/*<Button title="EDIT" onClick={() => {this.editComment(comment._id);}}/>*/}
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
                                 </Fragment>
                                 }

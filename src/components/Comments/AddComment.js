@@ -29,10 +29,9 @@ class AddComment extends Component {
 
     save = () => {
         const {body} = this.state;
-        const {addComment, postId,history} = this.props;
+        const {addComment, postId} = this.props;
 
         addComment({body, postId});
-      //  history.push(`/postsList/${postId}`);
     };
 
 
@@ -47,15 +46,16 @@ class AddComment extends Component {
 
         return (
             <div>
-                <h3>Add comment</h3>
+                <h3>{_id ? 'Edit' : 'Add'} comment</h3>
+
                 <textarea
-                    value={body}
                     title="Body"
                           onChange={(e) => {
                     this.onInputChange(e.currentTarget.value, 'body')
                 }}
-                >
-                </textarea>
+                    value={body}
+                />
+
                 <Button title="ADD"
                         onClick={this.save}
                 />
