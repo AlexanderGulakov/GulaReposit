@@ -7,8 +7,8 @@ import {array, func} from 'prop-types'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getPostInfo, deletePost} from '../actions/posts'
-import {deleteComment} from "../actions/comments"
+import {getPostInfo, deletePost,} from '../actions/posts'
+import {deleteComment,addComment} from "../actions/comments"
 import AddComment from './Comments/AddComment'
 
 
@@ -92,7 +92,9 @@ class PostInfo extends Component {
                            ,{comment.authorInfo.name}
                                 ,{comment.authorId === currentUser._id &&
                                 <Fragment>
-                                    {/*<Button title="EDIT" onClick={() => {this.editComment(comment._id);}}/>*/}
+                                    <Button title="EDIT"
+                                            onClick={() => this.props.addComment(comment)}
+                                    />
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
                                 </Fragment>
                                 }
@@ -112,7 +114,8 @@ function mapStoreToProps(store) {
     return {
         posts: store.posts.items,
         currentUser: store.users.currentUser,
-        currentPost:store.posts.currentPost
+        currentPost:store.posts.currentPost,
+        currentComment: store.posts.currentComment
     }
 }
 
@@ -120,7 +123,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getPostInfo,
         deletePost,
-        deleteComment
+        deleteComment,
+        addComment
 
     }, dispatch)
 }

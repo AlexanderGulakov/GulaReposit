@@ -75,7 +75,7 @@ class AddComment extends Component {
 
 function mapStoreToProps(store) {
     return {
-        comments: store.comments.items
+        comments: store.comments
     }
 }
 

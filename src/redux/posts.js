@@ -1,8 +1,10 @@
-import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST,ADD_COMMENT,DELETE_COMMENT } from '../constants/actionTypes'
+import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST,ADD_COMMENT,EDIT_COMMENT,DELETE_COMMENT } from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
-    currentPost:{}
+    currentPost:{},
+    currentComment:{},
+    comments:[]
 };
 
 export default (state = defaultStore, action) => {
@@ -61,7 +63,16 @@ export default (state = defaultStore, action) => {
                 ...state,
                 currentPost: {...state.currentPost, comments: [...state.currentPost.comments, payload]}
             };
-
+        case EDIT_COMMENT:
+            const oldComment=state.currentPost.comments.find(function (el) {
+                return el._id===payload._id;
+            });
+            const indeks= state.currentPost.comments.indexOf(oldComment);
+            state.currentPost.comments.splice(indeks,1,payload);
+            return {
+                ...state,
+                currentPost: {...state.currentPost, comments: [...state.currentPost.comments, payload]}
+            };
         case DELETE_COMMENT:
             const currentPost = {...state.currentPost};
 
