@@ -69,7 +69,7 @@ let PostsHandler = function () {
     this.deletePost = function (req, res, next) {
         let currentUserId = req.session.userId;
         let id = req.params.id;
-        PostsModel.remove({_id: id}, function (err, result) {
+        PostsModel.remove({_id: id, userId:currentUserId}, function (err, result) {
             if (err) return next(err);
             res.status(201).send({deleted: result});
         })

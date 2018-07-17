@@ -71,7 +71,8 @@ export default (state = defaultStore, action) => {
             state.currentPost.comments.splice(indeks,1,payload);
             return {
                 ...state,
-                currentPost: {...state.currentPost, comments: [...state.currentPost.comments, payload]}
+                currentComment:{...payload},
+                currentPost: {...state.currentPost, comments: [...state.currentPost.comments]}
             };
         case DELETE_COMMENT:
             const currentPost = {...state.currentPost};

@@ -90,6 +90,7 @@ CreateOrEditPost.propTypes = {
 function mapStoreToProps(store) {
     return {
         posts: store.posts.items
+
     }
 }
 function mapDispatchToProps(dispatch) {

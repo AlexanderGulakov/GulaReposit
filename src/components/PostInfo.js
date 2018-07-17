@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getPostInfo, deletePost,} from '../actions/posts'
-import {deleteComment,addComment} from "../actions/comments"
+import {deleteComment,addComment,editComment} from "../actions/comments"
 import AddComment from './Comments/AddComment'
 
 
@@ -54,6 +54,8 @@ class PostInfo extends Component {
 
          // const {title, body, _id, userId,comments} = this.state;
          const {currentUser, history,currentPost:{title,body,_id,userId,comments,date}} = this.props;
+
+        console.log(this.props);
         if (!_id) {
             return (<p>Choose post</p>)
         }
@@ -83,17 +85,18 @@ class PostInfo extends Component {
                 </Fragment>
                 }
                 <h3>Comments</h3>
+
                 <hr/>
                 {comments &&
                 <ul className="commentsList">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment._id}>{comment.date},{comment.body}
+                            <li key={comment._id} onClick={() => this.props.editComment(comment)}>{comment.date},{comment.body}
                            ,{comment.authorInfo.name}
                                 ,{comment.authorId === currentUser._id &&
                                 <Fragment>
                                     <Button title="EDIT"
-                                            onClick={() => this.props.addComment(comment)}
+                                          //  onClick={() => this.props.addComment(comment)}
                                     />
                                     <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
                                 </Fragment>
@@ -115,7 +118,7 @@ function mapStoreToProps(store) {
         posts: store.posts.items,
         currentUser: store.users.currentUser,
         currentPost:store.posts.currentPost,
-        currentComment: store.posts.currentComment
+        comments: store.posts.currentPost.comments
     }
 }
 
@@ -124,7 +127,8 @@ function mapDispatchToProps(dispatch) {
         getPostInfo,
         deletePost,
         deleteComment,
-        addComment
+        addComment,
+        editComment
 
     }, dispatch)
 }

@@ -6,7 +6,7 @@ import {array, func} from 'prop-types'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {addComment} from "../../actions/comments"
+import {addComment,editComment} from "../../actions/comments"
 
 
 class AddComment extends Component {
@@ -28,10 +28,10 @@ class AddComment extends Component {
     }
 
     save = () => {
-        const {body} = this.state;
+        const {body,_id} = this.state;
         const {addComment, postId} = this.props;
 
-        addComment({body, postId});
+        addComment({body, postId,_id});
     };
 
 
@@ -61,8 +61,6 @@ class AddComment extends Component {
                 />
                 <hr/>
 
-
-
             </div>
         );
     }
@@ -75,7 +73,7 @@ class AddComment extends Component {
 
 function mapStoreToProps(store) {
     return {
-        comments: store.comments
+        currentComment: store.currentComment
     }
 }
 
