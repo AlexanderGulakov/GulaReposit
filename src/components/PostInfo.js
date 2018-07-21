@@ -8,8 +8,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getPostInfo, deletePost,} from '../actions/posts'
-import {deleteComment,addComment,editComment} from "../actions/comments"
-import AddComment from './Comments/AddComment'
+// import {deleteComment,addComment,editComment} from "../actions/comments"
+import Comments from './Comments/Comments'
+//import AddComment from './Comments/AddComment'
 
 
 class PostInfo extends Component {
@@ -38,10 +39,10 @@ class PostInfo extends Component {
         deletePost(id);
         history.push('/postsList');
     };
-    deleteComment = (id) => {
-        const {deleteComment} = this.props;
-        deleteComment(id);
-    };
+    // deleteComment = (id) => {
+    //     const {deleteComment} = this.props;
+    //     deleteComment(id);
+    // };
 
 
     componentWillReceiveProps(nextProps) {
@@ -53,9 +54,9 @@ class PostInfo extends Component {
     render() {
 
          // const {title, body, _id, userId,comments} = this.state;
-         const {currentUser, history,currentPost:{title,body,_id,userId,comments,date}} = this.props;
+         const {currentUser, history,currentPost:{title,body,_id,userId,date}} = this.props;
 
-        console.log(this.props);
+
         if (!_id) {
             return (<p>Choose post</p>)
         }
@@ -84,29 +85,30 @@ class PostInfo extends Component {
                     </Button>
                 </Fragment>
                 }
-                <h3>Comments</h3>
+                <Comments postId={_id}/>
+                {/*<h3>Comments</h3>*/}
 
-                <hr/>
-                {comments &&
-                <ul className="commentsList">
-                    {comments.map((comment) => {
-                        return (
-                            <li key={comment._id} onClick={() => this.props.editComment(comment)}>{comment.date},{comment.body}
-                           ,{comment.authorInfo.name}
-                                ,{comment.authorId === currentUser._id &&
-                                <Fragment>
-                                    <Button title="EDIT"
-                                          //  onClick={() => this.props.addComment(comment)}
-                                    />
-                                    <Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>
-                                </Fragment>
-                                }
-                            </li>
-                        );
-                    })}
-                </ul>
-                }
-                <AddComment postId={`${_id}`}/>
+                {/*<hr/>*/}
+                {/*{comments &&*/}
+                {/*<ul className="commentsList">*/}
+                    {/*{comments.map((comment) => {*/}
+                        {/*return (*/}
+                            {/*<li key={comment._id} onClick={() => this.props.editComment(comment)}>{comment.date},{comment.body}*/}
+                           {/*,{comment.authorInfo.name}*/}
+                                {/*,{comment.authorId === currentUser._id &&*/}
+                                {/*<Fragment>*/}
+                                    {/*<Button title="EDIT"*/}
+                                          {/*//  onClick={() => this.props.addComment(comment)}*/}
+                                    {/*/>*/}
+                                    {/*<Button title="DELETE" onClick={() => {this.deleteComment(comment._id);}}/>*/}
+                                {/*</Fragment>*/}
+                                {/*}*/}
+                            {/*</li>*/}
+                        {/*);*/}
+                    {/*})}*/}
+                {/*</ul>*/}
+                {/*}*/}
+                {/*<AddComment postId={`${_id}`}/>*/}
             </Fragment>
         )
     }
@@ -126,9 +128,9 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getPostInfo,
         deletePost,
-        deleteComment,
-        addComment,
-        editComment
+        // deleteComment,
+        // addComment,
+        // editComment
 
     }, dispatch)
 }

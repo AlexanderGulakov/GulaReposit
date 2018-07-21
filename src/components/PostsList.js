@@ -32,7 +32,7 @@ class Posts extends Component {
 
         return (
             <Fragment>
-                <h1>My Posts</h1>
+                <h1>Posts</h1>
                 <ol className="postsList">
                     {this.renderLi()}
                 </ol>
