@@ -24,7 +24,6 @@ export default function ({title, className, onClick}) {
             <button className={className} onClick={onClick}>
                 {title}
             </button>
-            <br/>
         </Fragment>
     );
 }

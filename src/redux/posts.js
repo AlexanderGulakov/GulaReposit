@@ -67,8 +67,8 @@ export default (state = defaultStore, action) => {
             const oldComment=state.currentPost.comments.find(function (el) {
                 return el._id===payload._id;
             });
-            const indeks= state.currentPost.comments.indexOf(oldComment);
-            state.currentPost.comments.splice(indeks,1,payload);
+            const ind= state.currentPost.comments.indexOf(oldComment);
+            state.currentPost.comments.splice(ind,1,payload);
             return {
                 ...state,
                 currentComment:{...payload},
