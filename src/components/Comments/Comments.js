@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
-import Button from '../Button';
-import Input from '../Input';
+import Button from '../HTMLComponents/Button';
+import Input from '../HTMLComponents/InputWithLabel';
 
 import {addComment, deleteComment, editComment} from '../../actions/comments';
 import {connect} from 'react-redux';

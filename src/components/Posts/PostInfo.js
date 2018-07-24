@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import Button from './Button';
+import Button from '../HTMLComponents/Button';
 
 import {array, func} from 'prop-types'
 
@@ -7,9 +7,9 @@ import {array, func} from 'prop-types'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getPostInfo, deletePost,} from '../actions/posts'
+import {getPostInfo, deletePost,} from '../../actions/posts'
 // import {deleteComment,addComment,editComment} from "../actions/comments"
-import Comments from './Comments/Comments'
+import Comments from '../Comments/Comments'
 //import AddComment from './Comments/AddComment'
 
 

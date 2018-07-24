@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux'
 import {array} from 'prop-types'
 
 
-import {getPosts} from '../actions/posts'
+import {getPosts} from '../../actions/posts'
 
 class Posts extends Component {
     componentDidMount() {

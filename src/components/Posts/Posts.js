@@ -1,11 +1,11 @@
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import Button from './Button';
+import Button from '../HTMLComponents/Button';
 import {array} from 'prop-types'
 
 
-import {getPosts, deletePost} from '../actions/posts'
+import {getPosts, deletePost} from '../../actions/posts'
 
 class Posts extends Component {
     componentDidMount() {

@@ -1,4 +1,4 @@
-import {SET_USERS, DELETE_USERS, CHANGE_LOGIN, USER_INFO,} from '../constants/actionTypes'
+import {SET_USERS,EDIT_USER, DELETE_USERS, CHANGE_LOGIN, USER_INFO,} from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
@@ -23,7 +23,11 @@ export default (state = defaultStore, action) => {
                 isLoggedIn: payload.isLoggedIn,
                 currentUser: { ...payload.user }
             };
-
+        case EDIT_USER:
+            return {
+                ...state,
+                currentUser: {...payload}
+            };
         case DELETE_USERS:
             return {
                 ...state,

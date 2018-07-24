@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import Button from './Button';
-import Input from './Input';
+import Button from '../HTMLComponents/Button';
+import Input from '../HTMLComponents/InputWithLabel';
 import {NavLink} from 'react-router-dom'
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {signUp} from '../actions/app'
+import {signUp} from '../../actions/app'
 
 class SignUp extends Component {
     state = {

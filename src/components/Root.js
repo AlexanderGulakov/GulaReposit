@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { func, bool } from 'prop-types'
 import App from './App';
-import SignUp from './SignUp';
-import LogIn from './LogIn';
+import SignUp from './Users/SignUp';
+import LogIn from './Users/LogIn';
 
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router'

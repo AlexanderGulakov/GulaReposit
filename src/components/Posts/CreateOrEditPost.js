@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import Button from './Button';
-import Input from './Input';
+import Button from '../HTMLComponents/Button';
+import Input from '../HTMLComponents/InputWithLabel';
 import { array, func } from 'prop-types'
 import {NavLink} from 'react-router-dom'
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {createPost} from '../actions/posts'
+import {createPost} from '../../actions/posts'
 
 class CreateOrEditPost extends Component {
     constructor(props){

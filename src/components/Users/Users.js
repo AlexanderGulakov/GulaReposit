@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import {getUsers, getUserInfo, deleteUser} from '../actions/app'
-import UserInfo from '../components/UserInfo'
+import {getUsers, getUserInfo, deleteUser} from '../../actions/app'
+import UserInfo from './UserInfo'
 
 class Users extends Component {
     componentDidMount() {
