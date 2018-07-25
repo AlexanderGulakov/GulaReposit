@@ -19,7 +19,7 @@ let Session = function () {
             next();
         }
         else {
-            res.status(201).send({message: "You are not authorized"})
+            res.status(401).send({message: "You are not authorized"})
         }
     }
 };

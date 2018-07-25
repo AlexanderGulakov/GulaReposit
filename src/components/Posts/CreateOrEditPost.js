@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Button from '../HTMLComponents/Button';
-import Input from '../HTMLComponents/InputWithLabel';
 import {array, func} from 'prop-types'
 import {NavLink} from 'react-router-dom'
 
@@ -51,14 +50,15 @@ class CreateOrEditPost extends Component {
             <div className="form">
                 <div className="form-group">
                     <h1>{_id ? 'Edit' : 'Add'} Post</h1>
-                    <Input
+                    <textarea
                         className="form-control"
-                        title="Title"
+
                         placeholder="Title"
-                        onInputChange={(value) => {
-                            this.onInputChange(value, 'title')
-                        }}
                         value={title}
+                        onChange={(e) => {
+                            this.onInputChange(e.currentTarget.value, 'title')
+                        }}
+
                     />
 
                     <textarea className="form-control"

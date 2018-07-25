@@ -10,7 +10,7 @@ let destroySession = sessionHelper.destroySession;
 router.post('/signUp', usersHandler.signUp);
 router.post('/logIn', usersHandler.logIn);
 
-router.get('/checkAuthentication', usersHandler.getCurrentUser);
+router.get('/checkAuthentication', checkAuthentication, usersHandler.getCurrentUser);
 router.get('/', usersHandler.getAllUsers);
 router.get('/:id', usersHandler.getUserById);
 
