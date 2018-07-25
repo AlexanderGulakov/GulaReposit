@@ -9,18 +9,21 @@ class EditUserProfile extends Component {
     state = {
         mail: this.props.currentUser.email,
         password: this.props.currentUser.password,
+        newPassword:'',
+        repeatNewPassword:'',
         name: this.props.currentUser.name,
-        id: this.props.currentUser._id,
+        _id: this.props.currentUser._id,
         age: this.props.currentUser.age,
         country: this.props.currentUser.country
     };
 
-    editUser = () => {
-        const {mail, password, name, id, age, country} = this.state;
+    editUser = (name, mail, age, country, password, newPassword, repeatNewPassword) => {
+        // const {mail, password, newPassword, repeatNewPassword, name, _id, age, country} = this.state;
+        const {_id} = this.state;
         const {editUser} = this.props;
         const currentUser = this.props.currentUser;
 
-        editUser({id, name, mail, password, age, country, currentUser});
+        editUser({_id, name, mail, password, age, country, currentUser});
     };
 
     onInputChange = (value, key) => {
@@ -30,8 +33,8 @@ class EditUserProfile extends Component {
     };
 
     render() {
-        const {mail, password, name, id, age, country} = this.state;
-//update server route -> action fetch -> in mongo save img url
+        const {name, mail, age, country, password, newPassword, repeatNewPassword} = this.state;
+
         return (
             <Fragment>
                 <p>{name}</p>
@@ -42,7 +45,7 @@ class EditUserProfile extends Component {
                                 }}/>
                 <InputWithLabel label="Email" title="Change email" value={mail}
                                 onInputChange={(value) => {
-                                    this.onInputChange(value, 'email')
+                                    this.onInputChange(value, 'mail')
                                 }}/>
 
                 <InputWithLabel label="Age" title="Change age" value={age}
@@ -54,19 +57,28 @@ class EditUserProfile extends Component {
                                 onInputChange={(value) => {
                                     this.onInputChange(value, 'country')
                                 }}/>
-
-                <InputWithLabel title="Change email" value={mail}
-                                onInputChange={(value) => {
-                                    this.onInputChange(value, 'email')
-                                }}/>
-
-                <InputWithLabel title="Change password" value={password}
+                <p>Change Password:</p>
+                <InputWithLabel label = "Password" title="Change password" value=''
                                 type="password"
                                 onInputChange={(value) => {
-                                    this.onInputChange(value, 'pass')
+                                    this.onInputChange(value, 'password')
                                 }}/>
-                <Button title="Update profile data" className="btn btn-danger"
-                        onClick={this.editUser}/>
+                <InputWithLabel label = "New password" title="New password" value=''
+                                type="password"
+                                onInputChange={(value) => {
+                                    this.onInputChange(value, 'newPassword')
+                                }}/>
+                <InputWithLabel label = "Repeat password" title="Repeat password" value=''
+                                type="password"
+                                onInputChange={(value) => {
+                                    this.onInputChange(value, 'repeatNewPassword')
+                                }}/>
+                {/*<Button title="Save changes" onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
+                {/*{newPassword === repeatNewPassword*/}
+                    {/*? <Button title="Save changes"*/}
+                            {/*onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
+                    {/*: <span>Repeat new password</span>*/}
+                {/*}*/}
             </Fragment>);
     }
 }
