@@ -26,7 +26,7 @@ class Comments extends Component {
     };
     editComment = (_id, body) => {
         this.setState({
-            isEdit: !this.state.isEdit,
+            isEdit: _id!==this.state.activeCommentId? true: !this.state.isEdit,
             activeCommentId: _id,
             editText: body
         });

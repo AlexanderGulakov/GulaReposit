@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from '../HTMLComponents/Button';
 import Input from '../HTMLComponents/InputWithLabel';
-import { array, func } from 'prop-types'
+import {array, func} from 'prop-types'
 import {NavLink} from 'react-router-dom'
 
 import {connect} from 'react-redux';
@@ -10,23 +10,22 @@ import {bindActionCreators} from 'redux';
 import {createPost} from '../../actions/posts'
 
 class CreateOrEditPost extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state=this.mapPropsToState(props);
+        this.state = this.mapPropsToState(props);
     }
-    mapPropsToState=(props)=>{
-        const{posts,match:{params}}=props;
-        const{id}= params;
-        const currentPost = posts.find((el) => {
+
+    mapPropsToState = (props) => {
+        const {posts, match: {params}, currentPost} = props;
+        const {id} = params;
+        const currentPostNew = posts.find((el) => {
             return el._id === id;
         });
-        return currentPost || {
-
+        return currentPostNew || currentPost || {
             title: '',
             description: ''
         };
     };
-
 
 
     componentWillReceiveProps(nextProps) {
@@ -34,13 +33,12 @@ class CreateOrEditPost extends Component {
     }
 
     save = () => {
-        const { title, body, _id } = this.state;
-        const { createPost,history } = this.props;
+        const {title, body, _id} = this.state;
+        const {createPost, history} = this.props;
 
-        createPost({ title, body, _id });
+        createPost({title, body, _id});
         history.push('/postsList');
     };
-
 
 
     onInputChange = (value, key) => {
@@ -50,7 +48,7 @@ class CreateOrEditPost extends Component {
     };
 
     render() {
-        const {title, body,_id} = this.state;
+        const {title, body, _id} = this.state;
 
         return (
             <div>
@@ -65,11 +63,11 @@ class CreateOrEditPost extends Component {
                 />
 
                 <textarea className="inputsForSignInUp"
-                    value={body}
-                    title="Body"
-                    onChange={(e) => {
-                        this.onInputChange(e.currentTarget.value, 'body')
-                    }}
+                          value={body}
+                          title="Body"
+                          onChange={(e) => {
+                              this.onInputChange(e.currentTarget.value, 'body')
+                          }}
 
                 />
 
@@ -83,16 +81,20 @@ class CreateOrEditPost extends Component {
         );
     }
 }
+
 CreateOrEditPost.propTypes = {
     posts: array.isRequired,
     createPost: func.isRequired
 };
+
 function mapStoreToProps(store) {
     return {
-        posts: store.posts.items
+        posts: store.posts.items,
+        currentPost: store.posts.currentPost
 
     }
 }
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         createPost

@@ -237,7 +237,8 @@ let PostsHandler = function () {
                 ], function (err, result) {
                     if (err) return next(err);
                     let isResult = result.length ? result[0] : {};
-                    res.status(201).send({data: isResult});
+                    isResult.comments = isResult.comments || [];
+                    res.status(200).send({data: isResult});
                 })
             }
     })};

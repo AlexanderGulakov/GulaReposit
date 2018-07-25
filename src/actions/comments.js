@@ -143,7 +143,10 @@ export const editComment = (data) => {
             .then((resp) => {
                 return dispatch({
                     type: EDIT_COMMENT,
-                    payload: resp.data
+                    payload: {
+                        _id,
+                        body: resp.updated
+                    }
                 })
             })
 

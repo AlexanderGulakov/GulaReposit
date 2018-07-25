@@ -68,10 +68,11 @@ export default (state = defaultStore, action) => {
                 return el._id===payload._id;
             });
             const ind= state.currentPost.comments.indexOf(oldComment);
-            state.currentPost.comments.splice(ind,1,payload);
+            const newComment = {...oldComment, ...payload};
+            state.currentPost.comments.splice(ind,1,newComment);
             return {
                 ...state,
-                currentComment:{...payload},
+                currentComment:{...newComment},
                 currentPost: {...state.currentPost, comments: [...state.currentPost.comments]}
             };
         case DELETE_COMMENT:
