@@ -20,19 +20,19 @@ class Posts extends Component {
     renderLi = () => {
         return this.props.posts.map((post) => {
             return (
-                <li key={post._id} onClick={() => this.redirectToPost(post)}>{post.title}</li>
+                <li className="list-group-item list-group-item-action list-group-item-dark" key={post._id} onClick={() => this.redirectToPost(post)}>{post.title}</li>
             );
         });
     };
 
     render() {
         return (
-            <Fragment>
-                <h1>Posts</h1>
-                <ol className="postsList">
+            <div className="container">
+                <h1 className="display-4 text-primary">Posts</h1>
+                <ol className="list-group">
                     {this.renderLi()}
                 </ol>
-            </Fragment>
+            </div>
         );
     }
 }

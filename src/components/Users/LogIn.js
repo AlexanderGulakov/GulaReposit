@@ -30,10 +30,10 @@ class LogIn extends Component {
         const {email, password} = this.state;
 
         return (
-            <form>
-                <h1>Log In</h1>
+            <form className="form">
+                <h1 className="text-primary">Log In</h1>
                 <Input
-                    className="inputsForSignInUp"
+                    className="form-control"
                     title="Email"
                     onInputChange={(value) => {
                         this.onInputChange(value, 'email')
@@ -41,7 +41,7 @@ class LogIn extends Component {
                     value={email}
                 />
                 <Input
-                    className="inputsForSignInUp"
+                    className="form-control"
                     title="Password"
                     onInputChange={(value) => {
                         this.onInputChange(value, 'password')
@@ -50,11 +50,12 @@ class LogIn extends Component {
                     type="password"
                 />
                 <Button
-                    className="buttonsForSignInUp"
+                    className="btn btn-primary"
+                    type="Submit"
                     title="Submit"
                     onClick={this.logIn}
                 />
-                <NavLink className="navlink" to="/signUp">Don't have account?</NavLink>
+                <NavLink className="list-group-item list-group-item-action list-group-item-light" to="/signUp">Don't have account?</NavLink>
             </form>
         );
     }

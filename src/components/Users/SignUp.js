@@ -35,65 +35,68 @@ class SignUp extends Component {
         const {errors} = this.props;
 
         return (
-            <form>
-                <h1>Sign up with your email address</h1>
-                <Input
-                    className="inputsForSignInUp"
-                    title="Name"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'name')
-                    }}
-                    value={name}
-                />
+            <form className="form">
+                <h1 className="text-primary">Sign up with your email address</h1>
+                <div className="form-group">
+                    <Input
+                        className="form-control"
+                        title="Name"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'name')
+                        }}
+                        value={name}
+                    />
 
-                <Input
-                    className="inputsForSignInUp"
-                    title="Email"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'mail')
-                    }}
-                    error={errors.mail}
-                    value={mail}
-                />
-                <Input
-                    className="inputsForSignInUp"
-                    title="Password"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'password')
-                    }}
-                    value={password}
-                    type="password"
-                />
-                <Input
-                    className="inputsForSignInUp"
-                    title="Gender"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'gender')
-                    }}
-                    value={gender}
-                />
-                <Input
-                    className="inputsForSignInUp"
-                    title="Age"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'age')
-                    }}
-                    value={age}
-                />
-                <Input
-                    className="inputsForSignInUp"
-                    title="Country"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'country')
-                    }}
-                    value={country}
-                />
+                    <Input
+                        className="form-control"
+                        title="Email"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'mail')
+                        }}
+                        error={errors.mail}
+                        value={mail}
+                    />
+                    <Input
+                        className="form-control"
+                        title="Password"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'password')
+                        }}
+                        value={password}
+                        type="password"
+                    />
+                    <Input
+                        className="form-control"
+                        title="Gender"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'gender')
+                        }}
+                        value={gender}
+                    />
+                    <Input
+                        className="form-control"
+                        title="Age"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'age')
+                        }}
+                        value={age}
+                    />
+                    <Input
+                        className="form-control"
+                        title="Country"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'country')
+                        }}
+                        value={country}
+                    />
+                </div>
                 <Button
-                    className="buttonsForSignInUp"
+                    className="btn btn-primary"
+                    type="Submit"
                     title="Submit"
                     onClick={this.signUp}
                 />
-                <NavLink className="navlink" to="/logIn">Already have account?</NavLink>
+                <NavLink className="list-group-item list-group-item-action list-group-item-dark" to="/logIn">Already have account?</NavLink>
             </form>
         );
     }

@@ -48,30 +48,35 @@ class CreateOrEditPost extends Component {
     render() {
         const {title, body, _id} = this.state;
         return (
-            <div>
-                <h1>{_id ? 'Edit' : 'Add'} Post</h1>
-                <Input
-                    className="inputsForSignInUp"
-                    title="Title"
-                    onInputChange={(value) => {
-                        this.onInputChange(value, 'title')
-                    }}
-                    value={title}
-                />
+            <div className="form">
+                <div className="form-group">
+                    <h1>{_id ? 'Edit' : 'Add'} Post</h1>
+                    <Input
+                        className="form-control"
+                        title="Title"
+                        placeholder="Title"
+                        onInputChange={(value) => {
+                            this.onInputChange(value, 'title')
+                        }}
+                        value={title}
+                    />
 
-                <textarea className="inputsForSignInUp"
-                          value={body}
-                          title="Body"
-                          onChange={(e) => {
-                              this.onInputChange(e.currentTarget.value, 'body')
-                          }}
-                />
-                <Button
-                    className="buttonsForSignInUp"
-                    title="Submit"
-                    onClick={this.save}
-                />
-                <NavLink className="navlink" to="/posts">Just want to read the available posts?</NavLink>
+                    <textarea className="form-control"
+                              placeholder="Post"
+                              rows="10"
+                              value={body}
+                              onChange={(e) => {
+                                  this.onInputChange(e.currentTarget.value, 'body')
+                              }}
+                    />
+                    <Button
+                        className="btn btn-primary"
+                        type="Submit"
+                        title="Submit"
+                        onClick={this.save}
+                    />
+                    <NavLink className="list-group-item list-group-item-action list-group-item-dark" to="/postsList">Just want to read the available posts?</NavLink>
+                </div>
             </div>
         );
     }

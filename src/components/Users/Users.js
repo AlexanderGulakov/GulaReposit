@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import Button from '../HTMLComponents/Button'
 
 import {getUsers, getUserInfo, deleteUser} from '../../actions/app'
 import UserInfo from './UserInfo'
@@ -21,11 +22,14 @@ class Users extends Component {
     renderLi = () => {
         return this.props.users.map((user) => {
             return (
-                <li key={user._id} onClick={() => this.props.getUserInfo(user)}>{user.name}
-                    <button onClick={() => {
+                <li className="list-group-item" key={user._id} onClick={() => this.props.getUserInfo(user)}>{user.name}
+                    <Button
+                        title="Delete"
+                        className="btn btn-outline-dark btn-sm float-right"
+                        onClick={() => {
                         this.deleteUser(user._id);
-                    }}>X
-                    </button>
+                    }}>
+                    </Button>
                 </li>
             );
         });
@@ -34,8 +38,8 @@ class Users extends Component {
     render() {
 
         return (
-            <div>
-                <ol className="list">
+            <div className="container">
+                <ol className="list-group list-group-flush">
                     {this.renderLi()}
                 </ol>
                 <hr/>

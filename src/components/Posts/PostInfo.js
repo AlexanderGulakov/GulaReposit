@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Button from '../HTMLComponents/Button';
+import 'bootstrap/dist/css/bootstrap.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getPostInfo, deletePost,} from '../../actions/posts'
@@ -22,7 +23,7 @@ class PostInfo extends Component {
     }
 
     mapPropsToState = (props) => {
-        const {posts, match: {params}} = props;
+        const {match: {params}} = props;
         const {id} = params;
         return {_id: id};
     };
@@ -42,23 +43,23 @@ class PostInfo extends Component {
             return (<p>Choose post</p>)
         }
         return (
-            <Fragment>
+            <div className="container">
+                <h2 className="text-primary" >{title}</h2>
+                <p className="text-left">created:{date}</p>
 
-
-                <h2>{title}</h2>
-                <p>created:{date}</p>
-
-                <pre>{body}</pre>
+                <p>{body}</p>
                 {userId === currentUser._id &&
                 <Fragment>
                     <Button
                         title="EDIT"
+                        className="btn btn-primary btn-sm"
                         onClick={() => {
                             return history.push(`/posts/${_id}`);
                         }}>
                     </Button>
                     <Button
                         title="DELETE"
+                        className="btn btn-danger btn-sm"
                         onClick={() => {
                             this.deletePost(_id);
                         }}>
@@ -66,8 +67,7 @@ class PostInfo extends Component {
                 </Fragment>
                 }
                 <Comments postId={_id}/>
-
-            </Fragment>
+            </div>
         )
     }
 }

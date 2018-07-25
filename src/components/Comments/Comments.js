@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Button from '../HTMLComponents/Button';
 import Input from '../HTMLComponents/InputWithLabel';
-import { string, func,boolean,ObjectId } from 'prop-types';
+import { string, func,bool } from 'prop-types';
 
 import {addComment, deleteComment, editComment} from '../../actions/comments';
 import {connect} from 'react-redux';
@@ -63,25 +63,28 @@ class Comments extends Component {
                        }}
                 />
                 <Button title="Send"
+                        className="btn btn-success btn-sm"
                         onClick={() => {
                             return this.saveEditComment(comment._id, this.state.editText)
                         }}
                 />
             </div>
             :
-            <span id={comment._id}>{comment.body}</span>;
+            <p className="mb-1" id={comment._id}>{comment.body}</p>;
         return (
-            <li key={comment._id}>
-                {comment.date},
-                {comment.authorInfo.name},
-                {edit},
+            <li key={comment._id} className="list-group-item list-group-item-action flex-column align-items-start">
+
+                <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{comment.authorInfo.name}</h5>
+                    <small className="text-muted">{comment.date}</small>
+                </div>
+                {edit}
                 {comment.authorId === currentUser._id &&
                 <Fragment>
-                    <Button title="EDIT"
-
+                    <Button title="EDIT" className="btn btn-primary btn-sm"
                             onClick={() => this.editComment(comment._id, comment.body)}
                     />
-                    <Button title="DELETE" onClick={() => {
+                    <Button title="DELETE" className="btn btn-danger btn-sm" onClick={() => {
                         this.deleteComment(comment._id);
                     }}/>
                 </Fragment>
@@ -94,15 +97,16 @@ class Comments extends Component {
         const {body} = this.state;
         return (
             <Fragment>
-                <h3>Comments</h3>
-
                 <hr/>
+                <h3>Comments</h3>
                 {comments &&
-                <ul>{comments.map(this.renderComments)}</ul>
+                    <div className="col-4">
+                    <ul className="list-group">{comments.map(this.renderComments)}</ul>
+                    </div>
                 }
                 <hr/>
                 <h3>Add comment</h3>
-                <textarea
+                <textarea className="col-4"
                     title="Body"
                     onChange={(e) => {
                         this.onInputChange(e.currentTarget.value, 'body')
@@ -110,6 +114,7 @@ class Comments extends Component {
                     value={body}
                 />
                 <Button title="ADD"
+                        className="btn btn-success"
                         onClick={this.save}
                 />
                 <hr/>
@@ -120,9 +125,8 @@ class Comments extends Component {
 Comments.propTypes = {
     body:string,
     editText:string,
-    isEdit: boolean,
+    isEdit: bool,
     name: string,
-    activeCommentId: ObjectId,
     onInputChange: func
 };
 
