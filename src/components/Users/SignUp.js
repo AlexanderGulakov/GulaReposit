@@ -32,7 +32,7 @@ class SignUp extends Component {
 
     render() {
         const {name, mail, password, gender, age, country} = this.state;
-        const { errors } = this.props;
+        const {errors} = this.props;
 
         return (
             <form>
@@ -98,11 +98,13 @@ class SignUp extends Component {
         );
     }
 }
+
 function mapStoreToProps(store) {
     return {
         errors: store.app.errors
     }
 }
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         signUp

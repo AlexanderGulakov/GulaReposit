@@ -1,24 +1,23 @@
 let mongoose = require('mongoose');
-let Schema=mongoose.Schema;//схема
-let ObjectId=mongoose.Schema.Types.ObjectId;
+let Schema = mongoose.Schema;//схема
+let ObjectId = mongoose.Schema.Types.ObjectId;
 
+let CommentsSchema = new Schema({
 
-let CommentsSchema=new Schema({
-
-    authorId:{type:ObjectId, ref:'User',default:null},
+    authorId: {type: ObjectId, ref: 'User', default: null},
     body: {
         type: String,
-        required: [true,"Error! Text required!"]
+        required: [true, "Error! Text required!"]
     },
-    postId:{type:ObjectId, ref:'Post',default:null},
+    postId: {type: ObjectId, ref: 'Post', default: null},
 
     created: {
         type: Date,
         default: Date.now
     }
 
-},{collection:'comments'});
+}, {collection: 'comments'});
 
-let CommentModel=mongoose.model('Comment',CommentsSchema);//
+let CommentModel = mongoose.model('Comment', CommentsSchema);//
 
-module.exports=CommentModel;
+module.exports = CommentModel;

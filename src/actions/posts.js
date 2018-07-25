@@ -81,8 +81,6 @@ export const createPost = (data) => {
 };
 
 
-
-
 export const getPostInfo = (id) => { //action Creator.
 
     return (dispatch) => {

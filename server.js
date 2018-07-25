@@ -37,7 +37,7 @@ connection.once('connected', function () {
 
     app.use(express.static('src'));//експресс статика (для Реакт)
 //============================SESSIONS!!!================================
-    app.use(expressSession({ // почитайте і запишіть собі на що ці параетри впливають
+    app.use(expressSession({
         name: 'test',
         key: 'testKey',
         secret: 'topSecret',//This is the secret used to sign the session ID cookie

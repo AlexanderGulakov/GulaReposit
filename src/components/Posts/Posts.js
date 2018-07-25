@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux'
 import Button from '../HTMLComponents/Button';
 import {array} from 'prop-types'
 
-
 import {getPosts, deletePost} from '../../actions/posts'
 
 class Posts extends Component {
@@ -103,7 +102,7 @@ Posts.propTypes = {
 function mapStoreToProps(store) {
     return {
         posts: store.posts.items,
-        currentUser: store.users.currentUser //now currentUser is available in this component
+        currentUser: store.users.currentUser
     }
 }
 

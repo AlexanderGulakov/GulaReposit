@@ -15,9 +15,9 @@ class LogIn extends Component {
     };
     logIn = () => {
         const {email, password} = this.state;
-        const {logIn,history} = this.props;
+        const {logIn, history} = this.props;
 
-        logIn({mail: email, pass: password},history);
+        logIn({mail: email, pass: password}, history);
     };
 
     onInputChange = (value, key) => {
@@ -66,4 +66,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(LogIn); //connect with redux
+export default connect(null, mapDispatchToProps)(LogIn);

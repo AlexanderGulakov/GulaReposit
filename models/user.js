@@ -1,14 +1,14 @@
 let mongoose = require('mongoose');
-let Schema=mongoose.Schema;//схема
+let Schema = mongoose.Schema;
 
-let UsersSchema=new Schema({    //типа класс
+let UsersSchema = new Schema({
     name: {
         type: String,
         required: true
     },
     mail: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     password: {
         type: String,
@@ -21,8 +21,8 @@ let UsersSchema=new Schema({    //типа класс
         type: Date,
         default: Date.now
     }
-},{collection:'users'}); // название коллекции можно не указывать, если оно не указано, будет генерироваться по названию модели.
+}, {collection: 'users'});
 
-let UserModel=mongoose.model('User',UsersSchema);// название коллекции генеррируется по 'User', только во множ числе users.
+let UserModel = mongoose.model('User', UsersSchema);
 
-module.exports=UserModel;
+module.exports = UserModel;

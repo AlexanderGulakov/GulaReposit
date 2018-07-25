@@ -1,10 +1,19 @@
-import { GET_POSTS, CREATE_POST,EDIT_POST,POST_INFO, DELETE_POST,ADD_COMMENT,EDIT_COMMENT,DELETE_COMMENT } from '../constants/actionTypes'
+import {
+    GET_POSTS,
+    CREATE_POST,
+    EDIT_POST,
+    POST_INFO,
+    DELETE_POST,
+    ADD_COMMENT,
+    EDIT_COMMENT,
+    DELETE_COMMENT
+} from '../constants/actionTypes'
 
 const defaultStore = {
     items: [],
-    currentPost:{},
-    currentComment:{},
-    comments:[]
+    currentPost: {},
+    currentComment: {},
+    comments: []
 };
 
 export default (state = defaultStore, action) => {
@@ -25,11 +34,11 @@ export default (state = defaultStore, action) => {
                 items: [...state.items, ...[payload]] // add new post to others
             };
         case EDIT_POST:
-            const oldPost=state.items.find(function (el) {
-                return el._id===payload._id;
+            const oldPost = state.items.find(function (el) {
+                return el._id === payload._id;
             });
             const index = state.items.indexOf(oldPost);
-            state.items.splice(index,1,payload);
+            state.items.splice(index, 1, payload);
             return {
 
                 ...state,
@@ -39,7 +48,7 @@ export default (state = defaultStore, action) => {
 
             return {
                 ...state,
-                currentPost: { ...payload }
+                currentPost: {...payload}
 
             };
         case DELETE_POST:
@@ -50,35 +59,27 @@ export default (state = defaultStore, action) => {
                 })
             };
         case ADD_COMMENT:
-            // const activePost={...state.currentPost};            //
-            // const oldComments=activePost.comments;            //
-            // const comment=payload;            //
-            // const newComments=oldComments.concat(comment);
-            // activePost.comments=newComments;
-            // return {
-            //     ...state,
-            //     currentPost: activePost
-            // };
+
             return {
                 ...state,
                 currentPost: {...state.currentPost, comments: [...state.currentPost.comments, payload]}
             };
         case EDIT_COMMENT:
-            const oldComment=state.currentPost.comments.find(function (el) {
-                return el._id===payload._id;
+            const oldComment = state.currentPost.comments.find(function (el) {
+                return el._id === payload._id;
             });
-            const ind= state.currentPost.comments.indexOf(oldComment);
+            const ind = state.currentPost.comments.indexOf(oldComment);
             const newComment = {...oldComment, ...payload};
-            state.currentPost.comments.splice(ind,1,newComment);
+            state.currentPost.comments.splice(ind, 1, newComment);
             return {
                 ...state,
-                currentComment:{...newComment},
+                currentComment: {...newComment},
                 currentPost: {...state.currentPost, comments: [...state.currentPost.comments]}
             };
         case DELETE_COMMENT:
             const currentPost = {...state.currentPost};
 
-            const comments=currentPost.comments;
+            const comments = currentPost.comments;
             const updateComments = comments.filter(el => {
                 return el._id !== payload
             });

@@ -2,7 +2,6 @@ let PostsModel = require('../models/post');
 let CommentsModel = require('../models/comment');
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Types.ObjectId;
-//var ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 let PostsHandler = function () {
     //знайти всі пости
@@ -60,8 +59,6 @@ let PostsHandler = function () {
                 if (err) return next(err);
                 res.status(201).send({data: result});
             });
-
-
         })
     };
 
@@ -69,74 +66,9 @@ let PostsHandler = function () {
     this.deletePost = function (req, res, next) {
         let currentUserId = req.session.userId;
         let id = req.params.id;
-        PostsModel.remove({_id: id, userId:currentUserId}, function (err, result) {
+        PostsModel.remove({_id: id, userId: currentUserId}, function (err, result) {
             if (err) return next(err);
             res.status(201).send({deleted: result});
-        })
-    };
-
-    //разобраться
-    this.getPostsWithUser = function (req, res, next) {
-
-        let body = req.body;
-        let count = body.count || 20;
-        let page = body.page || 1;
-
-        let skip = count * (page - 1);
-        let limit = count;
-
-        PostsModel.aggregate([{
-            $match: {
-                title: 'Tets',
-                _id: ObjectId("sdhajhak"),
-                date: new Date()
-            }
-        }, {
-            $project: {
-                title: 1,
-                userId: 1
-            }
-        }, {
-            $lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userId'
-            }
-        }, {
-            $project: {
-                year: {$year: '$date'},
-                title: 1,
-                userId: {$arrayElemAt: ['$userId', 0]}
-            }
-        }, {
-            $sort: {
-                title: -1
-            }
-        }, {
-            $match: {
-                'userId.name': 'Ivan'
-            }
-        }, /*{
-      $group: {
-        _id: '$title',
-        count: {$sum: 1}
-      }
-    },*/ {
-            $group: {
-                _id: null,
-                count: {$sum: 1}
-            }
-        }, {
-            $skip: skip
-        }, {
-            $limit: limit
-        }], function (err, result) {
-            if (err) {
-                return next(err);
-            }
-
-            res.status(201).send({data: result});
         })
     };
 
@@ -154,16 +86,16 @@ let PostsHandler = function () {
                     },
                     {
                         $lookup: {
-                            from: 'comments', //з колекції коментів
-                            localField: '_id', // у даній колекції поле _id
-                            foreignField: 'postId',// у колекції коментів - поле postId = ці поля повязані
-                            as: 'comments'//після лукапу в це поле запишеться результат
+                            from: 'comments',
+                            localField: '_id',
+                            foreignField: 'postId',
+                            as: 'comments'
                         }
                     },
                     {
-                        $unwind:  {
+                        $unwind: {
                             path: "$comments",
-                            preserveNullAndEmptyArrays: true //each post returns not only with comments
+                            preserveNullAndEmptyArrays: true
                         }
                     },
                     {
@@ -176,9 +108,9 @@ let PostsHandler = function () {
                             }
                     },
                     {
-                        $unwind:  {
+                        $unwind: {
                             path: "$comments.authorInfo",
-                            preserveNullAndEmptyArrays: true //each post returns not only with comments
+                            preserveNullAndEmptyArrays: true
                         }
                     },
                     {
@@ -202,9 +134,9 @@ let PostsHandler = function () {
                         $project: {
                             title: 1,
                             body: 1,
-                            userId:1,
+                            userId: 1,
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
-                            "comments._id":1,
+                            "comments._id": 1,
                             "comments.body": 1,
                             "comments.postId": 1,
                             "comments.authorId": 1,
@@ -229,7 +161,7 @@ let PostsHandler = function () {
                     {
                         $project: {
                             title: 1,
-                            userId:1,
+                            userId: 1,
                             body: 1,
                             date: {$dateToString: {format: "%d.%m.%Y %H:%M:%S", date: "$created"}},
                         }
@@ -241,40 +173,6 @@ let PostsHandler = function () {
                     res.status(200).send({data: isResult});
                 })
             }
-    })};
-
-
-    //Зробити агрегатну функцію, яка поверне пости, створені певним користувачем в певний діапазон дат, і зробити lookup юзера до посту
-    this.getPostsByUserByDate = function (req, res, next) {
-        let firstDate = new Date("2018-05-13T09:01:12.411Z");
-        let secondDate = new Date("2018-05-18T09:01:12.411Z");
-        PostsModel.aggregate([
-            {
-                $match: {
-                    $and: [
-                        {created: {$gte: firstDate, $lte: secondDate}},
-                        {userId: ObjectId("5afbf6384cc49713406c5664")}]
-                }
-            }, //для запиту за Id (тип ObjectId) треба підтягнути ObjectId!!!! let mongoose = require('mongoose');let ObjectId=mongoose.Types.ObjectId;
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'userId',
-                    foreignField: '_id',
-                    as: 'authorInfo'// як буде називатися поле в результаті
-                }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    title: 1,
-                    created: 1,
-                    authorInfo: 1
-                }
-            }
-        ], function (err, result) {
-            if (err) return next(err);
-            res.status(200).send({data: result});
         })
     };
 

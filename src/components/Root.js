@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { func, bool } from 'prop-types'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {func, bool} from 'prop-types'
 import App from './App';
 import SignUp from './Users/SignUp';
 import LogIn from './Users/LogIn';
 
-import { Route, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router'
+import {Route, Switch} from 'react-router-dom';
+import {withRouter} from 'react-router'
 
-import { checkSession  } from '../actions/app'
+import {checkSession} from '../actions/app'
 
 class Root extends Component {
     componentDidMount() {
-        const { checkSession, history } = this.props;
+        const {checkSession, history} = this.props;
 
         checkSession(history);
     }
 
-     // componentWillReceiveProps(nextProps) {
-     //   const { isLoggedIn, history } = nextProps;
-     //   if (!isLoggedIn) {
-     //     history.push('/logIn')
-     //   }
-     // }
-
     render() {
-        const { isLoggedIn } = this.props;
+        const {isLoggedIn} = this.props;
 
         return (
             <Switch>
-                {isLoggedIn && <Route path="/" component={App} />}
-                <Route exact path="/signUp" component={SignUp} />
-                <Route exact path="/logIn" component={LogIn} />
+                {isLoggedIn && <Route path="/" component={App}/>}
+                <Route exact path="/signUp" component={SignUp}/>
+                <Route exact path="/logIn" component={LogIn}/>
             </Switch>
         );
     }
 }
+
 Root.propTypes = {
     isLoggedIn: bool,
     checkSession: func.isRequired
@@ -45,6 +39,7 @@ Root.propTypes = {
 Root.defaultProps = {
     isLoggedIn: false,
 };
+
 function mapStoreToProps(store) {
     return {
         isLoggedIn: store.app.isLoggedIn

@@ -27,7 +27,6 @@ class CreateOrEditPost extends Component {
         };
     };
 
-
     componentWillReceiveProps(nextProps) {
         this.setState(this.mapPropsToState(nextProps))
     }
@@ -40,7 +39,6 @@ class CreateOrEditPost extends Component {
         history.push('/postsList');
     };
 
-
     onInputChange = (value, key) => {
         this.setState({
             [key]: value
@@ -49,7 +47,6 @@ class CreateOrEditPost extends Component {
 
     render() {
         const {title, body, _id} = this.state;
-
         return (
             <div>
                 <h1>{_id ? 'Edit' : 'Add'} Post</h1>
@@ -68,9 +65,7 @@ class CreateOrEditPost extends Component {
                           onChange={(e) => {
                               this.onInputChange(e.currentTarget.value, 'body')
                           }}
-
                 />
-
                 <Button
                     className="buttonsForSignInUp"
                     title="Submit"
@@ -91,7 +86,6 @@ function mapStoreToProps(store) {
     return {
         posts: store.posts.items,
         currentPost: store.posts.currentPost
-
     }
 }
 

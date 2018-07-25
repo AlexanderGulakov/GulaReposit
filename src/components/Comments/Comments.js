@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Button from '../HTMLComponents/Button';
 import Input from '../HTMLComponents/InputWithLabel';
+import { string, func,boolean,ObjectId } from 'prop-types';
 
 import {addComment, deleteComment, editComment} from '../../actions/comments';
 import {connect} from 'react-redux';
@@ -18,19 +19,16 @@ class Comments extends Component {
         };
     }
 
-
-
     deleteComment = (id) => {
         const {deleteComment} = this.props;
         deleteComment(id);
     };
     editComment = (_id, body) => {
         this.setState({
-            isEdit: _id!==this.state.activeCommentId? true: !this.state.isEdit,
+            isEdit: _id !== this.state.activeCommentId ? true : !this.state.isEdit,
             activeCommentId: _id,
             editText: body
         });
-
     };
     onInputChange = (value, key) => {
         this.setState({
@@ -54,39 +52,25 @@ class Comments extends Component {
     };
     renderComments = (comment) => {
         const {currentUser} = this.props;
-        //const {currentUser: {_id}} = this.props;
-        //  const Buttons =
-        //      <div>
-        //          <Button title='Edit' onClick={() => {
-        //              return this.editComment(el._id, el.body)
-        //          }} className='btn-success'/>
-        //          <Button title='Delete' onClick={() => {
-        //              return this.deleteComment(el._id)
-        //          }} className='btn-danger'/>
-        //      </div>;
+
         const edit = (this.state.isEdit && comment._id === this.state.activeCommentId)
             ?
-                <div>
-                    <Input value={this.state.editText}
-                           title="edit text"
-                           onInputChange={(value) => {
-                               this.onInputChange(value, 'editText')
-                           }}
-                    />
-                    <Button title="Send"
-                            onClick={() => {
-                                return this.saveEditComment(comment._id, this.state.editText)
-                            }}
-                    />
-                </div>
+            <div>
+                <Input value={this.state.editText}
+                       title="edit text"
+                       onInputChange={(value) => {
+                           this.onInputChange(value, 'editText')
+                       }}
+                />
+                <Button title="Send"
+                        onClick={() => {
+                            return this.saveEditComment(comment._id, this.state.editText)
+                        }}
+                />
+            </div>
             :
-                <span id={comment._id}>{comment.body}</span>;
-        // //  if (!el._id) return; //becouse created empty obj in getPost aggregate
+            <span id={comment._id}>{comment.body}</span>;
         return (
-            //      <li key={el._id}>
-            //          {el.name}-> {edit}
-            //          {el.userId === _id && Buttons}
-            //      </li>
             <li key={comment._id}>
                 {comment.date},
                 {comment.authorInfo.name},
@@ -105,7 +89,6 @@ class Comments extends Component {
             </li>
         )
     };
-
     render() {
         const {currentPost: {comments}} = this.props;
         const {body} = this.state;
@@ -134,6 +117,14 @@ class Comments extends Component {
         )
     }
 }
+Comments.propTypes = {
+    body:string,
+    editText:string,
+    isEdit: boolean,
+    name: string,
+    activeCommentId: ObjectId,
+    onInputChange: func
+};
 
 function mapStoreToProps(store) {
     return {

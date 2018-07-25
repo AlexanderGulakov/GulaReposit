@@ -252,11 +252,11 @@ export const editUser = (data) => {
 };
 
 
-export const getUserInfo = (user) => { //action Creator.
+export const getUserInfo = (user) => {
 
     return {
         type: USER_INFO,
-        payload: user //В редакс принято, что если мы хотим передать какой-то объект, то мы называем ключ payload + обєкт який ми будем передавати
+        payload: user
     }
 };
 

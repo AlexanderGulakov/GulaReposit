@@ -21,7 +21,8 @@ export default function InputWithLabel({ label, className,value, title, onInputC
 };
 
 InputWithLabel.propTypes = {
-
+    label:string,
+    className:string,
     title: string.isRequired,
     error: string,
     type: string,
@@ -29,6 +30,5 @@ InputWithLabel.propTypes = {
 };
 
 InputWithLabel.defaultProps = {
-    type: 'text',
     error: ''
 };
