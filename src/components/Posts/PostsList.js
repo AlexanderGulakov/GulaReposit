@@ -20,7 +20,8 @@ class Posts extends Component {
     renderLi = () => {
         return this.props.posts.map((post) => {
             return (
-                <li className="list-group-item list-group-item-action list-group-item-dark" key={post._id} onClick={() => this.redirectToPost(post)}>{post.title}</li>
+                <li className="list-group-item list-group-item-action list-group-item-dark"
+                    key={post._id} onClick={() => this.redirectToPost(post)}>{post.title}</li>
             );
         });
     };
