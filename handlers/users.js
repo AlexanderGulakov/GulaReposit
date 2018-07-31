@@ -62,7 +62,7 @@ let UsersHandler = function () {
     this.getAllUsers = function (req, res, next) {
         UsersModel.find({}, function (err, result) {
             if (err) return next(err);
-            res.status(201).send({data: result});
+            res.status(200).send({data: result});
 
         })
     };
@@ -88,7 +88,7 @@ let UsersHandler = function () {
                 return next(err);
             }
 
-            res.status(201).send({user: result});
+            res.status(200).send({user: result});
         })
     };
 
@@ -100,7 +100,7 @@ let UsersHandler = function () {
             if (err) {
                 return next(err);
             }
-            res.status(201).send({updated: result});
+            res.status(200).send(result);
         })
     };
 

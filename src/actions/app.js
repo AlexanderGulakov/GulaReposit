@@ -241,7 +241,7 @@ export const editUser = (data) => {
             .then((resp) => {
                 return dispatch({
                     type: EDIT_USER,
-                    payload: resp.data
+                    payload: resp
                 })
             })
 
