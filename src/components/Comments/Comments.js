@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Button from '../HTMLComponents/Button';
 import Input from '../HTMLComponents/InputWithLabel';
-import { string, func,bool } from 'prop-types';
+import {string, func, bool} from 'prop-types';
 
 import {addComment, deleteComment, editComment} from '../../actions/comments';
 import {connect} from 'react-redux';
@@ -92,6 +92,7 @@ class Comments extends Component {
             </li>
         )
     };
+
     render() {
         const {currentPost: {comments}} = this.props;
         const {body} = this.state;
@@ -100,18 +101,18 @@ class Comments extends Component {
                 <hr/>
                 <h3>Comments</h3>
                 {comments &&
-                    <div className="col-4">
+                <div className="col-4">
                     <ul className="list-group">{comments.map(this.renderComments)}</ul>
-                    </div>
+                </div>
                 }
                 <hr/>
                 <h3>Add comment</h3>
                 <textarea className="col-4"
-                    title="Body"
-                    onChange={(e) => {
-                        this.onInputChange(e.currentTarget.value, 'body')
-                    }}
-                    value={body}
+                          title="Body"
+                          onChange={(e) => {
+                              this.onInputChange(e.currentTarget.value, 'body')
+                          }}
+                          value={body}
                 />
                 <Button title="ADD"
                         className="btn btn-success"
@@ -122,9 +123,10 @@ class Comments extends Component {
         )
     }
 }
+
 Comments.propTypes = {
-    body:string,
-    editText:string,
+    body: string,
+    editText: string,
     isEdit: bool,
     name: string,
     onInputChange: func
