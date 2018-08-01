@@ -95,8 +95,11 @@ let UsersHandler = function () {
     // змінити юзера по ID
     this.updateUser = function (req, res, next) {
         let body = req.body;
+
+        console.log(body.password);
         let id = req.params.id;
         UsersModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
+            console.log(result);
             if (err) {
                 return next(err);
             }

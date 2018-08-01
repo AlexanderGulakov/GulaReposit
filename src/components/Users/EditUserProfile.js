@@ -11,14 +11,14 @@ class EditUserProfile extends Component {
         this.state = {
             mail: this.props.currentUser.mail,
             password: '',
-            newPassword:'',
-            repeatNewPassword:'',
+            newPassword: '',
+            repeatNewPassword: '',
             name: this.props.currentUser.name,
             _id: this.props.currentUser._id,
             age: this.props.currentUser.age,
             country: this.props.currentUser.country,
             isOpen: false,
-            isChangePassword:false
+            isChangePassword: false
         };
     }
 
@@ -26,6 +26,7 @@ class EditUserProfile extends Component {
 
         this.setState({
             isOpen: !this.state.isOpen
+
         });
         console.log(`${this.state.isOpen}`)
     };
@@ -40,6 +41,21 @@ class EditUserProfile extends Component {
         const {editUser} = this.props;
         editUser({_id, name, mail, age, country});
     };
+    changePassword = () => {
+
+        const {currentUser} = this.props;
+
+        const {editUser} = this.props;
+        const {mail, name, _id, age, country, password, newPassword, repeatNewPassword} = this.state;
+        console.log(password);
+        console.log(newPassword);
+        console.log(repeatNewPassword);
+        (password === currentUser.password && newPassword === repeatNewPassword) ?
+            editUser({mail, name, _id, age, country, password, newPassword}) :
+            console.log('error');
+
+    }
+
 
     onInputChange = (value, key) => {
         this.setState({
@@ -52,97 +68,101 @@ class EditUserProfile extends Component {
 
         return (
             <Fragment>
-                <div className="container">
-                    <h4 className="lead">{name}</h4>
-                    <p className="lead">mail:{mail}</p>
-                    <p className="lead">age:{age}</p>
-                    <p className="lead">country:{country}</p>
+                <section className="h-100">
+                    <header className="container h-100">
+                        <div className="d-flex align-items-center justify-content-center h-100">
+                            <div className="d-flex flex-column">
+                                <h4 className="align-self-center mt-15">{name}</h4>
+                                <p className="lead">mail:{mail}</p>
+                                <p className="lead">age:{age}</p>
+                                <p className="lead">country:{country}</p>
 
+                                <Button title="EditProfile" className="btn btn-primary"
+                                        onClick={() =>
+                                            this.openCloseEdit()
+                                        }/>
+                                <Button title="ChangePass" className="btn btn-danger"
+                                        onClick={() =>
+                                            this.openCloseChangePassword()
+                                        }/>
 
-                    <Button title="EditProfile" className="btn btn-danger"
-                            onClick={() =>
-                                this.openCloseEdit()
-                            }/>
-                    <Button title="ChangePass" className="btn btn-danger"
-                            onClick={() =>
-                                this.openCloseChangePassword()
-                            }/>
-                </div>
-                {this.state.isOpen
-                    ?
-                    <div className="form">
-                        <div className="form-group">
+                                {this.state.isOpen
+                                    ?
+                                    <Fragment>
 
-                            <InputWithLabel className="form-control" label="Name" title="Change username" value={name}
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'name')
-                                            }}/>
-                            <InputWithLabel className="form-control" label="Email" title="Change email" value={mail}
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'mail')
-                                            }}/>
+                                        <InputWithLabel className="form-control" label="Name" title="Change username"
+                                                        value={name}
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'name')
+                                                        }}/>
+                                        <InputWithLabel className="form-control" label="Email" title="Change email"
+                                                        value={mail}
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'mail')
+                                                        }}/>
 
-                            <InputWithLabel className="form-control" label="Age" title="Change age" value={age}
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'age')
-                                            }}/>
+                                        <InputWithLabel className="form-control" label="Age" title="Change age"
+                                                        value={age}
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'age')
+                                                        }}/>
 
-                            <InputWithLabel className="form-control" label="Country" title="Change country"
-                                            value={country}
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'country')
-                                            }}/>
+                                        <InputWithLabel className="form-control" label="Country" title="Change country"
+                                                        value={country}
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'country')
+                                                        }}/>
 
-                            <Button title="Save changes" className="btn btn-danger"
-                                    onClick={this.editUser}/>
-                            {/*<Button title="Save changes" onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                            {/*{newPassword === repeatNewPassword*/}
-                            {/*? <Button title="Save changes"*/}
-                            {/*onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                            {/*: <span>Repeat new password</span>*/}
-                            {/*}*/}
+                                        <Button title="Save changes" className="btn btn-success"
+                                                onClick={this.editUser}/>
+
+                                    </Fragment>
+                                    :
+                                    <div>
+                                    </div>
+                                }
+                                {this.state.isChangePassword
+                                    ?
+                                    <Fragment>
+                                        <p>Change Password:</p>
+                                        <InputWithLabel className="form-control" label="Password"
+                                                        title="Current password"
+                                                        value={password}
+                                                        type="password"
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'password')
+                                                        }}/>
+                                        <InputWithLabel className="form-control" label="New password"
+                                                        title="New password"
+                                                        value={newPassword}
+                                                        type="password"
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'newPassword')
+                                                        }}/>
+                                        <InputWithLabel className="form-control" label="Repeat password"
+                                                        title="Repeat password"
+                                                        value={repeatNewPassword}
+                                                        type="password"
+                                                        onInputChange={(value) => {
+                                                            this.onInputChange(value, 'repeatNewPassword')
+                                                        }}/>
+                                        <Button title="Save changes" className="btn btn-success"
+                                                onClick={this.changePassword}/>
+                                        {/*<Button title="Save changes" onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
+                                        {/*{newPassword === repeatNewPassword*/}
+                                        {/*? <Button title="Save changes"*/}
+                                        {/*onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
+                                        {/*: <span>Repeat new password</span>*/}
+                                        {/*}*/}
+                                    </Fragment>
+                                    :
+                                    <div>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    :
-                    <div>
-                    </div>
-                }
-                {this.state.isChangePassword
-                    ?
-                    <div className="form">
-                        <div className="form-group">
-                            <p>Change Password:</p>
-                            <InputWithLabel className="form-control" label="Password" title="Current password"
-                                            value={password}
-                                            type="password"
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'password')
-                                            }}/>
-                            <InputWithLabel className="form-control" label="New password" title="New password" value=''
-                                            type="password"
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'newPassword')
-                                            }}/>
-                            <InputWithLabel className="form-control" label="Repeat password" title="Repeat password"
-                                            value=''
-                                            type="password"
-                                            onInputChange={(value) => {
-                                                this.onInputChange(value, 'repeatNewPassword')
-                                            }}/>
-                            <Button title="Save changes" className="btn btn-danger"
-                                    onClick={this.editUser}/>
-                            {/*<Button title="Save changes" onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                            {/*{newPassword === repeatNewPassword*/}
-                            {/*? <Button title="Save changes"*/}
-                            {/*onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                            {/*: <span>Repeat new password</span>*/}
-                            {/*}*/}
-                        </div>
-                    </div>
-                    :
-                    <div>
-                    </div>
-                }
+                    </header>
+                </section>
             </Fragment>
         );
     }

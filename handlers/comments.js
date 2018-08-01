@@ -88,7 +88,7 @@ let CommentsHandler = function () {
 
         CommentsModel.remove({
                 _id: id,
-                authorId:userId
+                authorId: userId
             }
             , function (err, result) {
                 if (err) return next(err);
