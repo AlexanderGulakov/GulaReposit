@@ -28,7 +28,7 @@ class EditUserProfile extends Component {
             isOpen: !this.state.isOpen
 
         });
-        console.log(`${this.state.isOpen}`)
+
     };
     openCloseChangePassword = () => {
         this.setState({
@@ -54,7 +54,7 @@ class EditUserProfile extends Component {
             editUser({mail, name, _id, age, country, password, newPassword}) :
             console.log('error');
 
-    }
+    };
 
 
     onInputChange = (value, key) => {
@@ -71,7 +71,7 @@ class EditUserProfile extends Component {
                 <section className="h-100">
                     <header className="container h-100">
                         <div className="d-flex align-items-center justify-content-center h-100">
-                            <div className="d-flex flex-column">
+                            <div className="d-flex flex-column col-md-3">
                                 <h4 className="align-self-center mt-15">{name}</h4>
                                 <p className="lead">mail:{mail}</p>
                                 <p className="lead">age:{age}</p>
