@@ -96,16 +96,15 @@ let UsersHandler = function () {
     this.updateUser = function (req, res, next) {
         let body = req.body;
 
-        body.newPassword= sha256(body.newPassword);
-        body.newPassword=body.newPassword.toString();
         if (body.newPassword) {
-            body.password=body.newPassword;
-            body.newPassword='';
+            body.newPassword = sha256(body.newPassword);
+            body.newPassword = body.newPassword.toString();
+            body.password = body.newPassword;
+            body.newPassword = '';
         }
 
         let id = req.params.id;
         UsersModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
-            console.log(result);
             if (err) {
                 return next(err);
             }

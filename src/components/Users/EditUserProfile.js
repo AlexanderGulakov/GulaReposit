@@ -4,7 +4,8 @@ import {bindActionCreators} from 'redux'
 import Button from '../HTMLComponents/Button';
 import InputWithLabel from '../HTMLComponents/InputWithLabel';
 import {editUser} from '../../actions/app'
-let sha256 = require('crypto-js/sha256');
+
+const sha256 = require('crypto-js/sha256');
 
 class EditUserProfile extends Component {
     constructor(props) {
@@ -41,6 +42,10 @@ class EditUserProfile extends Component {
         const {mail, name, _id, age, country} = this.state;
         const {editUser} = this.props;
         editUser({_id, name, mail, age, country});
+        this.setState({
+            isOpen: !this.state.isOpen
+
+        });
     };
     changePassword = () => {
 
@@ -48,18 +53,25 @@ class EditUserProfile extends Component {
 
         const {editUser} = this.props;
         const {mail, name, _id, age, country, newPassword, repeatNewPassword} = this.state;
-        let {password}=this.state;
+        let {password} = this.state;
 
-        password=sha256(password).toString();
+        password = sha256(password).toString();
         console.log(password);
         console.log(newPassword);
         console.log(repeatNewPassword);
-        (password === currentUser.password && newPassword === repeatNewPassword) ?
+        (password === currentUser.password && newPassword && newPassword === repeatNewPassword) ?
             editUser({mail, name, _id, age, country, password, newPassword}) :
-            console.log('error');
+            this.alertError(password, currentUser.password, newPassword);
+    };
+    alertError = (password, currentUserPassword, newPassword) => {
+        if (password !== currentUserPassword)
+            return alert('Please, enter the current password');
+        else {
+            if (!newPassword) return alert('enter new password');
+            else return alert('repeat new password!');
+        }
 
     };
-
 
     onInputChange = (value, key) => {
         this.setState({
@@ -146,18 +158,14 @@ class EditUserProfile extends Component {
                                         <InputWithLabel className="form-control" label="Repeat password"
                                                         title="Repeat password"
                                                         value={repeatNewPassword}
+
                                                         type="password"
                                                         onInputChange={(value) => {
                                                             this.onInputChange(value, 'repeatNewPassword')
                                                         }}/>
                                         <Button title="Save changes" className="btn btn-success"
                                                 onClick={this.changePassword}/>
-                                        {/*<Button title="Save changes" onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                                        {/*{newPassword === repeatNewPassword*/}
-                                        {/*? <Button title="Save changes"*/}
-                                        {/*onClick={this.editUser(name, mail, age, country, password, newPassword)}/>*/}
-                                        {/*: <span>Repeat new password</span>*/}
-                                        {/*}*/}
+
                                     </Fragment>
                                     :
                                     <div>
