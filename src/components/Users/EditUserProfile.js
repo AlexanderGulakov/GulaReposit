@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import Button from '../HTMLComponents/Button';
 import InputWithLabel from '../HTMLComponents/InputWithLabel';
 import {editUser} from '../../actions/app'
+let sha256 = require('crypto-js/sha256');
 
 class EditUserProfile extends Component {
     constructor(props) {
@@ -46,7 +47,10 @@ class EditUserProfile extends Component {
         const {currentUser} = this.props;
 
         const {editUser} = this.props;
-        const {mail, name, _id, age, country, password, newPassword, repeatNewPassword} = this.state;
+        const {mail, name, _id, age, country, newPassword, repeatNewPassword} = this.state;
+        let {password}=this.state;
+
+        password=sha256(password).toString();
         console.log(password);
         console.log(newPassword);
         console.log(repeatNewPassword);

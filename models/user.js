@@ -14,6 +14,7 @@ let UsersSchema = new Schema({
         type: String,
         required: true
     },
+    newPassword: String,
     gender: String,
     age: Number,
     country: String,
